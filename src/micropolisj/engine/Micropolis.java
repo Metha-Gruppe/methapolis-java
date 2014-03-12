@@ -8,10 +8,56 @@
 
 package micropolisj.engine;
 
-import java.io.*;
-import java.util.*;
+import static micropolisj.engine.TileConstants.ALLBITS;
+import static micropolisj.engine.TileConstants.CHANNEL;
+import static micropolisj.engine.TileConstants.COMBASE;
+import static micropolisj.engine.TileConstants.DIRT;
+import static micropolisj.engine.TileConstants.FIRE;
+import static micropolisj.engine.TileConstants.FLOOD;
+import static micropolisj.engine.TileConstants.HHTHR;
+import static micropolisj.engine.TileConstants.INDBASE;
+import static micropolisj.engine.TileConstants.LASTZONE;
+import static micropolisj.engine.TileConstants.LHTHR;
+import static micropolisj.engine.TileConstants.LOMASK;
+import static micropolisj.engine.TileConstants.NUCLEAR;
+import static micropolisj.engine.TileConstants.PORTBASE;
+import static micropolisj.engine.TileConstants.POWERPLANT;
+import static micropolisj.engine.TileConstants.PWRBIT;
+import static micropolisj.engine.TileConstants.RADTILE;
+import static micropolisj.engine.TileConstants.RESCLR;
+import static micropolisj.engine.TileConstants.RIVER;
+import static micropolisj.engine.TileConstants.RUBBLE;
+import static micropolisj.engine.TileConstants.commercialZonePop;
+import static micropolisj.engine.TileConstants.getDescriptionNumber;
+import static micropolisj.engine.TileConstants.getPollutionValue;
+import static micropolisj.engine.TileConstants.getTileBehavior;
+import static micropolisj.engine.TileConstants.getZoneSizeFor;
+import static micropolisj.engine.TileConstants.industrialZonePop;
+import static micropolisj.engine.TileConstants.isAnimated;
+import static micropolisj.engine.TileConstants.isArsonable;
+import static micropolisj.engine.TileConstants.isCombustible;
+import static micropolisj.engine.TileConstants.isConductive;
+import static micropolisj.engine.TileConstants.isConstructed;
+import static micropolisj.engine.TileConstants.isFloodable;
+import static micropolisj.engine.TileConstants.isRiverEdge;
+import static micropolisj.engine.TileConstants.isVulnerable;
+import static micropolisj.engine.TileConstants.isZoneCenter;
+import static micropolisj.engine.TileConstants.residentialZonePop;
 
-import static micropolisj.engine.TileConstants.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.Stack;
 
 /**
  * The main simulation engine for Micropolis.
@@ -210,6 +256,9 @@ public class Micropolis
 		this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	}
 
+	/***
+	 * Constructor(width, height)
+	 */
 	public Micropolis(int width, int height)
 	{
 		PRNG = DEFAULT_PRNG;
@@ -584,9 +633,12 @@ public class Micropolis
 			break;
 
 		case 9:
+			// add data to history object
 			if (cityTime % CENSUSRATE == 0) {
+				// every 4 weeks = 1 month
 				takeCensus();
 
+				// once a year
 				if (cityTime % (CENSUSRATE*12) == 0) {
 					takeCensus2();
 				}
@@ -594,6 +646,7 @@ public class Micropolis
 				fireCensusChanged();
 			}
 
+			// collect taxes every 16 steps (tare down at the end of the year won't make you have no taxes!)
 			collectTaxPartial();
 
 			if (cityTime % TAXFREQ == 0) {
@@ -604,9 +657,10 @@ public class Micropolis
 
 		case 10:
 			if (scycle % 5 == 0) {  // every ~10 weeks
+				// tends to empty self.rateOGMem
 				decROGMem();
 			}
-			decTrafficMem();
+			decTrafficMem(); // tends to empty self.trfDensity (traffic)
 			fireMapOverlayDataChanged(MapState.TRAFFIC_OVERLAY); //TDMAP
 			fireMapOverlayDataChanged(MapState.TRANSPORT);       //RDMAP
 			fireMapOverlayDataChanged(MapState.ALL);             //ALMAP
@@ -722,6 +776,7 @@ public class Micropolis
 			}
 		}
 
+		// wtf?!
 		tem = doSmooth(tem);
 		tem = doSmooth(tem);
 		tem = doSmooth(tem);
@@ -1598,12 +1653,13 @@ public class Micropolis
 	//
 	void takeCensus()
 	{
-		int resMax = 0;
-		int comMax = 0;
-		int indMax = 0;
+		int resMax = 0; // residential
+		int comMax = 0; // commercial
+		int indMax = 0; // industrial
 
 		for (int i = 118; i >= 0; i--)
 		{
+			// get max values
 			if (history.res[i] > resMax)
 				resMax = history.res[i];
 			if (history.com[i] > comMax)
@@ -1611,6 +1667,7 @@ public class Micropolis
 			if (history.ind[i] > indMax)
 				indMax = history.ind[i];
 
+			// shift every element right
 			history.res[i + 1] = history.res[i];
 			history.com[i + 1] = history.com[i];
 			history.ind[i + 1] = history.ind[i];
@@ -1619,23 +1676,27 @@ public class Micropolis
 			history.money[i + 1] = history.money[i];
 		}
 
+		// set max values
 		history.resMax = resMax;
 		history.comMax = comMax;
 		history.indMax = indMax;
 
 		//graph10max = Math.max(resMax, Math.max(comMax, indMax));
 
+		// set newest value (front)
 		history.res[0] = resPop / 8;
 		history.com[0] = comPop;
 		history.ind[0] = indPop;
 
+		// apply quarter of change (-> smoothing?)
 		crimeRamp += (crimeAverage - crimeRamp) / 4;
 		history.crime[0] = Math.min(255, crimeRamp);
 
 		polluteRamp += (pollutionAverage - polluteRamp) / 4;
 		history.pollution[0] = Math.min(255, polluteRamp);
 
-		int moneyScaled = cashFlow / 20 + 128;
+		int moneyScaled = cashFlow / 20 + 128; // - 3
+		
 		if (moneyScaled < 0)
 			moneyScaled = 0;
 		if (moneyScaled > 255)
@@ -1644,6 +1705,7 @@ public class Micropolis
 
 		history.cityTime = cityTime;
 
+		// need of buildings?
 		if (hospitalCount < resPop / 256)
 		{
 			needHospital = 1;
@@ -1671,6 +1733,7 @@ public class Micropolis
 		}
 	}
 
+	// record data for the whole year
 	void takeCensus2()
 	{
 		// update long term graphs
@@ -1721,6 +1784,7 @@ public class Micropolis
 
 		BudgetNumbers b = generateBudget();
 
+		// update instance variables
 		budget.taxFund += b.taxIncome;
 		budget.roadFundEscrow -= b.roadFunded;
 		budget.fireFundEscrow -= b.fireFunded;
@@ -1745,6 +1809,7 @@ public class Micropolis
 		public int taxIncome;
 		public int operatingExpenses;
 	}
+	
 	public ArrayList<FinancialHistory> financialHistory = new ArrayList<FinancialHistory>();
 
 	void collectTax()
