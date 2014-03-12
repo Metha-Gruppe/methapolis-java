@@ -3,3 +3,8 @@ build
 docs/api
 graphics/generated
 .*.swp
+/bin
+
+# Eclipse Files #
+.classpath
+.project
