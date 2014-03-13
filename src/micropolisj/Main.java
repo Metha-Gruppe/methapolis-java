@@ -33,12 +33,10 @@ public class Main
 	public static void main(String [] args)
 	{
 		try {
-			final BufferedImage image;
-			image = ImageIO.read(new File("graphics/airport.png"));
+			final BufferedImage image = ImageIO.read(new File("graphics/Metha-Science.png"));
 			
 			JFrame frame = buildFrame(image.getWidth(), image.getHeight());
-
-
+			
         JPanel pane = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -47,10 +45,8 @@ public class Main
             }
         };
 
-
         frame.add(pane);
-		
-		
+        
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
