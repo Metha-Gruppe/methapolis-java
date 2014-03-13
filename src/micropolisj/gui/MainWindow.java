@@ -8,25 +8,82 @@
 
 package micropolisj.gui;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.prefs.*;
-import javax.sound.sampled.*;
-import javax.swing.*;
+import java.util.Calendar;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.InputMap;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
 import javax.swing.Timer;
+import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import micropolisj.engine.*;
+import micropolisj.engine.CityLocation;
+import micropolisj.engine.CityRect;
+import micropolisj.engine.Disaster;
+import micropolisj.engine.EarthquakeListener;
+import micropolisj.engine.GameLevel;
+import micropolisj.engine.MapState;
+import micropolisj.engine.Micropolis;
+import micropolisj.engine.MicropolisMessage;
+import micropolisj.engine.MicropolisTool;
+import micropolisj.engine.Sound;
+import micropolisj.engine.Speed;
+import micropolisj.engine.ToolResult;
+import micropolisj.engine.ToolStroke;
+import micropolisj.engine.ZoneStatus;
 import micropolisj.util.TranslationTool;
 
-public class MainWindow extends JFrame implements Micropolis.Listener,
-		EarthquakeListener {
+public class MainWindow extends JFrame implements Micropolis.Listener, EarthquakeListener {
 	Micropolis engine;
 	MicropolisDrawingArea drawingArea;
 	JScrollPane drawingAreaScroll;
@@ -43,8 +100,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 	JLabel currentToolLbl;
 	JLabel currentToolCostLbl;
 	Map<MicropolisTool, JToggleButton> toolBtns;
-	EnumMap<MapState, JMenuItem> mapStateMenuItems = new EnumMap<MapState, JMenuItem>(
-			MapState.class);
+	EnumMap<MapState, JMenuItem> mapStateMenuItems = new EnumMap<MapState, JMenuItem>(MapState.class);
 	MicropolisTool currentTool;
 	File currentFile;
 	boolean doSounds = true;
@@ -57,13 +113,21 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 
 	static ImageIcon appIcon;
 	static {
-		appIcon = new ImageIcon(
-				MainWindow.class
-						.getResource("../src/resources/micropolism.png"));
+		ClassLoader cl = ClassLoader.getSystemClassLoader();
+		URL[] urls = ((URLClassLoader) cl).getURLs();
+
+		for(URL url : urls) {
+			System.out.println(url.getFile());
+		}
+		URL resource = MainWindow.class.getResource("/micropolism.png");
+		if(resource == null)	{
+			resource = MainWindow.class.getResource("resources/micropolism.png");
+		}
+		System.out.println(resource);
+		appIcon = new ImageIcon(resource);
 	}
 
-	static ResourceBundle strings = ResourceBundle
-			.getBundle("micropolisj.GuiStrings");
+	static ResourceBundle strings = ResourceBundle.getBundle("micropolisj.GuiStrings");
 	static final String PRODUCT_NAME = strings.getString("PRODUCT");
 
 	public MainWindow() {
@@ -135,38 +199,24 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 		mapMenu.add(zonesMenu);
 
 		zonesMenu.add(makeMapStateMenuItem("menu.zones.ALL", MapState.ALL));
-		zonesMenu.add(makeMapStateMenuItem("menu.zones.RESIDENTIAL",
-				MapState.RESIDENTIAL));
-		zonesMenu.add(makeMapStateMenuItem("menu.zones.COMMERCIAL",
-				MapState.COMMERCIAL));
-		zonesMenu.add(makeMapStateMenuItem("menu.zones.INDUSTRIAL",
-				MapState.INDUSTRIAL));
-		zonesMenu.add(makeMapStateMenuItem("menu.zones.TRANSPORT",
-				MapState.TRANSPORT));
+		zonesMenu.add(makeMapStateMenuItem("menu.zones.RESIDENTIAL", MapState.RESIDENTIAL));
+		zonesMenu.add(makeMapStateMenuItem("menu.zones.COMMERCIAL", MapState.COMMERCIAL));
+		zonesMenu.add(makeMapStateMenuItem("menu.zones.INDUSTRIAL", MapState.INDUSTRIAL));
+		zonesMenu.add(makeMapStateMenuItem("menu.zones.TRANSPORT", MapState.TRANSPORT));
 
 		JMenu overlaysMenu = new JMenu(strings.getString("menu.overlays"));
 		setupKeys(overlaysMenu, "menu.overlays");
 		mapMenu.add(overlaysMenu);
 
-		overlaysMenu.add(makeMapStateMenuItem("menu.overlays.POPDEN_OVERLAY",
-				MapState.POPDEN_OVERLAY));
-		overlaysMenu
-				.add(makeMapStateMenuItem("menu.overlays.GROWTHRATE_OVERLAY",
-						MapState.GROWTHRATE_OVERLAY));
-		overlaysMenu.add(makeMapStateMenuItem(
-				"menu.overlays.LANDVALUE_OVERLAY", MapState.LANDVALUE_OVERLAY));
-		overlaysMenu.add(makeMapStateMenuItem("menu.overlays.CRIME_OVERLAY",
-				MapState.CRIME_OVERLAY));
-		overlaysMenu.add(makeMapStateMenuItem("menu.overlays.POLLUTE_OVERLAY",
-				MapState.POLLUTE_OVERLAY));
-		overlaysMenu.add(makeMapStateMenuItem("menu.overlays.TRAFFIC_OVERLAY",
-				MapState.TRAFFIC_OVERLAY));
-		overlaysMenu.add(makeMapStateMenuItem("menu.overlays.POWER_OVERLAY",
-				MapState.POWER_OVERLAY));
-		overlaysMenu.add(makeMapStateMenuItem("menu.overlays.FIRE_OVERLAY",
-				MapState.FIRE_OVERLAY));
-		overlaysMenu.add(makeMapStateMenuItem("menu.overlays.POLICE_OVERLAY",
-				MapState.POLICE_OVERLAY));
+		overlaysMenu.add(makeMapStateMenuItem("menu.overlays.POPDEN_OVERLAY", MapState.POPDEN_OVERLAY));
+		overlaysMenu.add(makeMapStateMenuItem("menu.overlays.GROWTHRATE_OVERLAY", MapState.GROWTHRATE_OVERLAY));
+		overlaysMenu.add(makeMapStateMenuItem("menu.overlays.LANDVALUE_OVERLAY", MapState.LANDVALUE_OVERLAY));
+		overlaysMenu.add(makeMapStateMenuItem("menu.overlays.CRIME_OVERLAY", MapState.CRIME_OVERLAY));
+		overlaysMenu.add(makeMapStateMenuItem("menu.overlays.POLLUTE_OVERLAY", MapState.POLLUTE_OVERLAY));
+		overlaysMenu.add(makeMapStateMenuItem("menu.overlays.TRAFFIC_OVERLAY", MapState.TRAFFIC_OVERLAY));
+		overlaysMenu.add(makeMapStateMenuItem("menu.overlays.POWER_OVERLAY", MapState.POWER_OVERLAY));
+		overlaysMenu.add(makeMapStateMenuItem("menu.overlays.FIRE_OVERLAY", MapState.FIRE_OVERLAY));
+		overlaysMenu.add(makeMapStateMenuItem("menu.overlays.POLICE_OVERLAY", MapState.POLICE_OVERLAY));
 
 		mapMenu.add(Box.createHorizontalGlue());
 		mapLegendLbl = new JLabel();
@@ -201,8 +251,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		setLocationRelativeTo(null);
 
-		InputMap inputMap = ((JComponent) getContentPane())
-				.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+		InputMap inputMap = ((JComponent) getContentPane()).getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 		inputMap.put(KeyStroke.getKeyStroke("ADD"), "zoomIn");
 		inputMap.put(KeyStroke.getKeyStroke("shift EQUALS"), "zoomIn");
 		inputMap.put(KeyStroke.getKeyStroke("SUBTRACT"), "zoomOut");
@@ -230,7 +279,8 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 			public void mousePressed(MouseEvent ev) {
 				try {
 					onToolDown(ev);
-				} catch (Throwable e) {
+				}
+				catch(Throwable e) {
 					showErrorMessage(e);
 				}
 			}
@@ -238,7 +288,8 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 			public void mouseReleased(MouseEvent ev) {
 				try {
 					onToolUp(ev);
-				} catch (Throwable e) {
+				}
+				catch(Throwable e) {
 					showErrorMessage(e);
 				}
 			}
@@ -246,7 +297,8 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 			public void mouseDragged(MouseEvent ev) {
 				try {
 					onToolDrag(ev);
-				} catch (Throwable e) {
+				}
+				catch(Throwable e) {
 					showErrorMessage(e);
 				}
 			}
@@ -254,7 +306,8 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 			public void mouseMoved(MouseEvent ev) {
 				try {
 					onToolHover(ev);
-				} catch (Throwable e) {
+				}
+				catch(Throwable e) {
 					showErrorMessage(e);
 				}
 			}
@@ -262,7 +315,8 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 			public void mouseExited(MouseEvent ev) {
 				try {
 					onToolExited(ev);
-				} catch (Throwable e) {
+				}
+				catch(Throwable e) {
 					showErrorMessage(e);
 				}
 			}
@@ -270,7 +324,8 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 			public void mouseWheelMoved(MouseWheelEvent evt) {
 				try {
 					onMouseWheelMoved(evt);
-				} catch (Throwable e) {
+				}
+				catch(Throwable e) {
 					showErrorMessage(e);
 				}
 			}
@@ -303,20 +358,20 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 	}
 
 	public void setEngine(Micropolis newEngine) {
-		if (engine != null) { // old engine
+		if(engine != null) { // old engine
 			engine.removeListener(this);
 			engine.removeEarthquakeListener(this);
 		}
 
 		engine = newEngine;
 
-		if (engine != null) { // new engine
+		if(engine != null) { // new engine
 			engine.addListener(this);
 			engine.addEarthquakeListener(this);
 		}
 
 		boolean timerEnabled = isTimerActive();
-		if (timerEnabled) {
+		if(timerEnabled) {
 			stopTimer();
 		}
 		stopEarthquake();
@@ -330,16 +385,16 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 		reloadOptions();
 		notificationPane.setVisible(false);
 
-		if (timerEnabled) {
+		if(timerEnabled) {
 			startTimer();
 		}
 	}
 
 	boolean needsSaved() {
-		if (dirty1) // player has built something since last save
+		if(dirty1) // player has built something since last save
 			return true;
 
-		if (!dirty2) // no simulator ticks since last save
+		if(!dirty2) // no simulator ticks since last save
 			return false;
 
 		// simulation time has passed since last save, but the player
@@ -351,28 +406,27 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 	}
 
 	boolean maybeSaveCity() {
-		if (needsSaved()) {
+		if(needsSaved()) {
 			boolean timerEnabled = isTimerActive();
-			if (timerEnabled) {
+			if(timerEnabled) {
 				stopTimer();
 			}
 
 			try {
-				int rv = JOptionPane.showConfirmDialog(this,
-						strings.getString("main.save_query"), PRODUCT_NAME,
-						JOptionPane.YES_NO_CANCEL_OPTION,
-						JOptionPane.WARNING_MESSAGE);
-				if (rv == JOptionPane.CANCEL_OPTION)
+				int rv = JOptionPane.showConfirmDialog(this, strings.getString("main.save_query"), PRODUCT_NAME,
+						JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+				if(rv == JOptionPane.CANCEL_OPTION)
 					return false;
 
-				if (rv == JOptionPane.YES_OPTION) {
-					if (!onSaveCityClicked()) {
+				if(rv == JOptionPane.YES_OPTION) {
+					if(!onSaveCityClicked()) {
 						// canceled save dialog
 						return false;
 					}
 				}
-			} finally {
-				if (timerEnabled) {
+			}
+			finally {
+				if(timerEnabled) {
 					startTimer();
 				}
 			}
@@ -381,7 +435,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 	}
 
 	void closeWindow() {
-		if (maybeSaveCity()) {
+		if(maybeSaveCity()) {
 			dispose();
 		}
 	}
@@ -419,18 +473,18 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 	}
 
 	private void setupKeys(JMenu menu, String prefix) {
-		if (strings.containsKey(prefix + ".key")) {
+		if(strings.containsKey(prefix + ".key")) {
 			String mnemonic = strings.getString(prefix + ".key");
 			menu.setMnemonic(KeyStroke.getKeyStroke(mnemonic).getKeyCode());
 		}
 	}
 
 	private void setupKeys(JMenuItem menuItem, String prefix) {
-		if (strings.containsKey(prefix + ".key")) {
+		if(strings.containsKey(prefix + ".key")) {
 			String mnemonic = strings.getString(prefix + ".key");
 			menuItem.setMnemonic(KeyStroke.getKeyStroke(mnemonic).getKeyCode());
 		}
-		if (strings.containsKey(prefix + ".shortcut")) {
+		if(strings.containsKey(prefix + ".shortcut")) {
 			String shortcut = strings.getString(prefix + ".shortcut");
 			menuItem.setAccelerator(KeyStroke.getKeyStroke(shortcut));
 		}
@@ -498,10 +552,9 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 		optionsMenu.add(levelMenu);
 
 		difficultyMenuItems = new HashMap<Integer, JMenuItem>();
-		for (int i = GameLevel.MIN_LEVEL; i <= GameLevel.MAX_LEVEL; i++) {
+		for(int i = GameLevel.MIN_LEVEL; i <= GameLevel.MAX_LEVEL; i++) {
 			final int level = i;
-			menuItem = new JRadioButtonMenuItem(
-					strings.getString("menu.difficulty." + level));
+			menuItem = new JRadioButtonMenuItem(strings.getString("menu.difficulty." + level));
 			setupKeys(menuItem, "menu.difficulty." + level);
 			menuItem.addActionListener(wrapActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -512,48 +565,40 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 			difficultyMenuItems.put(level, menuItem);
 		}
 
-		autoBudgetMenuItem = new JCheckBoxMenuItem(
-				strings.getString("menu.options.auto_budget"));
+		autoBudgetMenuItem = new JCheckBoxMenuItem(strings.getString("menu.options.auto_budget"));
 		setupKeys(autoBudgetMenuItem, "menu.options.auto_budget");
-		autoBudgetMenuItem
-				.addActionListener(wrapActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent ev) {
-						onAutoBudgetClicked();
-					}
-				}));
+		autoBudgetMenuItem.addActionListener(wrapActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				onAutoBudgetClicked();
+			}
+		}));
 		optionsMenu.add(autoBudgetMenuItem);
 
-		autoBulldozeMenuItem = new JCheckBoxMenuItem(
-				strings.getString("menu.options.auto_bulldoze"));
+		autoBulldozeMenuItem = new JCheckBoxMenuItem(strings.getString("menu.options.auto_bulldoze"));
 		setupKeys(autoBulldozeMenuItem, "menu.options.auto_bulldoze");
-		autoBulldozeMenuItem
-				.addActionListener(wrapActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent ev) {
-						onAutoBulldozeClicked();
-					}
-				}));
+		autoBulldozeMenuItem.addActionListener(wrapActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				onAutoBulldozeClicked();
+			}
+		}));
 		optionsMenu.add(autoBulldozeMenuItem);
 
-		disastersMenuItem = new JCheckBoxMenuItem(
-				strings.getString("menu.options.disasters"));
+		disastersMenuItem = new JCheckBoxMenuItem(strings.getString("menu.options.disasters"));
 		setupKeys(disastersMenuItem, "menu.options.disasters");
-		disastersMenuItem
-				.addActionListener(wrapActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent ev) {
-						onDisastersClicked();
-					}
-				}));
+		disastersMenuItem.addActionListener(wrapActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				onDisastersClicked();
+			}
+		}));
 		optionsMenu.add(disastersMenuItem);
 
-		soundsMenuItem = new JCheckBoxMenuItem(
-				strings.getString("menu.options.sound"));
+		soundsMenuItem = new JCheckBoxMenuItem(strings.getString("menu.options.sound"));
 		setupKeys(soundsMenuItem, "menu.options.sound");
-		soundsMenuItem
-				.addActionListener(wrapActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent ev) {
-						onSoundClicked();
-					}
-				}));
+		soundsMenuItem.addActionListener(wrapActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				onSoundClicked();
+			}
+		}));
 		optionsMenu.add(soundsMenuItem);
 
 		menuItem = new JMenuItem(strings.getString("menu.options.zoom_in"));
@@ -637,8 +682,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 		menuBar.add(priorityMenu);
 
 		priorityMenuItems = new EnumMap<Speed, JMenuItem>(Speed.class);
-		menuItem = new JRadioButtonMenuItem(
-				strings.getString("menu.speed.SUPER_FAST"));
+		menuItem = new JRadioButtonMenuItem(strings.getString("menu.speed.SUPER_FAST"));
 		setupKeys(menuItem, "menu.speed.SUPER_FAST");
 		menuItem.addActionListener(wrapActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
@@ -648,8 +692,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 		priorityMenu.add(menuItem);
 		priorityMenuItems.put(Speed.SUPER_FAST, menuItem);
 
-		menuItem = new JRadioButtonMenuItem(
-				strings.getString("menu.speed.FAST"));
+		menuItem = new JRadioButtonMenuItem(strings.getString("menu.speed.FAST"));
 		setupKeys(menuItem, "menu.speed.FAST");
 		menuItem.addActionListener(wrapActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
@@ -659,8 +702,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 		priorityMenu.add(menuItem);
 		priorityMenuItems.put(Speed.FAST, menuItem);
 
-		menuItem = new JRadioButtonMenuItem(
-				strings.getString("menu.speed.NORMAL"));
+		menuItem = new JRadioButtonMenuItem(strings.getString("menu.speed.NORMAL"));
 		setupKeys(menuItem, "menu.speed.NORMAL");
 		menuItem.addActionListener(wrapActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
@@ -670,8 +712,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 		priorityMenu.add(menuItem);
 		priorityMenuItems.put(Speed.NORMAL, menuItem);
 
-		menuItem = new JRadioButtonMenuItem(
-				strings.getString("menu.speed.SLOW"));
+		menuItem = new JRadioButtonMenuItem(strings.getString("menu.speed.SLOW"));
 		setupKeys(menuItem, "menu.speed.SLOW");
 		menuItem.addActionListener(wrapActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
@@ -681,8 +722,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 		priorityMenu.add(menuItem);
 		priorityMenuItems.put(Speed.SLOW, menuItem);
 
-		menuItem = new JRadioButtonMenuItem(
-				strings.getString("menu.speed.PAUSED"));
+		menuItem = new JRadioButtonMenuItem(strings.getString("menu.speed.PAUSED"));
 		setupKeys(menuItem, "menu.speed.PAUSED");
 		menuItem.addActionListener(wrapActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
@@ -727,8 +767,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 		setupKeys(helpMenu, "menu.help");
 		menuBar.add(helpMenu);
 
-		menuItem = new JMenuItem(
-				strings.getString("menu.help.launch-translation-tool"));
+		menuItem = new JMenuItem(strings.getString("menu.help.launch-translation-tool"));
 		setupKeys(menuItem, "menu.help.launch-translation-tool");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -788,21 +827,20 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 		dirty1 = false;
 		dirty2 = false;
 		lastSavedTime = System.currentTimeMillis();
-		if (currentFile != null) {
+		if(currentFile != null) {
 			String fileName = currentFile.getName();
-			if (fileName.endsWith("." + EXTENSION)) {
-				fileName = fileName.substring(0, fileName.length() - 1
-						- EXTENSION.length());
+			if(fileName.endsWith("." + EXTENSION)) {
+				fileName = fileName.substring(0, fileName.length() - 1 - EXTENSION.length());
 			}
-			setTitle(MessageFormat.format(
-					strings.getString("main.caption_named_city"), fileName));
-		} else {
+			setTitle(MessageFormat.format(strings.getString("main.caption_named_city"), fileName));
+		}
+		else {
 			setTitle(strings.getString("main.caption_unnamed_city"));
 		}
 	}
 
 	private boolean onSaveCityClicked() {
-		if (currentFile == null) {
+		if(currentFile == null) {
 			return onSaveCityAsClicked();
 		}
 
@@ -810,11 +848,10 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 			getEngine().save(currentFile);
 			makeClean();
 			return true;
-		} catch (IOException e) {
+		}
+		catch(IOException e) {
 			e.printStackTrace(System.err);
-			JOptionPane.showMessageDialog(this, e,
-					strings.getString("main.error_caption"),
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, e, strings.getString("main.error_caption"), JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 	}
@@ -823,32 +860,30 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 
 	private boolean onSaveCityAsClicked() {
 		boolean timerEnabled = isTimerActive();
-		if (timerEnabled) {
+		if(timerEnabled) {
 			stopTimer();
 		}
 		try {
 			JFileChooser fc = new JFileChooser();
-			FileNameExtensionFilter filter1 = new FileNameExtensionFilter(
-					strings.getString("cty_file"), EXTENSION);
+			FileNameExtensionFilter filter1 = new FileNameExtensionFilter(strings.getString("cty_file"), EXTENSION);
 			fc.setFileFilter(filter1);
 			int rv = fc.showSaveDialog(this);
-			if (rv == JFileChooser.APPROVE_OPTION) {
+			if(rv == JFileChooser.APPROVE_OPTION) {
 				currentFile = fc.getSelectedFile();
-				if (!currentFile.getName().endsWith("." + EXTENSION)) {
-					currentFile = new File(currentFile.getPath() + "."
-							+ EXTENSION);
+				if(!currentFile.getName().endsWith("." + EXTENSION)) {
+					currentFile = new File(currentFile.getPath() + "." + EXTENSION);
 				}
 				getEngine().save(currentFile);
 				makeClean();
 				return true;
 			}
-		} catch (Exception e) {
+		}
+		catch(Exception e) {
 			e.printStackTrace(System.err);
-			JOptionPane.showMessageDialog(this, e,
-					strings.getString("main.error_caption"),
-					JOptionPane.ERROR_MESSAGE);
-		} finally {
-			if (timerEnabled) {
+			JOptionPane.showMessageDialog(this, e, strings.getString("main.error_caption"), JOptionPane.ERROR_MESSAGE);
+		}
+		finally {
+			if(timerEnabled) {
 				startTimer();
 			}
 		}
@@ -857,25 +892,24 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 
 	private void onLoadGameClicked() {
 		// check if user wants to save their current city
-		if (!maybeSaveCity()) {
+		if(!maybeSaveCity()) {
 			return;
 		}
 
 		boolean timerEnabled = isTimerActive();
-		if (timerEnabled) {
+		if(timerEnabled) {
 			stopTimer();
 		}
 
 		try {
 			JFileChooser fc = new JFileChooser();
-			FileNameExtensionFilter filter1 = new FileNameExtensionFilter(
-					strings.getString("cty_file"), EXTENSION);
+			FileNameExtensionFilter filter1 = new FileNameExtensionFilter(strings.getString("cty_file"), EXTENSION);
 			fc.setFileFilter(filter1);
 
 			assert !isTimerActive();
 
 			int rv = fc.showOpenDialog(this);
-			if (rv == JFileChooser.APPROVE_OPTION) {
+			if(rv == JFileChooser.APPROVE_OPTION) {
 				File file = fc.getSelectedFile();
 				Micropolis newEngine = new Micropolis();
 				newEngine.load(file);
@@ -883,32 +917,29 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 				currentFile = file;
 				makeClean();
 			}
-		} catch (Exception e) {
+		}
+		catch(Exception e) {
 			e.printStackTrace(System.err);
-			JOptionPane.showMessageDialog(this, e,
-					strings.getString("main.error_caption"),
-					JOptionPane.ERROR_MESSAGE);
-		} finally {
-			if (timerEnabled) {
+			JOptionPane.showMessageDialog(this, e, strings.getString("main.error_caption"), JOptionPane.ERROR_MESSAGE);
+		}
+		finally {
+			if(timerEnabled) {
 				startTimer();
 			}
 		}
 	}
 
 	private JToggleButton makeToolBtn(final MicropolisTool tool) {
-		String iconName = strings.containsKey("tool." + tool.name() + ".icon") ? strings
-				.getString("tool." + tool.name() + ".icon")
-				: "/graphics/tools/" + tool.name().toLowerCase() + ".png";
-		String iconSelectedName = strings.containsKey("tool." + tool.name()
-				+ ".selected_icon") ? strings.getString("tool." + tool.name()
-				+ ".selected_icon") : iconName;
-		String tipText = strings.containsKey("tool." + tool.name() + ".tip") ? strings
-				.getString("tool." + tool.name() + ".tip") : tool.name();
+		String iconName = strings.containsKey("tool." + tool.name() + ".icon") ? strings.getString("tool." + tool.name()
+				+ ".icon") : "/graphics/tools/" + tool.name().toLowerCase() + ".png";
+		String iconSelectedName = strings.containsKey("tool." + tool.name() + ".selected_icon") ? strings.getString("tool."
+				+ tool.name() + ".selected_icon") : iconName;
+		String tipText = strings.containsKey("tool." + tool.name() + ".tip") ? strings.getString("tool." + tool.name() + ".tip")
+				: tool.name();
 
 		JToggleButton btn = new JToggleButton();
 		btn.setIcon(new ImageIcon(MainWindow.class.getResource(iconName)));
-		btn.setSelectedIcon(new ImageIcon(MainWindow.class
-				.getResource(iconSelectedName)));
+		btn.setSelectedIcon(new ImageIcon(MainWindow.class.getResource(iconSelectedName)));
 		btn.setToolTipText(tipText);
 		btn.setMargin(new Insets(0, 0, 0, 0));
 		btn.setBorderPainted(false);
@@ -922,11 +953,9 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 	}
 
 	private JToolBar makeToolbar() {
-		toolBtns = new EnumMap<MicropolisTool, JToggleButton>(
-				MicropolisTool.class);
+		toolBtns = new EnumMap<MicropolisTool, JToggleButton>(MicropolisTool.class);
 
-		JToolBar toolBar = new JToolBar(
-				strings.getString("main.tools_caption"), JToolBar.VERTICAL);
+		JToolBar toolBar = new JToolBar(strings.getString("main.tools_caption"), JToolBar.VERTICAL);
 		toolBar.setFloatable(false);
 		toolBar.setRollover(false);
 
@@ -1009,45 +1038,44 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 
 	private void selectTool(MicropolisTool newTool) {
 		toolBtns.get(newTool).setSelected(true);
-		if (newTool == currentTool) {
+		if(newTool == currentTool) {
 			return;
 		}
 
-		if (currentTool != null) {
+		if(currentTool != null) {
 			toolBtns.get(currentTool).setSelected(false);
 		}
 
 		currentTool = newTool;
 
-		currentToolLbl.setText(strings.containsKey("tool." + currentTool.name()
-				+ ".name") ? strings.getString("tool." + currentTool.name()
-				+ ".name") : currentTool.name());
+		currentToolLbl.setText(strings.containsKey("tool." + currentTool.name() + ".name") ? strings.getString("tool."
+				+ currentTool.name() + ".name") : currentTool.name());
 
 		int cost = currentTool.getToolCost();
 		currentToolCostLbl.setText(cost != 0 ? formatFunds(cost) : " ");
 	}
 
 	private void onNewCityClicked() {
-		if (maybeSaveCity()) {
+		if(maybeSaveCity()) {
 			doNewCity(false);
 		}
 	}
 
 	public void doNewCity(boolean firstTime) {
 		boolean timerEnabled = isTimerActive();
-		if (timerEnabled) {
+		if(timerEnabled) {
 			stopTimer();
 		}
 
 		new NewCityDialog(this, !firstTime).setVisible(true);
 
-		if (timerEnabled) {
+		if(timerEnabled) {
 			startTimer();
 		}
 	}
 
 	void doQueryTool(int xpos, int ypos) {
-		if (!engine.testBounds(xpos, ypos))
+		if(!engine.testBounds(xpos, ypos))
 			return;
 
 		ZoneStatus z = engine.queryZoneStatus(xpos, ypos);
@@ -1057,14 +1085,14 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 	private void doZoom(int dir, Point mousePt) {
 		int oldZoom = drawingArea.getTileSize();
 		int newZoom = dir < 0 ? (oldZoom / 2) : (oldZoom * 2);
-		if (newZoom < 8) {
+		if(newZoom < 8) {
 			newZoom = 8;
 		}
-		if (newZoom > 32) {
+		if(newZoom > 32) {
 			newZoom = 32;
 		}
 
-		if (oldZoom != newZoom) {
+		if(oldZoom != newZoom) {
 			// preserve effective mouse position in viewport when changing zoom
 			// level
 			double f = (double) newZoom / (double) oldZoom;
@@ -1073,21 +1101,20 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 			int newY = (int) Math.round(mousePt.y * f - (mousePt.y - pos.y));
 			drawingArea.selectTileSize(newZoom);
 			drawingAreaScroll.validate();
-			drawingAreaScroll.getViewport().setViewPosition(
-					new Point(newX, newY));
+			drawingAreaScroll.getViewport().setViewPosition(new Point(newX, newY));
 		}
 	}
 
 	private void doZoom(int dir) {
 		Rectangle rect = drawingAreaScroll.getViewport().getViewRect();
-		doZoom(dir,
-				new Point(rect.x + rect.width / 2, rect.y + rect.height / 2));
+		doZoom(dir, new Point(rect.x + rect.width / 2, rect.y + rect.height / 2));
 	}
 
 	private void onMouseWheelMoved(MouseWheelEvent evt) {
-		if (evt.getWheelRotation() < 0) {
+		if(evt.getWheelRotation() < 0) {
 			doZoom(1, evt.getPoint());
-		} else {
+		}
+		else {
 			doZoom(-1, evt.getPoint());
 		}
 	}
@@ -1100,27 +1127,27 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 	int lastY;
 
 	private void onToolDown(MouseEvent ev) {
-		if (ev.getButton() == MouseEvent.BUTTON3) {
-			CityLocation loc = drawingArea
-					.getCityLocation(ev.getX(), ev.getY());
+		if(ev.getButton() == MouseEvent.BUTTON3) {
+			CityLocation loc = drawingArea.getCityLocation(ev.getX(), ev.getY());
 			doQueryTool(loc.x, loc.y);
 			return;
 		}
 
-		if (ev.getButton() != MouseEvent.BUTTON1)
+		if(ev.getButton() != MouseEvent.BUTTON1)
 			return;
 
-		if (currentTool == null)
+		if(currentTool == null)
 			return;
 
 		CityLocation loc = drawingArea.getCityLocation(ev.getX(), ev.getY());
 		int x = loc.x;
 		int y = loc.y;
 
-		if (currentTool == MicropolisTool.QUERY) {
+		if(currentTool == MicropolisTool.QUERY) {
 			doQueryTool(x, y);
 			this.toolStroke = null;
-		} else {
+		}
+		else {
 			this.toolStroke = currentTool.beginStroke(engine, x, y);
 			previewTool();
 		}
@@ -1131,19 +1158,20 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 
 	private void onEscapePressed() {
 		// if currently dragging a tool...
-		if (toolStroke != null) {
+		if(toolStroke != null) {
 			// cancel the current mouse operation
 			toolStroke = null;
 			drawingArea.setToolPreview(null);
 			drawingArea.setToolCursor(null);
-		} else {
+		}
+		else {
 			// dismiss any alerts currently visible
 			notificationPane.setVisible(false);
 		}
 	}
 
 	private void onToolUp(MouseEvent ev) {
-		if (toolStroke != null) {
+		if(toolStroke != null) {
 			drawingArea.setToolPreview(null);
 
 			CityLocation loc = toolStroke.getLocation();
@@ -1154,7 +1182,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 
 		onToolHover(ev);
 
-		if (autoBudgetPending) {
+		if(autoBudgetPending) {
 			autoBudgetPending = false;
 			showBudgetWindow(true);
 		}
@@ -1169,21 +1197,22 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 	}
 
 	private void onToolDrag(MouseEvent ev) {
-		if (currentTool == null)
+		if(currentTool == null)
 			return;
-		if ((ev.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK) == 0)
+		if((ev.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK) == 0)
 			return;
 
 		CityLocation loc = drawingArea.getCityLocation(ev.getX(), ev.getY());
 		int x = loc.x;
 		int y = loc.y;
-		if (x == lastX && y == lastY)
+		if(x == lastX && y == lastY)
 			return;
 
-		if (toolStroke != null) {
+		if(toolStroke != null) {
 			toolStroke.dragTo(x, y);
 			previewTool();
-		} else if (currentTool == MicropolisTool.QUERY) {
+		}
+		else if(currentTool == MicropolisTool.QUERY) {
 			doQueryTool(x, y);
 		}
 
@@ -1192,7 +1221,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 	}
 
 	private void onToolHover(MouseEvent ev) {
-		if (currentTool == null || currentTool == MicropolisTool.QUERY) {
+		if(currentTool == null || currentTool == MicropolisTool.QUERY) {
 			drawingArea.setToolCursor(null);
 			return;
 		}
@@ -1203,9 +1232,9 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 		int w = currentTool.getWidth();
 		int h = currentTool.getHeight();
 
-		if (w >= 3)
+		if(w >= 3)
 			x--;
-		if (h >= 3)
+		if(h >= 3)
 			y--;
 
 		drawingArea.setToolCursor(new CityRect(x, y, w, h), currentTool);
@@ -1216,28 +1245,26 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 	}
 
 	private void showToolResult(CityLocation loc, ToolResult result) {
-		switch (result) {
-		case SUCCESS:
-			citySound(currentTool == MicropolisTool.BULLDOZER ? Sound.BULLDOZE
-					: Sound.BUILD, loc);
-			dirty1 = true;
-			break;
+		switch(result) {
+			case SUCCESS:
+				citySound(currentTool == MicropolisTool.BULLDOZER ? Sound.BULLDOZE : Sound.BUILD, loc);
+				dirty1 = true;
+				break;
 
-		case NONE:
-			break;
-		case UH_OH:
-			messagesPane.appendCityMessage(MicropolisMessage.BULLDOZE_FIRST);
-			citySound(Sound.UHUH, loc);
-			break;
+			case NONE:
+				break;
+			case UH_OH:
+				messagesPane.appendCityMessage(MicropolisMessage.BULLDOZE_FIRST);
+				citySound(Sound.UHUH, loc);
+				break;
 
-		case INSUFFICIENT_FUNDS:
-			messagesPane
-					.appendCityMessage(MicropolisMessage.INSUFFICIENT_FUNDS);
-			citySound(Sound.SORRY, loc);
-			break;
+			case INSUFFICIENT_FUNDS:
+				messagesPane.appendCityMessage(MicropolisMessage.INSUFFICIENT_FUNDS);
+				citySound(Sound.SORRY, loc);
+				break;
 
-		default:
-			assert false;
+			default:
+				assert false;
 		}
 	}
 
@@ -1268,15 +1295,15 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 
 		assert !isTimerActive();
 
-		if (engine.simSpeed == Speed.PAUSED)
+		if(engine.simSpeed == Speed.PAUSED)
 			return;
 
-		if (currentEarthquake != null) {
+		if(currentEarthquake != null) {
 			int interval = 3000 / MicropolisDrawingArea.SHAKE_STEPS;
 			shakeTimer = new Timer(interval, new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					currentEarthquake.oneStep();
-					if (currentEarthquake.count == 0) {
+					if(currentEarthquake.count == 0) {
 						stopTimer();
 						currentEarthquake = null;
 						startTimer();
@@ -1289,9 +1316,9 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 
 		ActionListener taskPerformer = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				for (int i = 0; i < count; i++) {
+				for(int i = 0; i < count; i++) {
 					engine.animate();
-					if (!engine.autoBudget && engine.isBudgetTime()) {
+					if(!engine.autoBudget && engine.isBudgetTime()) {
 						showAutoBudget();
 						return;
 					}
@@ -1312,7 +1339,8 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 			public void actionPerformed(ActionEvent evt) {
 				try {
 					l.actionPerformed(evt);
-				} catch (Throwable e) {
+				}
+				catch(Throwable e) {
 					showErrorMessage(e);
 				}
 			}
@@ -1328,8 +1356,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 		stackTracePane.setText(w.toString());
 
 		final JScrollPane detailsPane = new JScrollPane(stackTracePane);
-		detailsPane
-				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		detailsPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		detailsPane.setPreferredSize(new Dimension(480, 240));
 		detailsPane.setMinimumSize(new Dimension(0, 0));
 
@@ -1340,20 +1367,18 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 				JOptionPane.DEFAULT_OPTION,
 				JOptionPane.ERROR_MESSAGE,
 				null,
-				new String[] { strings.getString("main.error_show_stacktrace"),
-						strings.getString("main.error_close"),
-						strings.getString("main.error_shutdown") }, 1);
-		if (rv == 0) {
-			JOptionPane.showMessageDialog(this, detailsPane,
-					strings.getString("main.error_unexpected"),
+				new String[] {
+						strings.getString("main.error_show_stacktrace"), strings.getString("main.error_close"),
+						strings.getString("main.error_shutdown")
+				}, 1);
+		if(rv == 0) {
+			JOptionPane.showMessageDialog(this, detailsPane, strings.getString("main.error_unexpected"),
 					JOptionPane.ERROR_MESSAGE);
 		}
-		if (rv == 2) {
-			rv = JOptionPane.showConfirmDialog(this,
-					strings.getString("error.shutdown_query"),
-					strings.getString("main.error_unexpected"),
-					JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-			if (rv == JOptionPane.OK_OPTION) {
+		if(rv == 2) {
+			rv = JOptionPane.showConfirmDialog(this, strings.getString("error.shutdown_query"),
+					strings.getString("main.error_unexpected"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+			if(rv == JOptionPane.OK_OPTION) {
 				System.exit(1);
 			}
 		}
@@ -1372,7 +1397,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 
 	// implements EarthquakeListener
 	public void earthquakeStarted() {
-		if (isTimerActive()) {
+		if(isTimerActive()) {
 			stopTimer();
 		}
 
@@ -1389,11 +1414,11 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 	private void stopTimer() {
 		assert isTimerActive();
 
-		if (simTimer != null) {
+		if(simTimer != null) {
 			simTimer.stop();
 			simTimer = null;
 		}
-		if (shakeTimer != null) {
+		if(shakeTimer != null) {
 			shakeTimer.stop();
 			shakeTimer = null;
 		}
@@ -1404,7 +1429,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 	}
 
 	private void onWindowClosed(WindowEvent ev) {
-		if (isTimerActive()) {
+		if(isTimerActive()) {
 			stopTimer();
 		}
 	}
@@ -1414,7 +1439,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 	}
 
 	private void onPriorityClicked(Speed newSpeed) {
-		if (isTimerActive()) {
+		if(isTimerActive()) {
 			stopTimer();
 		}
 
@@ -1424,30 +1449,29 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 
 	private void onInvokeDisasterClicked(Disaster disaster) {
 		dirty1 = true;
-		switch (disaster) {
-		case FIRE:
-			getEngine().makeFire();
-			break;
-		case FLOOD:
-			getEngine().makeFlood();
-			break;
-		case MONSTER:
-			getEngine().makeMonster();
-			break;
-		case MELTDOWN:
-			if (!getEngine().makeMeltdown()) {
-				messagesPane
-						.appendCityMessage(MicropolisMessage.NO_NUCLEAR_PLANTS);
-			}
-			break;
-		case TORNADO:
-			getEngine().makeTornado();
-			break;
-		case EARTHQUAKE:
-			getEngine().makeEarthquake();
-			break;
-		default:
-			assert false; // unknown disaster
+		switch(disaster) {
+			case FIRE:
+				getEngine().makeFire();
+				break;
+			case FLOOD:
+				getEngine().makeFlood();
+				break;
+			case MONSTER:
+				getEngine().makeMonster();
+				break;
+			case MELTDOWN:
+				if(!getEngine().makeMeltdown()) {
+					messagesPane.appendCityMessage(MicropolisMessage.NO_NUCLEAR_PLANTS);
+				}
+				break;
+			case TORNADO:
+				getEngine().makeTornado();
+				break;
+			case EARTHQUAKE:
+				getEngine().makeEarthquake();
+				break;
+			default:
+				assert false; // unknown disaster
 		}
 	}
 
@@ -1459,7 +1483,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 	public void cityMessage(MicropolisMessage m, CityLocation p) {
 		messagesPane.appendCityMessage(m);
 
-		if (m.useNotificationPane && p != null) {
+		if(m.useNotificationPane && p != null) {
 			notificationPane.showMessage(engine, m, p.x, p.y);
 		}
 	}
@@ -1479,33 +1503,33 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 		autoBulldozeMenuItem.setSelected(getEngine().autoBulldoze);
 		disastersMenuItem.setSelected(!getEngine().noDisasters);
 		soundsMenuItem.setSelected(doSounds);
-		for (Speed spd : priorityMenuItems.keySet()) {
+		for(Speed spd : priorityMenuItems.keySet()) {
 			priorityMenuItems.get(spd).setSelected(getEngine().simSpeed == spd);
 		}
-		for (int i = GameLevel.MIN_LEVEL; i <= GameLevel.MAX_LEVEL; i++) {
+		for(int i = GameLevel.MIN_LEVEL; i <= GameLevel.MAX_LEVEL; i++) {
 			difficultyMenuItems.get(i).setSelected(getEngine().gameLevel == i);
 		}
 	}
 
 	// implements Micropolis.Listener
 	public void citySound(Sound sound, CityLocation loc) {
-		if (!doSounds)
+		if(!doSounds)
 			return;
 
 		URL afile = sound.getAudioFile();
-		if (afile == null)
+		if(afile == null)
 			return;
 
-		boolean isOnScreen = drawingAreaScroll.getViewport().getViewRect()
-				.contains(drawingArea.getTileBounds(loc.x, loc.y));
-		if (sound == Sound.HONKHONK_LOW && !isOnScreen)
+		boolean isOnScreen = drawingAreaScroll.getViewport().getViewRect().contains(drawingArea.getTileBounds(loc.x, loc.y));
+		if(sound == Sound.HONKHONK_LOW && !isOnScreen)
 			return;
 
 		try {
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(afile));
 			clip.start();
-		} catch (Exception e) {
+		}
+		catch(Exception e) {
 			e.printStackTrace(System.err);
 		}
 	}
@@ -1534,16 +1558,17 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 	}
 
 	private void showAutoBudget() {
-		if (toolStroke == null) {
+		if(toolStroke == null) {
 			showBudgetWindow(true);
-		} else {
+		}
+		else {
 			autoBudgetPending = true;
 		}
 	}
 
 	private void showBudgetWindow(boolean isEndOfYear) {
 		boolean timerEnabled = isTimerActive();
-		if (timerEnabled) {
+		if(timerEnabled) {
 			stopTimer();
 		}
 
@@ -1551,13 +1576,12 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 		dlg.setModal(true);
 		dlg.setVisible(true);
 
-		if (timerEnabled) {
+		if(timerEnabled) {
 			startTimer();
 		}
 	}
 
-	private JMenuItem makeMapStateMenuItem(String stringPrefix,
-			final MapState state) {
+	private JMenuItem makeMapStateMenuItem(String stringPrefix, final MapState state) {
 		String caption = strings.getString(stringPrefix);
 		JMenuItem menuItem = new JRadioButtonMenuItem(caption);
 		setupKeys(menuItem, stringPrefix);
@@ -1580,19 +1604,20 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 	private void setMapLegend(MapState state) {
 		String k = "legend_image." + state.name();
 		java.net.URL iconUrl = null;
-		if (strings.containsKey(k)) {
+		if(strings.containsKey(k)) {
 			String iconName = strings.getString(k);
 			iconUrl = MainWindow.class.getResource(iconName);
 		}
-		if (iconUrl != null) {
+		if(iconUrl != null) {
 			mapLegendLbl.setIcon(new ImageIcon(iconUrl));
-		} else {
+		}
+		else {
 			mapLegendLbl.setIcon(null);
 		}
 	}
 
 	private void onLaunchTranslationToolClicked() {
-		if (maybeSaveCity()) {
+		if(maybeSaveCity()) {
 			dispose();
 			TranslationTool tt = new TranslationTool();
 			tt.setVisible(true);
@@ -1601,18 +1626,15 @@ public class MainWindow extends JFrame implements Micropolis.Listener,
 
 	private void onAboutClicked() {
 		String version = getClass().getPackage().getImplementationVersion();
-		String versionStr = MessageFormat.format(
-				strings.getString("main.version_string"), version);
-		versionStr = versionStr.replace("%java.version%",
-				System.getProperty("java.version"));
-		versionStr = versionStr.replace("%java.vendor%",
-				System.getProperty("java.vendor"));
+		String versionStr = MessageFormat.format(strings.getString("main.version_string"), version);
+		versionStr = versionStr.replace("%java.version%", System.getProperty("java.version"));
+		versionStr = versionStr.replace("%java.vendor%", System.getProperty("java.vendor"));
 
 		JLabel appNameLbl = new JLabel(versionStr);
 		JLabel appDetailsLbl = new JLabel(strings.getString("main.about_text"));
-		JComponent[] inputs = new JComponent[] { appNameLbl, appDetailsLbl };
-		JOptionPane.showMessageDialog(this, inputs,
-				strings.getString("main.about_caption"),
-				JOptionPane.PLAIN_MESSAGE, appIcon);
+		JComponent[] inputs = new JComponent[] {
+				appNameLbl, appDetailsLbl
+		};
+		JOptionPane.showMessageDialog(this, inputs, strings.getString("main.about_caption"), JOptionPane.PLAIN_MESSAGE, appIcon);
 	}
 }

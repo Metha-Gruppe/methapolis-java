@@ -84,7 +84,8 @@
 </javac>
 </target>
 
-<target name="build" depends="copy-resources,compile,compose-tiles">
+<!-- <target name="build" depends="copy-resources,compile,compose-tiles"> -->
+<target name="build" depends="copy-resources,compile">
 <pathconvert property="runtime-classpath" pathsep=" " refid="build-classpath">
 <map from="${basedir}" to="." />
 </pathconvert>
