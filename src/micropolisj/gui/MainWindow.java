@@ -113,18 +113,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 
 	static ImageIcon appIcon;
 	static {
-		ClassLoader cl = ClassLoader.getSystemClassLoader();
-		URL[] urls = ((URLClassLoader) cl).getURLs();
-
-		for(URL url : urls) {
-			System.out.println(url.getFile());
-		}
-		URL resource = MainWindow.class.getResource("/micropolism.png");
-		if(resource == null)	{
-			resource = MainWindow.class.getResource("resources/micropolism.png");
-		}
-		System.out.println(resource);
-		appIcon = new ImageIcon(resource);
+		appIcon = new ImageIcon(MainWindow.class.getResource("/micropolism.png"));
 	}
 
 	static ResourceBundle strings = ResourceBundle.getBundle("micropolisj.GuiStrings");
