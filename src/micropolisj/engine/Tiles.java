@@ -15,38 +15,30 @@ import java.util.*;
 /**
  * Provides global methods for loading tile specifications.
  */
-public class Tiles
-{
+public class Tiles {
 	static final Charset UTF8 = Charset.forName("UTF-8");
-	static TileSpec [] tiles;
-	static Map<String,TileSpec> tilesByName = new HashMap<String,TileSpec>();
+	static TileSpec[] tiles;
+	static Map<String, TileSpec> tilesByName = new HashMap<String, TileSpec>();
 	static {
 		try {
 			readTiles();
 			checkTiles();
 		}
-		catch (IOException e) {
+		catch(IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	static void readTiles()
-		throws IOException
-	{
+	static void readTiles() throws IOException {
 		ArrayList<TileSpec> tilesList = new ArrayList<TileSpec>();
 
 		Properties tilesRc = new Properties();
-		tilesRc.load(
-			new InputStreamReader(
-				Tiles.class.getResourceAsStream("/tiles.rc"),
-				UTF8
-				)
-			);
+		tilesRc.load(new InputStreamReader(Tiles.class.getResourceAsStream("/tiles.rc"), UTF8));
 
-		for (int i = 0; ; i++) {
+		for(int i = 0;; i++) {
 			String tileName = Integer.toString(i);
 			String rawSpec = tilesRc.getProperty(tileName);
-			if (rawSpec == null) {
+			if(rawSpec == null) {
 				break;
 			}
 
@@ -56,20 +48,17 @@ public class Tiles
 		}
 		tiles = tilesList.toArray(new TileSpec[0]);
 
-		for (int i = 0; i < tiles.length; i++) {
+		for(int i = 0; i < tiles.length; i++) {
 			tiles[i].resolveReferences(tilesByName);
 
 			TileSpec.BuildingInfo bi = tiles[i].getBuildingInfo();
-			if (bi != null) {
-				for (int j = 0; j < bi.members.length; j++) {
+			if(bi != null) {
+				for(int j = 0; j < bi.members.length; j++) {
 					int tid = bi.members[j];
 					int offx = (bi.width >= 3 ? -1 : 0) + j % bi.width;
 					int offy = (bi.height >= 3 ? -1 : 0) + j / bi.width;
 
-					if (tiles[tid].owner == null &&
-						(offx != 0 || offy != 0)
-						)
-					{
+					if(tiles[tid].owner == null && (offx != 0 || offy != 0)) {
 						tiles[tid].owner = tiles[i];
 						tiles[tid].ownerOffsetX = offx;
 						tiles[tid].ownerOffsetY = offy;
@@ -81,13 +70,12 @@ public class Tiles
 
 	/**
 	 * Access a tile specification by index number.
-	 *
-	 * @return a tile specification, or null if there is no tile
-	 * with the given number
+	 * 
+	 * @return a tile specification, or null if there is no tile with the given
+	 *         number
 	 */
-	public static TileSpec get(int tileNumber)
-	{
-		if (tileNumber >= 0 && tileNumber < tiles.length) {
+	public static TileSpec get(int tileNumber) {
+		if(tileNumber >= 0 && tileNumber < tiles.length) {
 			return tiles[tileNumber];
 		}
 		else {
@@ -95,9 +83,8 @@ public class Tiles
 		}
 	}
 
-	static void checkTiles()
-	{
-		for (int i = 0; i < tiles.length; i++) {
+	static void checkTiles() {
+		for(int i = 0; i < tiles.length; i++) {
 			// do something here
 		}
 	}

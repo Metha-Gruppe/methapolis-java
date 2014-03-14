@@ -5,6 +5,9 @@
 # MicropolisJ is free software; you can redistribute it and/or modify
 # it under the terms of the GNU GPLv3, with additional terms.
 # See the README file, included in this distribution, for details.
+#
+# FORMAT IS LIKE SO:
+# Constant in TileConstants    Short description@tileSize,yPixel    attributes
 
 # DIRT
 0     terrain@0,0                     (noburn)(description=#0)
