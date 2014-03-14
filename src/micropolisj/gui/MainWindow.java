@@ -878,7 +878,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		return false;
 	}
 
-	private void onLoadGameClicked() {
+	public void onLoadGameClicked() {
 		// check if user wants to save their current city
 		if(!maybeSaveCity()) {
 			return;
