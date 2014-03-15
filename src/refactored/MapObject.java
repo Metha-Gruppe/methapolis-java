@@ -9,19 +9,19 @@ import micropolisj.engine.TileSpec.BuildingInfo;
 
 public class MapObject {
 	// attributes
-	private boolean bulldozable;
-	private boolean burnable;
-	private boolean conducting;
-	private boolean overWater;
+	protected boolean bulldozable;
+	protected boolean burnable;
+	protected boolean conducting;
+	protected boolean overWater;
 	
-	private int id;
-	private int imageIndex;
+	protected int id;
+	protected int imageIndex;
 	
-	private List<MapImage> images;
-	private String name;
-	private String description;
-	private TileBehavior behavior;
-	private Zone zone;
+	protected List<MapImage> images;
+	protected String name;
+	protected String description;
+	protected TileBehavior behavior;
+	protected Zone zone;
 	
 
 	public TileSpec owner;

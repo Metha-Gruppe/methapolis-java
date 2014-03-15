@@ -1,19 +1,19 @@
 package refactored;
 
 
-public class Building extends MapObject {
-	private short playerID;
-	private int pollution;
-	private int population;
-	private short level;
+public abstract class Building extends MapObject {
+	protected int playerID;
+	protected int pollution;
+	protected int population;
+	protected int level;
 	
 	// CONSTRUCTORS
 	public Building()	{
 		// short globalPlayerID = 2;
-		this((short) 2);
+		this(2);
 	}
 	
-	public Building(short playerID)	{
+	public Building(int playerID)	{
 		this.playerID = playerID;
 		this.level = 0;
 		this.population = 0;
@@ -23,19 +23,19 @@ public class Building extends MapObject {
 	// METHODS
 	
 	// GETTERS & SETTERS
-	public short getPlayerID() {
+	public int getPlayerID() {
 		return playerID;
 	}
 	
-	public void setPlayerID(short playerID) {
+	public void setPlayerID(int playerID) {
 		this.playerID = playerID;
 	}
 	
-	public short getLevel() {
+	public int getLevel() {
 		return level;
 	}
 	
-	public void setLevel(short level) {
+	public void setLevel(int level) {
 		this.level = level;
 	}
 	
