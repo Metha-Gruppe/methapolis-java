@@ -153,6 +153,10 @@ public class TileConstants {
 	static final char VBRDG2 = 950;
 	static final char VBRDG3 = 951;
 	public static final char LAST_TILE = 956;
+	
+	// CUSTOM TILES FOR CUSTOM TOOLS
+	public static final char ROCKET = 1001;
+	
 
 	static final char[] RoadTable = new char[] {
 			ROADS, ROADS2, ROADS, ROADS3, ROADS2, ROADS2, ROADS4, ROADS8, ROADS, ROADS6, ROADS, ROADS7, ROADS5, ROADS10, ROADS9,
