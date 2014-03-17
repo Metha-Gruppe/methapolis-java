@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
+import micropolisj.engine.TileSpec.BuildingInfo;
+
 public class Tile extends MapObject {
 	
 	// ATTRIBUTES
+	Zone zoneInfo;
 	
 	// TODO: reference to building
 //	Building building;
@@ -25,6 +28,17 @@ public class Tile extends MapObject {
 	public static Tile newTileFromID(int id)	{
 		// TODO: to be implemented...
 		return null;
+	}
+	
+	// STATIC INNER CLASS
+	public static class Zone {
+		int width;
+		int height;
+		short[] members;
+	}
+
+	public Zone getBuildingInfo() {
+		return zoneInfo;
 	}
 	
 	// METHODS

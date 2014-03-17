@@ -8,7 +8,6 @@
 
 package micropolisj.engine;
 
-import static micropolisj.engine.TileConstants.*;
 
 /**
  * Enumerates the various tools that can be applied to the map by the user.
@@ -34,6 +33,7 @@ public enum MicropolisTool
 	NUCLEAR(4, 5000),
 	AIRPORT(6, 10000),
 	QUERY(1, 0),
+	// CUSTOM TOOLS
 	SCHOOL(3,0);
 
 	int size;

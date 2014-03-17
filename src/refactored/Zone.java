@@ -13,6 +13,10 @@ public class Zone {
 	public static final short FIRESTATION = 5;
 	// TODO: to be continued...
 	
+//	int width;
+//	int height;
+//	short[] members;
+	
 	
 	// ATTRIBUTES
 	private short type;
