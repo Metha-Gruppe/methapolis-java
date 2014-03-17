@@ -6,6 +6,7 @@ public abstract class Building extends MapObject {
 	protected int pollution;
 	protected int population;
 	protected int level;
+	protected Tile tile;
 	
 	// CONSTRUCTORS
 	public Building()	{

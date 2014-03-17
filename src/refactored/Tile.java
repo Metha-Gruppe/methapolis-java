@@ -136,7 +136,10 @@ public class Tile extends MapObject {
 
 	// TODO: rewrite this
 	protected void load(String inStr, Properties tilesRc) {
+		// create helper class that saves inStr and off = 0
 		Scanner in = new Scanner(inStr);
+		
+		// NOTE: attributes is HashMap<String, String>
 
 //		while(in.hasMore()) {
 //
@@ -192,28 +195,32 @@ public class Tile extends MapObject {
 			this.str = str;
 		}
 
+		// go to next actual character
 		private void skipWhitespace() {
 			while(off < str.length() && Character.isWhitespace(str.charAt(off))) {
 				off++;
 			}
 		}
 
+		// skip whitespace and return next character; if there's no character return -1
 		public int peekChar() {
-			skipWhitespace();
-			if(off < str.length()) {
-				return str.charAt(off);
+			skipWhitespace(); // go to nect character
+			if(off < str.length()) { // if not at the end
+				return str.charAt(off); // return character at 'off'
 			}
 			else {
 				return -1;
 			}
 		}
 
+		// if next character is 'ch' go to the following character
 		public void eatChar(int ch) {
 			skipWhitespace();
 			assert str.charAt(off) == ch;
 			off++;
 		}
 
+		// 
 		public String readAttributeKey() {
 			skipWhitespace();
 

@@ -199,17 +199,19 @@ public class TileSpec {
 		Scanner(String str) {
 			this.str = str;
 		}
-
+		
+		// go to next actual character
 		private void skipWhitespace() {
 			while(off < str.length() && Character.isWhitespace(str.charAt(off))) {
 				off++;
 			}
 		}
 
+		
 		public int peekChar() {
-			skipWhitespace();
-			if(off < str.length()) {
-				return str.charAt(off);
+			skipWhitespace(); // go to nect character
+			if(off < str.length()) { // if not at the end
+				return str.charAt(off); // return character at 'off'
 			}
 			else {
 				return -1;
