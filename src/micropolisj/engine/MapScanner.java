@@ -43,7 +43,8 @@ class MapScanner extends TileBehavior
 		STADIUM_EMPTY,
 		STADIUM_FULL,
 		AIRPORT,
-		SEAPORT;
+		SEAPORT,
+		UNIVERSITY;
 	}
 
 	@Override
@@ -84,6 +85,9 @@ class MapScanner extends TileBehavior
 			doAirport();
 			return;
 		case SEAPORT:
+			doSeaport();
+			return;
+		case UNIVERSITY:
 			doSeaport();
 			return;
 		default:

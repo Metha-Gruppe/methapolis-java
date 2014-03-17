@@ -1002,7 +1002,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 
 		b4.add(makeToolBtn(MicropolisTool.POWERPLANT));
 		b4.add(makeToolBtn(MicropolisTool.NUCLEAR));
-		b4.add(makeToolBtn(MicropolisTool.SCHOOL));
+		b4.add(makeToolBtn(MicropolisTool.UNIVERSITY));
 
 		c.gridy++;
 		Box b5 = new Box(BoxLayout.X_AXIS);
