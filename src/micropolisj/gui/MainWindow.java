@@ -878,7 +878,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		return false;
 	}
 
-	private void onLoadGameClicked() {
+	public void onLoadGameClicked() {
 		// check if user wants to save their current city
 		if(!maybeSaveCity()) {
 			return;
@@ -1002,6 +1002,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 
 		b4.add(makeToolBtn(MicropolisTool.POWERPLANT));
 		b4.add(makeToolBtn(MicropolisTool.NUCLEAR));
+		b4.add(makeToolBtn(MicropolisTool.SCHOOL));
 
 		c.gridy++;
 		Box b5 = new Box(BoxLayout.X_AXIS);
