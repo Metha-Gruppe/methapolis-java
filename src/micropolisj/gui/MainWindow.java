@@ -80,6 +80,7 @@ import micropolisj.engine.Speed;
 import micropolisj.engine.ToolResult;
 import micropolisj.engine.ToolStroke;
 import micropolisj.engine.ZoneStatus;
+import micropolisj.network.ServerMicropolis;
 import micropolisj.util.TranslationTool;
 
 public class MainWindow extends JFrame implements Micropolis.Listener, EarthquakeListener {
@@ -1061,7 +1062,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 			stopTimer();
 		}
 
-		new NewCityDialog(this, !firstTime).setVisible(true);
+		new NewCityDialog(this, !firstTime, engine).setVisible(true);
 
 		if(timerEnabled) {
 			startTimer();

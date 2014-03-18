@@ -16,6 +16,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import micropolisj.network.ServerMicropolis;
+
 /**
  * screen to appear before game starts allowing user to choose several starting options
  * @author nikolaibobenko
@@ -33,10 +35,12 @@ public class SplashScreen extends JFrame implements ActionListener{
     
     private static final String NEW_GAME_COMMAND = "newGame";
     private static final String LOAD_GAME_COMMAND = "loadGame";
+    private static final String START_NEW_SERVER_COMMAND = "newServer";
+    private static final String JOIN_COMMAND = "join Server";
     
     
     public SplashScreen(){
-        super();
+        super("Welcome To Methapolis");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         try {
             final BufferedImage img = ImageIO.read(new File("graphics/Metha-Science.png"));
@@ -67,6 +71,10 @@ public class SplashScreen extends JFrame implements ActionListener{
         newGameBtn.setActionCommand(NEW_GAME_COMMAND);
         loadGameBtn.addActionListener(this);
         loadGameBtn.setActionCommand(LOAD_GAME_COMMAND);
+        createServerBtn.addActionListener(this);
+        createServerBtn.setActionCommand(START_NEW_SERVER_COMMAND);
+        loginBtn.addActionListener(this);
+        loginBtn.setActionCommand(JOIN_COMMAND);
         pack();
         //center window
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -84,14 +92,34 @@ public class SplashScreen extends JFrame implements ActionListener{
         case LOAD_GAME_COMMAND:
             loadGame();
             break;
+        case START_NEW_SERVER_COMMAND:
+            startNewServer();
+            break;
+        case JOIN_COMMAND:
+            startJoinGameScreen();
+            break;
         default:
             return;
         }
     }
     
+    private void startJoinGameScreen() {
+        JoinGameScreen joinScr = new JoinGameScreen();
+        closeThis();
+    }
+
     private void startNewGame() {
-        this.setVisible(false);
         MainWindow win = new MainWindow();
+        win.doNewCity(true);
+        this.setVisible(false);
+        win.setVisible(false);
+        win.setVisible(true);
+        closeThis();
+    }
+    
+    private void startNewServer() {
+        this.setVisible(false);
+        MainWindow win = new MainWindow(new ServerMicropolis());
         win.setVisible(false);
         win.doNewCity(true);
         win.setVisible(true);

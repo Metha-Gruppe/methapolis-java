@@ -8,42 +8,6 @@
 
 package micropolisj.engine;
 
-import static micropolisj.engine.TileConstants.ALLBITS;
-import static micropolisj.engine.TileConstants.CHANNEL;
-import static micropolisj.engine.TileConstants.COMBASE;
-import static micropolisj.engine.TileConstants.DIRT;
-import static micropolisj.engine.TileConstants.FIRE;
-import static micropolisj.engine.TileConstants.FLOOD;
-import static micropolisj.engine.TileConstants.HHTHR;
-import static micropolisj.engine.TileConstants.INDBASE;
-import static micropolisj.engine.TileConstants.LASTZONE;
-import static micropolisj.engine.TileConstants.LHTHR;
-import static micropolisj.engine.TileConstants.LOMASK;
-import static micropolisj.engine.TileConstants.NUCLEAR;
-import static micropolisj.engine.TileConstants.PORTBASE;
-import static micropolisj.engine.TileConstants.POWERPLANT;
-import static micropolisj.engine.TileConstants.PWRBIT;
-import static micropolisj.engine.TileConstants.RADTILE;
-import static micropolisj.engine.TileConstants.RESCLR;
-import static micropolisj.engine.TileConstants.RIVER;
-import static micropolisj.engine.TileConstants.RUBBLE;
-import static micropolisj.engine.TileConstants.commercialZonePop;
-import static micropolisj.engine.TileConstants.getDescriptionNumber;
-import static micropolisj.engine.TileConstants.getPollutionValue;
-import static micropolisj.engine.TileConstants.getTileBehavior;
-import static micropolisj.engine.TileConstants.getZoneSizeFor;
-import static micropolisj.engine.TileConstants.industrialZonePop;
-import static micropolisj.engine.TileConstants.isAnimated;
-import static micropolisj.engine.TileConstants.isArsonable;
-import static micropolisj.engine.TileConstants.isCombustible;
-import static micropolisj.engine.TileConstants.isConductive;
-import static micropolisj.engine.TileConstants.isConstructed;
-import static micropolisj.engine.TileConstants.isFloodable;
-import static micropolisj.engine.TileConstants.isRiverEdge;
-import static micropolisj.engine.TileConstants.isVulnerable;
-import static micropolisj.engine.TileConstants.isZoneCenter;
-import static micropolisj.engine.TileConstants.residentialZonePop;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -55,9 +19,12 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Stack;
+
+import static micropolisj.engine.TileConstants.*;
 
 /**
  * The main simulation engine for Micropolis. The front-end should call
@@ -69,7 +36,7 @@ public class Micropolis {
 	Random PRNG;
 
 	// full size arrays
-	char[][] map;
+	protected char[][] map;
 	boolean[][] powerMap;
 
 	// half-size arrays
@@ -240,7 +207,7 @@ public class Micropolis {
 
 	public CityEval evaluation;
 
-	ArrayList<Sprite> sprites = new ArrayList<Sprite>();
+	protected List<Sprite> sprites = new ArrayList<Sprite>();
 
 	static final int VALVERATE = 2;
 	public static final int CENSUSRATE = 4;
@@ -1513,13 +1480,13 @@ public class Micropolis {
 
 		return count;
 	}
-	
+
 	// TODO: This duplicate of all the above methods is definitely necessary!!
 	void generateRocket(int xpos, int ypos, int xDest, int yDest) {
-//		if(!hasSprite(SpriteKind.ROC)) {
-			RocketSprite rocket = new RocketSprite(this, xpos, ypos, xDest, yDest);
-			sprites.add(rocket);
-//		}
+		// if(!hasSprite(SpriteKind.ROC)) {
+		RocketSprite rocket = new RocketSprite(this, xpos, ypos, xDest, yDest);
+		sprites.add(rocket);
+		// }
 	}
 
 	// called every several cycles; this takes the census data collected in this
@@ -2346,17 +2313,17 @@ public class Micropolis {
 	void makeExplosionAt(int x, int y) {
 		sprites.add(new ExplosionSprite(this, x, y));
 	}
-	
+
 	void makeGiantExplosionAt(int x, int y) {
 		int off = 10;
 		sprites.add(new ExplosionSprite(this, x, y, false));
 		sprites.add(new ExplosionSprite(this, x - off, y, false));
 		sprites.add(new ExplosionSprite(this, x + off, y, false));
 		sprites.add(new ExplosionSprite(this, x, y + off, false));
-		sprites.add(new ExplosionSprite(this, x , y - off, false));
+		sprites.add(new ExplosionSprite(this, x, y - off, false));
 		// TODO: only 1 message report!!
 	}
-	
+
 	/**
 	 * Uses x,y coordinates as 1/16th-length tiles.
 	 */

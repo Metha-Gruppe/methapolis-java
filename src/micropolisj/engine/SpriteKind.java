@@ -8,10 +8,12 @@
 
 package micropolisj.engine;
 
+import java.io.Serializable;
+
 /**
  * Enumeration of the various kinds of sprites that may appear in the city.
  */
-public enum SpriteKind
+public enum SpriteKind implements Serializable
 {
 	TRA(1,5),
 	COP(2,8),

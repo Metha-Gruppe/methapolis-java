@@ -8,7 +8,16 @@
 
 package micropolisj.engine;
 
-import static micropolisj.engine.TileConstants.*;
+import java.io.Serializable;
+
+import static micropolisj.engine.TileConstants.RIVER;
+import static micropolisj.engine.TileConstants.RZB;
+import static micropolisj.engine.TileConstants.TINYEXP;
+import static micropolisj.engine.TileConstants.TREEBASE;
+import static micropolisj.engine.TileConstants.checkWet;
+import static micropolisj.engine.TileConstants.isBridge;
+import static micropolisj.engine.TileConstants.isCombustible;
+import static micropolisj.engine.TileConstants.isZoneCenter;
 
 /**
  * Represents a mobile entity on the city map, such as a tornado or a train.
@@ -17,8 +26,8 @@ import static micropolisj.engine.TileConstants.*;
  * 
  * @see Micropolis#moveObjects
  */
-public abstract class Sprite {
-	Micropolis city;
+public abstract class Sprite implements Serializable {
+	transient Micropolis city;
 
 	// TODO- enforce read-only nature of the following properties
 	// (i.e. do not let them be modified directly by other classes)
@@ -132,12 +141,12 @@ public abstract class Sprite {
 	 */
 	final void explodeSprite() {
 		this.frame = 0;
-		
-		if(kind == SpriteKind.ROC)	{
+
+		if(kind == SpriteKind.ROC) {
 			city.makeGiantExplosionAt(x, y);
 		}
-		else	{			
-			city.makeExplosionAt(x, y);	
+		else {
+			city.makeExplosionAt(x, y);
 		}
 
 		int xpos = x / 16;
