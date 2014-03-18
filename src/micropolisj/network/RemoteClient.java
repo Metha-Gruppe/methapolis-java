@@ -13,8 +13,9 @@ public class RemoteClient extends UnicastRemoteObject implements Serializable{
     
     private String IP;
     
-    public RemoteClient() throws RemoteException{
+    public RemoteClient(String ip) throws RemoteException{
         try {
+            IP = ip;
             server = (IMicropolisServer) Naming.lookup(IP);
             server.setRemoteClient(this);
         } catch (MalformedURLException | NotBoundException e) {
@@ -32,7 +33,7 @@ public class RemoteClient extends UnicastRemoteObject implements Serializable{
         }
     }
     
-    public int[][] getMap() {
+    public MapInfo getMap() {
         try {
             return server.getLatestMap();
         } catch (RemoteException e) {

@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 
 public interface IMicropolisServer extends Remote{
     
-    public int[][] getLatestMap() throws RemoteException;
+    public MapInfo getLatestMap() throws RemoteException;
     
     public void storeInput(int playerID, PlayerInput input) throws RemoteException;
     
