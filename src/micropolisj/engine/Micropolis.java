@@ -66,6 +66,8 @@ import java.util.Stack;
  */
 public class Micropolis
 {
+	public double PoliceRadius =1000.0;
+	public double FireRadius = 1000.0;
 	static final Random DEFAULT_PRNG = new Random();
 
 	Random PRNG;
@@ -1795,10 +1797,10 @@ public class Micropolis
 			(int)Math.floor(32.0 * (double)b.roadFunded / (double)b.roadRequest) :
 			32;
 		policeEffect = b.policeRequest != 0 ?
-			(int)Math.floor(1000.0 * (double)b.policeFunded / (double)b.policeRequest) :
+			(int)Math.floor(PoliceRadius * (double)b.policeFunded / (double)b.policeRequest) :
 			1000;
 		fireEffect = b.fireRequest != 0 ?
-			(int)Math.floor(1000.0 * (double)b.fireFunded / (double)b.fireRequest) :
+			(int)Math.floor(FireRadius * (double)b.fireFunded / (double)b.fireRequest) :
 			1000;
 	}
 
