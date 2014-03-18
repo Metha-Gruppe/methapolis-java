@@ -25,13 +25,6 @@ public class MessagesPane extends JTextPane {
 	}
 
 	public void appendCityMessage(MicropolisMessage message) {
-		// get the keys
-		Enumeration<String> enumeration = cityMessageStrings.getKeys();
-		// print all the keys
-		while(enumeration.hasMoreElements()) {
-			System.out.println("" + enumeration.nextElement());
-		}
-		
 		appendMessageText(cityMessageStrings.getString(message.name()));
 	}
 
