@@ -291,6 +291,7 @@ budgetdlg.requested_hdr = demandé
 budgetdlg.allocation_hdr = Payé
 budgetdlg.road_fund = Transport
 budgetdlg.police_fund = Police
+budgetdlg.research_fund = Recherche
 budgetdlg.fire_fund = Lutte incendie
 budgetdlg.continue = Continuer avec ce budget
 budgetdlg.reset = Revenir à l'ancien budget
