@@ -60,31 +60,35 @@ public enum MicropolisMessage
 	RIOTING_REPORT,
 
 	// added by Jason
-	NO_NUCLEAR_PLANTS;
+	NO_NUCLEAR_PLANTS,
+	
+	// custom messages
+	ROCKETCRASH_REPORT;
 
 	/** Whether the message should be displayed in the notification pane. */
 	public boolean useNotificationPane = false;
 
-	static
-	{
-	// not location-specific
-	POP_2K_REACHED.useNotificationPane = true;
-	POP_10K_REACHED.useNotificationPane = true;
-	POP_50K_REACHED.useNotificationPane = true;
-	POP_100K_REACHED.useNotificationPane = true;
-	POP_500K_REACHED.useNotificationPane = true;
-	HIGH_CRIME.useNotificationPane = true;
-	HIGH_POLLUTION.useNotificationPane = true;
+	static	{
+		// not location-specific
+		POP_2K_REACHED.useNotificationPane = true;
+		POP_10K_REACHED.useNotificationPane = true;
+		POP_50K_REACHED.useNotificationPane = true;
+		POP_100K_REACHED.useNotificationPane = true;
+		POP_500K_REACHED.useNotificationPane = true;
+		HIGH_CRIME.useNotificationPane = true;
+		HIGH_POLLUTION.useNotificationPane = true;
 
-	// location-specific
-	FLOOD_REPORT.useNotificationPane = true;
-	FIRE_REPORT.useNotificationPane = true;
-	TORNADO_REPORT.useNotificationPane = true;
-	MELTDOWN_REPORT.useNotificationPane = true;
-	EARTHQUAKE_REPORT.useNotificationPane = true;
-	TRAIN_CRASH_REPORT.useNotificationPane = true;
-	SHIPWRECK_REPORT.useNotificationPane = true;
-	COPTER_CRASH_REPORT.useNotificationPane = true;
-	PLANECRASH_REPORT.useNotificationPane = true;
+		// location-specific
+		FLOOD_REPORT.useNotificationPane = true;
+		FIRE_REPORT.useNotificationPane = true;
+		TORNADO_REPORT.useNotificationPane = true;
+		MELTDOWN_REPORT.useNotificationPane = true;
+		EARTHQUAKE_REPORT.useNotificationPane = true;
+		TRAIN_CRASH_REPORT.useNotificationPane = true;
+		SHIPWRECK_REPORT.useNotificationPane = true;
+		COPTER_CRASH_REPORT.useNotificationPane = true;
+		PLANECRASH_REPORT.useNotificationPane = true;
+		// custom
+		ROCKETCRASH_REPORT.useNotificationPane = true;
 	}
 }
