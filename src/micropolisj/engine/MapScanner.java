@@ -88,7 +88,7 @@ class MapScanner extends TileBehavior
 			doSeaport();
 			return;
 		case UNIVERSITY:
-			doSeaport();
+			doPoliceStation(); //TODO write doUniversity()
 			return;
 		default:
 			assert false;
@@ -175,6 +175,7 @@ class MapScanner extends TileBehavior
 				i++;
 			}
 		}
+
 
 		// refresh rawTile, tile
 		this.rawTile = city.map[ypos][xpos];
