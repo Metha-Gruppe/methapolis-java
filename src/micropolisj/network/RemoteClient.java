@@ -16,8 +16,10 @@ public class RemoteClient extends UnicastRemoteObject implements Serializable{
     public RemoteClient(String ip) throws RemoteException{
         try {
             IP = ip;
-            server = (IMicropolisServer) Naming.lookup(IP);
-            server.setRemoteClient(this);
+            // TODO: make constants for address
+            server = (IMicropolisServer) Naming.lookup("rmi://" + IP + "/remoteLogic");
+//            server.setRemoteClient(this);
+            System.out.println(">>> connected to server...");
         } catch (MalformedURLException | NotBoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

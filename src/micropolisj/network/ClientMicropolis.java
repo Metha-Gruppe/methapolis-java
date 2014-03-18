@@ -15,9 +15,12 @@ public class ClientMicropolis extends Micropolis{
     
     @Override
     public void animate() {
+    	System.out.println(">>> animating in clientMicropolis");
         MapInfo info = remote.getMap();
-        map = info.map;
-        sprites = info.sprites;
+        if(info != null)	{
+        	map = info.map;
+        	sprites = info.sprites;
+        }
         animateTiles();
     }
 }
