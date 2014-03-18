@@ -88,8 +88,8 @@
 <!-- Achtung: Die Auskommentierung der nächsten beiden Zeilen beim ersten
 Builden vertauschen. Das aber nicht pushen. Nach dem ersten Builden zurücktauschen.  -->
  
-<!-- <target name="build" depends="copy-resources,compile,compose-tiles"> -->
-<target name="build" depends="copy-resources,compile">
+<target name="build" depends="copy-resources,compile,compose-tiles">
+<!--<target name="build" depends="copy-resources,compile"> -->
 
 
 <pathconvert property="runtime-classpath" pathsep=" " refid="build-classpath">

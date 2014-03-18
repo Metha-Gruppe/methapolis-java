@@ -32,9 +32,13 @@ public class RemoteDistributor extends UnicastRemoteObject implements IMicropoli
     }
 
     @Override
-    public MapInfo getLatestMap() throws RemoteException {
+    public synchronized MapInfo getLatestMap() throws RemoteException {
         // TODO --- Threadsafety
         return mapInfo;
+    }
+    
+    public synchronized void setMapInfo(MapInfo mI) {
+        mapInfo = mI;
     }
 
     @Override

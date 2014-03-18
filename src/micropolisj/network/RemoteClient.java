@@ -9,7 +9,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class RemoteClient extends UnicastRemoteObject implements Serializable{
     
-    private IMicropolisServer server;
+    private transient IMicropolisServer server;
     
     private String IP;
     
