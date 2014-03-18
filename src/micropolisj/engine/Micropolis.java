@@ -2058,7 +2058,7 @@ public class Micropolis {
 		}
 	}
 
-	void animateTiles() {
+	protected void animateTiles() {
 		for(int y = 0; y < map.length; y++) {
 			for(int x = 0; x < map[y].length; x++) {
 				char tilevalue = map[y][x];
