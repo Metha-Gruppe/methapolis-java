@@ -4,6 +4,8 @@ import java.rmi.Naming;
 
 public class NetworkServer {
     
+    public static final String NAMING_BIND = "remoteLogic";
+    
     private IMicropolisServer server;
     
     //TODO replace remoteLogic with constant
