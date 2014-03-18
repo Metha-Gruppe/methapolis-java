@@ -42,7 +42,8 @@ public class JoinGameScreen extends JFrame implements ActionListener {
 	private void joinGame() {
 		setVisible(false);
 		try {
-			new MainWindow(new ClientMicropolis(textfield.getText()));
+			MainWindow win = new MainWindow(new ClientMicropolis(textfield.getText()));
+			win.setVisible(true);
 		}
 		catch(RemoteException e) {
 			// TODO Auto-generated catch block
