@@ -2349,11 +2349,11 @@ public class Micropolis {
 	
 	void makeGiantExplosionAt(int x, int y) {
 		int off = 10;
-		sprites.add(new ExplosionSprite(this, x, y));
-		sprites.add(new ExplosionSprite(this, x - off, y));
-		sprites.add(new ExplosionSprite(this, x + off, y));
-		sprites.add(new ExplosionSprite(this, x, y + off));
-		sprites.add(new ExplosionSprite(this, x , y - off));
+		sprites.add(new ExplosionSprite(this, x, y, false));
+		sprites.add(new ExplosionSprite(this, x - off, y, false));
+		sprites.add(new ExplosionSprite(this, x + off, y, false));
+		sprites.add(new ExplosionSprite(this, x, y + off, false));
+		sprites.add(new ExplosionSprite(this, x , y - off, false));
 		// TODO: only 1 message report!!
 	}
 	

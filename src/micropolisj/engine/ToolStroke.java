@@ -95,6 +95,7 @@ public class ToolStroke {
 			case ROCKET:
 				// shoot rocket (aka monster) to location
 				city.generateRocket(0, 0, xpos, ypos);
+				city.spend(MicropolisTool.ROCKET.getToolCost());
 				return false;
 
 			default:

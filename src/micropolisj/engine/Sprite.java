@@ -93,7 +93,7 @@ public abstract class Sprite {
 	 * @return integer between 1 and 8, with 1 == north, 3 == east, 5 == south,
 	 *         7 == west.
 	 */
-	static final int getDir(int orgX, int orgY, int desX, int desY) {
+	static int getDir(int orgX, int orgY, int desX, int desY) {
 		final int Gdtab[] = {
 				0, 3, 2, 1, 3, 4, 5, 7, 6, 5, 7, 8, 1
 		};
@@ -162,10 +162,10 @@ public abstract class Sprite {
 				city.sendMessageAt(MicropolisMessage.COPTER_CRASH_REPORT, xpos, ypos);
 				break;
 			// TODO: message
-//			case ROC:
-//				city.crashLocation = new CityLocation(xpos, ypos);
-//				city.sendMessageAt(MicropolisMessage.ROCKETCRASH_REPORT, xpos, ypos);
-//				break;	
+			case ROC:
+				city.crashLocation = new CityLocation(xpos, ypos);
+				city.sendMessageAt(MicropolisMessage.ROCKETCRASH_REPORT, xpos, ypos);
+				break;
 			default:
 				break;
 		}
