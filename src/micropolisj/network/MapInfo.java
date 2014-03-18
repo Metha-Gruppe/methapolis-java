@@ -1,10 +1,11 @@
 package micropolisj.network;
 
+import java.io.Serializable;
 import java.util.List;
 
 import micropolisj.engine.Sprite;
 
-public class MapInfo {
+public class MapInfo implements Serializable{
     
     public char[][] map;
     public List<Sprite> sprites;

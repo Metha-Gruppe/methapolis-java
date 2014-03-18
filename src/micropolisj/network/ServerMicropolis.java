@@ -22,7 +22,6 @@ public class ServerMicropolis extends Micropolis{
     
     @Override
     public void animate() {
-        super.animate();
         server.setMapInfo(new MapInfo(map, sprites));
     }
 }

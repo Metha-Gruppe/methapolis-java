@@ -34,6 +34,7 @@ public class RemoteDistributor extends UnicastRemoteObject implements IMicropoli
     @Override
     public synchronized MapInfo getLatestMap() throws RemoteException {
         // TODO --- Threadsafety
+        System.out.println("map requested");
         return mapInfo;
     }
     

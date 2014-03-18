@@ -6,6 +6,7 @@ public class NetworkServer {
     
     private IMicropolisServer server;
     
+    //TODO replace remoteLogic with constant
     
     public NetworkServer(IMicropolisServer server) {
         this.server = server;
