@@ -9,14 +9,17 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class RemoteClient extends UnicastRemoteObject implements Serializable{
     
-    private IMicropolisServer server;
+    private transient IMicropolisServer server;
     
     private String IP;
     
-    public RemoteClient() throws RemoteException{
+    public RemoteClient(String ip) throws RemoteException{
         try {
-            server = (IMicropolisServer) Naming.lookup(IP);
-            server.setRemoteClient(this);
+            IP = ip;
+            // TODO: make constants for address
+            server = (IMicropolisServer) Naming.lookup("rmi://" + IP + "/" + NetworkServer.NAMING_BIND);
+//            server.setRemoteClient(this);
+            System.out.println(">>> connected to server...");
         } catch (MalformedURLException | NotBoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -32,7 +35,7 @@ public class RemoteClient extends UnicastRemoteObject implements Serializable{
         }
     }
     
-    public int[][] getMap() {
+    public MapInfo getMap() {
         try {
             return server.getLatestMap();
         } catch (RemoteException e) {

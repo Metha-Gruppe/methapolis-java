@@ -6,5 +6,5 @@ graphics/generated
 /bin
 
 # Eclipse Files #
-.classpath
+# .classpath
 .project

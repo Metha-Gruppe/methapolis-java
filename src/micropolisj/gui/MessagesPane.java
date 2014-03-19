@@ -8,36 +8,35 @@
 
 package micropolisj.gui;
 
-import java.util.*;
-import javax.swing.*;
-import javax.swing.text.*;
+import java.util.Enumeration;
+import java.util.ResourceBundle;
 
-import micropolisj.engine.*;
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyledDocument;
 
-public class MessagesPane extends JTextPane
-{
+import micropolisj.engine.MicropolisMessage;
+
+public class MessagesPane extends JTextPane {
 	static ResourceBundle cityMessageStrings = ResourceBundle.getBundle("micropolisj.CityMessages");
 
-	public MessagesPane()
-	{
+	public MessagesPane() {
 		setEditable(false);
 	}
 
-	public void appendCityMessage(MicropolisMessage message)
-	{
+	public void appendCityMessage(MicropolisMessage message) {
 		appendMessageText(cityMessageStrings.getString(message.name()));
 	}
 
-	void appendMessageText(String messageText)
-	{
+	void appendMessageText(String messageText) {
 		try {
 			StyledDocument doc = getStyledDocument();
-			if (doc.getLength() != 0) {
+			if(doc.getLength() != 0) {
 				doc.insertString(doc.getLength(), "\n", null);
 			}
 			doc.insertString(doc.getLength(), messageText, null);
 		}
-		catch (BadLocationException e) {
+		catch(BadLocationException e) {
 			throw new Error("unexpected", e);
 		}
 	}

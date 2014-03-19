@@ -28,6 +28,8 @@ public class BudgetDialog extends JDialog
 	double origRoadPct;
 	double origFirePct;
 	double origPolicePct;
+	double origResearchPct;
+	
 
 	JLabel roadFundRequest = new JLabel();
 	JLabel roadFundAlloc = new JLabel();
@@ -40,6 +42,11 @@ public class BudgetDialog extends JDialog
 	JLabel fireFundRequest = new JLabel();
 	JLabel fireFundAlloc = new JLabel();
 	JSlider fireFundEntry;
+
+	// Erstellung des Forschungssliders FERTIG
+	JLabel researchFundRequest = new JLabel();
+	JLabel researchFundAlloc = new JLabel();
+	JSlider researchFundEntry;
 
 	JLabel taxRevenueLbl = new JLabel();
 
@@ -54,11 +61,14 @@ public class BudgetDialog extends JDialog
 		int newRoadPct = ((Number) roadFundEntry.getValue()).intValue();
 		int newPolicePct = ((Number) policeFundEntry.getValue()).intValue();
 		int newFirePct = ((Number) fireFundEntry.getValue()).intValue();
+		// Forschung FERTIG
+		int newResearchPct = ((Number) researchFundEntry.getValue()).intValue();
 
 		engine.cityTax = newTaxRate;
 		engine.roadPercent = (double)newRoadPct / 100.0;
 		engine.policePercent = (double)newPolicePct / 100.0;
 		engine.firePercent = (double)newFirePct / 100.0;
+		engine.researchPercent = (double)newResearchPct / 100.0;
 
 		loadBudgetNumbers(false);
 	}
@@ -72,6 +82,7 @@ public class BudgetDialog extends JDialog
 		roadFundEntry.setValue((int)Math.round(b.roadPercent*100.0));
 		policeFundEntry.setValue((int)Math.round(b.policePercent*100.0));
 		fireFundEntry.setValue((int)Math.round(b.firePercent*100.0));
+		researchFundEntry.setValue((int)Math.round(b.firePercent*100.0));
 		}
 
 		taxRevenueLbl.setText(formatFunds(b.taxIncome));
@@ -84,6 +95,11 @@ public class BudgetDialog extends JDialog
 
 		fireFundRequest.setText(formatFunds(b.fireRequest));
 		fireFundAlloc.setText(formatFunds(b.fireFunded));
+		
+		// Forschung NICHT FERTIG
+		
+		researchFundRequest.setText(formatFunds(b.researchRequest));
+		researchFundAlloc.setText(formatFunds(b.researchRequest));
 	}
 
 	static void adjustSliderSize(JSlider slider)
@@ -104,6 +120,9 @@ public class BudgetDialog extends JDialog
 		this.origRoadPct = engine.roadPercent;
 		this.origFirePct = engine.firePercent;
 		this.origPolicePct = engine.policePercent;
+		
+		//Forschung NICHT FERTIG
+		this.origResearchPct = engine.researchPercent;
 
 		// give text fields of the fund-level spinners a minimum size
 		taxRateEntry = new JSpinner(new SpinnerNumberModel(7,0,20,1));
@@ -115,6 +134,8 @@ public class BudgetDialog extends JDialog
 		adjustSliderSize(fireFundEntry);
 		policeFundEntry = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
 		adjustSliderSize(policeFundEntry);
+		researchFundEntry = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
+		adjustSliderSize(researchFundEntry);
 
 		ChangeListener change = new ChangeListener() {
 		public void stateChanged(ChangeEvent ev) {
@@ -125,6 +146,7 @@ public class BudgetDialog extends JDialog
 		roadFundEntry.addChangeListener(change);
 		fireFundEntry.addChangeListener(change);
 		policeFundEntry.addChangeListener(change);
+		researchFundEntry.addChangeListener(change);
 
 		Box mainBox = new Box(BoxLayout.Y_AXIS);
 		mainBox.setBorder(BorderFactory.createEmptyBorder(8,8,8,8));
@@ -234,6 +256,14 @@ public class BudgetDialog extends JDialog
 		fundingRatesPane.add(fireFundEntry, c1);
 		fundingRatesPane.add(fireFundRequest, c2);
 		fundingRatesPane.add(fireFundAlloc, c3);
+		
+		//Forschung NICHT FERTIG
+		c0.gridy = c1.gridy = c2.gridy = c3.gridy = 4;
+		fundingRatesPane.add(new JLabel(strings.getString("budgetdlg.research_fund")), c0);
+		fundingRatesPane.add(researchFundEntry, c1);
+		fundingRatesPane.add(researchFundRequest, c2);
+		fundingRatesPane.add(researchFundAlloc, c3);
+		
 
 		return fundingRatesPane;
 	}

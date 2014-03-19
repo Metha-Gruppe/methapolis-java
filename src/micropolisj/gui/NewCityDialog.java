@@ -12,10 +12,12 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import micropolisj.engine.*;
+import micropolisj.network.ServerMicropolis;
 import static micropolisj.gui.MainWindow.EXTENSION;
 
 public class NewCityDialog extends JDialog
@@ -29,7 +31,11 @@ public class NewCityDialog extends JDialog
 
 	static final ResourceBundle strings = MainWindow.strings;
 
-	public NewCityDialog(MainWindow owner, boolean showCancelOption)
+	public NewCityDialog(MainWindow owner, boolean showCancelOption) {
+	    this(owner, showCancelOption, new Micropolis());
+	}
+	
+	public NewCityDialog(MainWindow owner, boolean showCancelOption, Micropolis engine)
 	{
 		super(owner);
 		setTitle(strings.getString("welcome.caption"));
@@ -41,7 +47,7 @@ public class NewCityDialog extends JDialog
 		p1.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
 		getContentPane().add(p1, BorderLayout.CENTER);
 
-		engine = new Micropolis();
+		this.engine = engine;
 		new MapGenerator(engine).generateNewCity();
 
 		mapPane = new OverlayMapView(engine);

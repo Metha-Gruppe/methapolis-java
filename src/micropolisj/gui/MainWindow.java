@@ -80,6 +80,7 @@ import micropolisj.engine.Speed;
 import micropolisj.engine.ToolResult;
 import micropolisj.engine.ToolStroke;
 import micropolisj.engine.ZoneStatus;
+import micropolisj.network.ServerMicropolis;
 import micropolisj.util.TranslationTool;
 
 public class MainWindow extends JFrame implements Micropolis.Listener, EarthquakeListener {
@@ -1016,6 +1017,11 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		gridBox.add(b6, c);
 
 		b6.add(makeToolBtn(MicropolisTool.AIRPORT));
+		
+		c.gridy++;
+		Box b7 = new Box(BoxLayout.X_AXIS);
+		b5.add(makeToolBtn(MicropolisTool.ROCKET));
+		gridBox.add(b7, c);
 
 		// add glue to make all elements align toward top
 		c.gridy++;
@@ -1056,7 +1062,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 			stopTimer();
 		}
 
-		new NewCityDialog(this, !firstTime).setVisible(true);
+		new NewCityDialog(this, !firstTime, engine).setVisible(true);
 
 		if(timerEnabled) {
 			startTimer();
@@ -1145,6 +1151,30 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		this.lastY = y;
 	}
 
+	private void onToolUp(MouseEvent ev) {
+		if(toolStroke != null) {
+			
+			// prevent toolStroke.apply() being done 2x (same with onToolDrag())
+			if(currentTool == MicropolisTool.ROCKET)	{
+				return;
+			}
+			
+			drawingArea.setToolPreview(null);
+			
+			CityLocation loc = toolStroke.getLocation();
+			ToolResult tr = toolStroke.apply();
+			showToolResult(loc, tr);
+			toolStroke = null;
+		}
+		
+		onToolHover(ev);
+		
+		if(autoBudgetPending) {
+			autoBudgetPending = false;
+			showBudgetWindow(true);
+		}
+	}
+	
 	private void onEscapePressed() {
 		// if currently dragging a tool...
 		if(toolStroke != null) {
@@ -1159,23 +1189,6 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		}
 	}
 
-	private void onToolUp(MouseEvent ev) {
-		if(toolStroke != null) {
-			drawingArea.setToolPreview(null);
-
-			CityLocation loc = toolStroke.getLocation();
-			ToolResult tr = toolStroke.apply();
-			showToolResult(loc, tr);
-			toolStroke = null;
-		}
-
-		onToolHover(ev);
-
-		if(autoBudgetPending) {
-			autoBudgetPending = false;
-			showBudgetWindow(true);
-		}
-	}
 
 	void previewTool() {
 		assert this.toolStroke != null;
@@ -1186,8 +1199,11 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 	}
 
 	private void onToolDrag(MouseEvent ev) {
-		if(currentTool == null)
-			return;
+		// prevent toolStroke.apply() being done 2x (same with onToolUp())
+		if(currentTool == null || currentTool == MicropolisTool.ROCKET)	{
+			return;			
+		}
+		
 		if((ev.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK) == 0)
 			return;
 

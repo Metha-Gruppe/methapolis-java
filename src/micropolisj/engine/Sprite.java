@@ -8,20 +8,28 @@
 
 package micropolisj.engine;
 
-import static micropolisj.engine.TileConstants.*;
+import java.io.Serializable;
+
+import static micropolisj.engine.TileConstants.RIVER;
+import static micropolisj.engine.TileConstants.RZB;
+import static micropolisj.engine.TileConstants.TINYEXP;
+import static micropolisj.engine.TileConstants.TREEBASE;
+import static micropolisj.engine.TileConstants.checkWet;
+import static micropolisj.engine.TileConstants.isBridge;
+import static micropolisj.engine.TileConstants.isCombustible;
+import static micropolisj.engine.TileConstants.isZoneCenter;
 
 /**
- * Represents a mobile entity on the city map, such as a tornado
- * or a train. There can be any number present in a city, and each one
- * gets a chance to act on every tick of the simulation.
- *
+ * Represents a mobile entity on the city map, such as a tornado or a train.
+ * There can be any number present in a city, and each one gets a chance to act
+ * on every tick of the simulation.
+ * 
  * @see Micropolis#moveObjects
  */
-public abstract class Sprite
-{
-	Micropolis city;
+public abstract class Sprite implements Serializable {
+	transient Micropolis city;
 
-	//TODO- enforce read-only nature of the following properties
+	// TODO- enforce read-only nature of the following properties
 	// (i.e. do not let them be modified directly by other classes)
 
 	public SpriteKind kind;
@@ -40,35 +48,41 @@ public abstract class Sprite
 
 	int dir;
 
-	protected Sprite(Micropolis engine, SpriteKind kind)
-	{
+	protected Sprite(Micropolis engine, SpriteKind kind) {
 		this.city = engine;
 		this.kind = kind;
 	}
 
-	protected final int getChar(int x, int y)
-	{
+	protected final int getChar(int x, int y) {
 		int xpos = x / 16;
 		int ypos = y / 16;
-		if (city.testBounds(xpos, ypos)) {
+		if(city.testBounds(xpos, ypos)) {
 			return city.getTile(xpos, ypos);
-		} else {
+		}
+		else {
 			return -1;
 		}
 	}
 
+	protected int tilePosToPixel(int x) {
+		return x * 16 + 8;
+	}
+
+	protected int pixelToTilePos(int x) {
+		return (x - 8) / 16;
+	}
+
 	/**
-	 * For subclasses to override. Actually does the movement and animation
-	 * of this particular sprite. Setting this.frame to zero will cause the
-	 * sprite to be unallocated.
+	 * For subclasses to override. Actually does the movement and animation of
+	 * this particular sprite. Setting this.frame to zero will cause the sprite
+	 * to be unallocated.
 	 */
 	protected abstract void moveImpl();
 
 	/**
 	 * Perform this agent's movement and animation.
 	 */
-	public final void move()
-	{
+	public final void move() {
 		lastX = x;
 		lastY = y;
 		moveImpl();
@@ -78,22 +92,20 @@ public abstract class Sprite
 	/**
 	 * Tells whether this sprite is visible.
 	 */
-	public final boolean isVisible()
-	{
+	public final boolean isVisible() {
 		return this.frame != 0;
 	}
 
 	/**
 	 * Computes direction from one point to another.
-	 * @return integer between 1 and 8, with
-	 *          1 == north,
-	 *          3 == east,
-	 *          5 == south,
-	 *          7 == west.
+	 * 
+	 * @return integer between 1 and 8, with 1 == north, 3 == east, 5 == south,
+	 *         7 == west.
 	 */
-	static final int getDir(int orgX, int orgY, int desX, int desY)
-	{
-		final int Gdtab [] = { 0, 3, 2, 1, 3, 4, 5, 7, 6, 5, 7, 8, 1 };
+	static int getDir(int orgX, int orgY, int desX, int desY) {
+		final int Gdtab[] = {
+				0, 3, 2, 1, 3, 4, 5, 7, 6, 5, 7, 8, 1
+		};
 		int dispX = desX - orgX;
 		int dispY = desY - orgY;
 
@@ -103,10 +115,12 @@ public abstract class Sprite
 		dispY = Math.abs(dispY);
 		int absDist = dispX + dispY;
 
-		if (dispX * 2 < dispY)      z++;
-		else if (dispY * 2 < dispX) z--;
+		if(dispX * 2 < dispY)
+			z++;
+		else if(dispY * 2 < dispX)
+			z--;
 
-		if (z >= 1 && z <= 12) {
+		if(z >= 1 && z <= 12) {
 			return Gdtab[z];
 		}
 		else {
@@ -118,40 +132,51 @@ public abstract class Sprite
 	/**
 	 * Computes manhatten distance between two points.
 	 */
-	static final int getDis(int x0, int y0, int x1, int y1)
-	{
-		return Math.abs(x0-x1) + Math.abs(y0-y1);
+	static final int getDis(int x0, int y0, int x1, int y1) {
+		return Math.abs(x0 - x1) + Math.abs(y0 - y1);
 	}
 
 	/**
 	 * Replaces this sprite with an exploding sprite.
 	 */
-	final void explodeSprite()
-	{
+	final void explodeSprite() {
 		this.frame = 0;
 
-		city.makeExplosionAt(x, y);
-		int xpos = x/16;
-		int ypos = y/16;
+		if(kind == SpriteKind.ROC) {
+			city.makeGiantExplosionAt(x, y);
+		}
+		else {
+			city.makeExplosionAt(x, y);
+		}
 
-		switch (kind) {
-		case AIR:
-			city.crashLocation = new CityLocation(xpos, ypos);
-			city.sendMessageAt(MicropolisMessage.PLANECRASH_REPORT, xpos, ypos);
-			break;
-		case SHI:
-			city.crashLocation = new CityLocation(xpos, ypos);
-			city.sendMessageAt(MicropolisMessage.SHIPWRECK_REPORT, xpos, ypos);
-			break;
-		case TRA:
-		case BUS:
-			city.crashLocation = new CityLocation(xpos, ypos);
-			city.sendMessageAt(MicropolisMessage.TRAIN_CRASH_REPORT, xpos, ypos);
-			break;
-		case COP:
-			city.crashLocation = new CityLocation(xpos, ypos);
-			city.sendMessageAt(MicropolisMessage.COPTER_CRASH_REPORT, xpos, ypos);
-			break;
+		int xpos = x / 16;
+		int ypos = y / 16;
+
+		switch(kind) {
+			case AIR:
+				city.crashLocation = new CityLocation(xpos, ypos);
+				city.sendMessageAt(MicropolisMessage.PLANECRASH_REPORT, xpos, ypos);
+				break;
+			case SHI:
+				city.crashLocation = new CityLocation(xpos, ypos);
+				city.sendMessageAt(MicropolisMessage.SHIPWRECK_REPORT, xpos, ypos);
+				break;
+			case TRA:
+			case BUS:
+				city.crashLocation = new CityLocation(xpos, ypos);
+				city.sendMessageAt(MicropolisMessage.TRAIN_CRASH_REPORT, xpos, ypos);
+				break;
+			case COP:
+				city.crashLocation = new CityLocation(xpos, ypos);
+				city.sendMessageAt(MicropolisMessage.COPTER_CRASH_REPORT, xpos, ypos);
+				break;
+			// TODO: message
+			case ROC:
+				city.crashLocation = new CityLocation(xpos, ypos);
+				city.sendMessageAt(MicropolisMessage.ROCKETCRASH_REPORT, xpos, ypos);
+				break;
+			default:
+				break;
 		}
 
 		city.makeSound(xpos, ypos, Sound.EXPLOSION_HIGH);
@@ -159,42 +184,43 @@ public abstract class Sprite
 
 	/**
 	 * Checks whether another sprite is in collision ranges.
+	 * 
 	 * @return true iff the sprite is in collision range
 	 */
-	final boolean checkSpriteCollision(Sprite otherSprite)
-	{
-		if (!isVisible()) return false;
-		if (!otherSprite.isVisible()) return false;
+	final boolean checkSpriteCollision(Sprite otherSprite) {
+		if(!isVisible())
+			return false;
+		if(!otherSprite.isVisible())
+			return false;
 
 		return (getDis(this.x, this.y, otherSprite.x, otherSprite.y) < 30);
 	}
 
 	/**
-	 * Destroys whatever is at the specified location,
-	 * replacing it with fire, rubble, or water as appropriate.
+	 * Destroys whatever is at the specified location, replacing it with fire,
+	 * rubble, or water as appropriate.
 	 */
-	final void destroyTile(int xpos, int ypos)
-	{
-		if (!city.testBounds(xpos, ypos))
+	final void destroyTile(int xpos, int ypos) {
+		if(!city.testBounds(xpos, ypos))
 			return;
 
 		int t = city.getTile(xpos, ypos);
 
-		if (t >= TREEBASE) {
-			if (isBridge(t)) {
+		if(t >= TREEBASE) {
+			if(isBridge(t)) {
 				city.setTile(xpos, ypos, RIVER);
 				return;
 			}
-			if (!isCombustible(t)) {
-				return; //cannot destroy it
+			if(!isCombustible(t)) {
+				return; // cannot destroy it
 			}
-			if (isZoneCenter(t)) {
+			if(isZoneCenter(t)) {
 				city.killZone(xpos, ypos, t);
-				if (t > RZB) {
+				if(t > RZB) {
 					city.makeExplosion(xpos, ypos);
 				}
 			}
-			if (checkWet(t)) {
+			if(checkWet(t)) {
 				city.setTile(xpos, ypos, RIVER);
 			}
 			else {
@@ -205,24 +231,32 @@ public abstract class Sprite
 
 	/**
 	 * Helper function for rotating a sprite.
-	 * @param p the sprite's current attitude (1-8)
-	 * @param d the desired attitude (1-8)
+	 * 
+	 * @param p
+	 *            the sprite's current attitude (1-8)
+	 * @param d
+	 *            the desired attitude (1-8)
 	 * @return the new attitude
 	 */
-	static final int turnTo(int p, int d)
-	{
-		if (p == d)
+	static final int turnTo(int p, int d) {
+		if(p == d)
 			return p;
-		if (p < d) {
-			if (d - p < 4) p++;
-			else           p--;
+		if(p < d) {
+			if(d - p < 4)
+				p++;
+			else
+				p--;
 		}
 		else {
-			if (p - d < 4) p--;
-			else           p++;
+			if(p - d < 4)
+				p--;
+			else
+				p++;
 		}
-		if (p > 8) return 1;
-		if (p < 1) return 8;
+		if(p > 8)
+			return 1;
+		if(p < 1)
+			return 8;
 		return p;
 	}
 

@@ -19,7 +19,7 @@ public class RemoteDistributor extends UnicastRemoteObject implements IMicropoli
     
     
     private transient Micropolis micropolis;
-    private int[][] map;
+    private MapInfo mapInfo;
     private Map<PlayerInput, Integer> events;
     
     private String levelName;
@@ -32,9 +32,14 @@ public class RemoteDistributor extends UnicastRemoteObject implements IMicropoli
     }
 
     @Override
-    public int[][] getLatestMap() throws RemoteException {
+    public synchronized MapInfo getLatestMap() throws RemoteException {
         // TODO --- Threadsafety
-        return map;
+        System.out.println("map requested");
+        return mapInfo;
+    }
+    
+    public synchronized void setMapInfo(MapInfo mI) {
+        mapInfo = mI;
     }
 
     @Override
