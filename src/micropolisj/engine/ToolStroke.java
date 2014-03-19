@@ -90,8 +90,11 @@ public class ToolStroke {
 
 			case AIRPORT:
 				return applyZone(eff, AIRPORT);
-
+				
 				// CUSTOM TOOLS
+			case UNIVERSITY:
+				return applyZone(eff, UNIVERSITY);
+
 			case ROCKET:
 				// shoot rocket (aka monster) to location
 				city.generateRocket(0, 0, xpos, ypos);
