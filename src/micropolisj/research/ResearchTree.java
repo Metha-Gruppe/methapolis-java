@@ -36,6 +36,9 @@ public class ResearchTree {
 
 		@Override
 		public String getIcon() {return "/firestation.png";}
+		
+		@Override
+		public int getCost() {return 15;}
 		//@Override
 		//public int getId(){return 0;}
 
@@ -52,6 +55,9 @@ public class ResearchTree {
 
 		@Override
 		public String getIcon() {return "/coal.png";}
+
+		@Override
+		public int getCost() {return 20;}
 		//@Override
 		//public int getId(){return 0;}
 
