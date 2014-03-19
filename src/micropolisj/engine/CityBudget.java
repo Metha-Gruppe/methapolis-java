@@ -38,6 +38,11 @@ public class CityBudget
 	 */
 	int policeFundEscrow;
 
+	/**
+	 * Amount of prepaid research station maintenance (in 1/TAXFREQ's).
+	 */
+	int researchFundEscrow;
+
 	CityBudget(Micropolis city)
 	{
 		this.city = city;

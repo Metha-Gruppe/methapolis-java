@@ -22,6 +22,7 @@ HIGH_CRIME           = Criminalité très élevée.
 HIGH_TRAFFIC         = Des difficultés de circulation sont fréquemment reportées.
 NEED_FIRESTATION     = Les citoyens demandent une caserne de pompiers.
 NEED_POLICE          = Les citoyens demandent un poste de police.
+NEED_RESEARCH        = FRENCH, Arthur pretty pls <3: Ihr ben\u00F6tigt eine Akademie zum Forschen.
 BLACKOUTS            = Pannes de courant reportées. Vérifier la carte énergétique.
 HIGH_TAXES           = Les citoyens sont furieux. L'impôt est beaucoup trop élevé.
 ROADS_NEED_FUNDING   = Les routes s'abîment, à cause du manque d'investissements.
