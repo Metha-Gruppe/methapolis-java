@@ -144,7 +144,7 @@ public class Micropolis {
 	int airportCount;
 	
 	//Custom Counting
-	int universityCount;
+//	int universityCount; //Changeswp
 
 	int totalPop;
 	int lastCityPop;
@@ -1367,12 +1367,11 @@ public class Micropolis {
 		bb.put("NUCLEAR", new MapScanner(this, MapScanner.B.NUCLEAR));
 		bb.put("FIRESTATION", new MapScanner(this, MapScanner.B.FIRESTATION));
 		bb.put("POLICESTATION", new MapScanner(this, MapScanner.B.POLICESTATION));
-		bb.put("RESEARCHSTATION",new MapScanner(this, MapScanner.B.RESEARCHSTATION)); //Changeswp
 		bb.put("STADIUM_EMPTY", new MapScanner(this, MapScanner.B.STADIUM_EMPTY));
 		bb.put("STADIUM_FULL", new MapScanner(this, MapScanner.B.STADIUM_FULL));
 		bb.put("AIRPORT", new MapScanner(this, MapScanner.B.AIRPORT));
 		bb.put("SEAPORT", new MapScanner(this, MapScanner.B.SEAPORT));
-		bb.put("UNIVERSITY", new MapScanner(this, MapScanner.B.UNIVERSITY));
+		bb.put("RESEARCH", new MapScanner(this, MapScanner.B.RESEARCH));
 
 		this.tileBehaviors = bb;
 	}

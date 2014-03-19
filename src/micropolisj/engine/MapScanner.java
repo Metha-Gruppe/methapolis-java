@@ -44,7 +44,7 @@ class MapScanner extends TileBehavior
 		STADIUM_FULL,
 		AIRPORT,
 		SEAPORT,
-		UNIVERSITY;
+		RESEARCH;
 	}
 
 	@Override
@@ -87,7 +87,7 @@ class MapScanner extends TileBehavior
 		case SEAPORT:
 			doSeaport();
 			return;
-		case UNIVERSITY:
+		case RESEARCH:
 			doUniversity();
 			return;
 		default:
@@ -266,7 +266,7 @@ class MapScanner extends TileBehavior
 	void doUniversity()
 	{
 		boolean powerOn = checkZonePower();
-		city.universityCount++;
+		city.researchCount++;
 		if ((city.cityTime % 8) == 0) {
 			repairZone(UNIVERSITY, 3);
 		}
