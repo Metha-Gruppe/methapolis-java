@@ -152,7 +152,7 @@ public class TileConstants {
 	static final char VBRDG1 = 949;
 	static final char VBRDG2 = 950;
 	static final char VBRDG3 = 951;
-	static final char UNIVERSITY = 960;
+	static final char UNIVERSITY = 964;
 	public static final char LAST_TILE = 968;
 
 	// TOCOMMENT where the order in these arrays comes from

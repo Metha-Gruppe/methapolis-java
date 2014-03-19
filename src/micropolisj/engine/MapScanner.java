@@ -88,7 +88,7 @@ class MapScanner extends TileBehavior
 			doSeaport();
 			return;
 		case UNIVERSITY:
-			doPoliceStation(); //TODO write doUniversity()
+			doUniversity();
 			return;
 		default:
 			assert false;
@@ -258,6 +258,34 @@ class MapScanner extends TileBehavior
 		}
 
 		city.policeMap[ypos/8][xpos/8] += z;
+	}
+	
+	/**
+	 * TODO: make senseful comment
+	 */
+	void doUniversity()
+	{
+		boolean powerOn = checkZonePower();
+		city.universityCount++;
+		if ((city.cityTime % 8) == 0) {
+			repairZone(UNIVERSITY, 3);
+		}
+//		Following code disabled for University copied from PoliceStation
+//		TODO: Insert sense
+//		int z;
+//		if (powerOn) {
+//			z = city.policeEffect;
+//		} else {
+//			z = city.policeEffect / 2;
+//		}
+//
+//		traffic.mapX = xpos;
+//		traffic.mapY = ypos;
+//		if (!traffic.findPerimeterRoad()) {
+//			z /= 2;
+//		}
+//
+//		city.policeMap[ypos/8][xpos/8] += z;
 	}
 
 	void doStadiumEmpty()

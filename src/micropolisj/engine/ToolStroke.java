@@ -99,7 +99,7 @@ public class ToolStroke
 			return applyZone(eff, AIRPORT);
 			
 		case UNIVERSITY:
-			return applyZone(eff, POLICESTATION);
+			return applyZone(eff, UNIVERSITY);
 
 		default:
 			// not expected
