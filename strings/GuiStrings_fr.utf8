@@ -110,6 +110,8 @@ menu.windows = Fenêtres
 menu.windows.budget = Budget
 menu.windows.evaluation = Évaluation
 menu.windows.graph = Graphiques
+menu.windows.research = Recherche
+menu.windows.research.key = R
 
 menu.help = Aide
 menu.help.launch-translation-tool = Lancer l'outil de traduction

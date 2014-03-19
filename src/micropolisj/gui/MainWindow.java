@@ -127,6 +127,8 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		setIconImage(appIcon.getImage());
 
 		this.engine = engine;
+		
+		engine.researchState.setLocationRelativeTo(this);
 
 		JPanel mainArea = new JPanel(new BorderLayout());
 		add(mainArea, BorderLayout.CENTER);
@@ -739,6 +741,15 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		menuItem.addActionListener(wrapActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
 				onViewEvaluationClicked();
+			}
+		}));
+		windowsMenu.add(menuItem);
+
+		menuItem = new JMenuItem(strings.getString("menu.windows.research"));
+		setupKeys(menuItem, "menu.windows.research");
+		menuItem.addActionListener(wrapActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				onViewResearchClicked();
 			}
 		}));
 		windowsMenu.add(menuItem);
@@ -1556,6 +1567,12 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 
 	void onViewEvaluationClicked() {
 		evaluationPane.setVisible(true);
+	}
+
+	void onViewResearchClicked() {
+		engine.researchState.showResearchPanel();
+		//dirty1 = true;
+		//showBudgetWindow(false);
 	}
 
 	void onViewGraphClicked() {

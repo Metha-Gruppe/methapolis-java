@@ -8,7 +8,7 @@ import java.util.*;
 
 import javax.swing.*;
 
-public class ResearchState extends JPanel implements ActionListener {
+public class ResearchState extends JFrame implements ActionListener {
 	
 	int rocket_speed = 1;
 	
@@ -16,8 +16,12 @@ public class ResearchState extends JPanel implements ActionListener {
 	
 	HashSet<Integer> reached_nodes = new HashSet<Integer>();
 	
-	int research_points = 0;
+	int researchPoints = 0;
 	
+	int buttonWidth = 150;
+	int buttonHeight = 75;
+	int maxWidth = 0;
+	int maxHeight = 0;
 	JButton [] buttons;
 
 	public ResearchState(){
@@ -32,10 +36,21 @@ public class ResearchState extends JPanel implements ActionListener {
 			buttons[node_id] = new JButton("<html>"+node.getDesc()+"</html>");
 			buttons[node_id].setBounds(new Rectangle(tree.positionsX[node_id], tree.positionsY[node_id], 100, 50));
 
+			maxWidth = Math.max(maxWidth, tree.positionsX[node_id] + buttonWidth);
+			maxHeight = Math.max(maxHeight, tree.positionsY[node_id] + buttonHeight);
+			
 			add(buttons[node_id]);
 		}
 		
 		refreshPanel();
+		
+		setVisible(false);
+	}
+	
+	public void showResearchPanel(){
+		setBounds(200, 200, maxWidth, maxHeight + 200);
+		
+		setVisible(true);
 	}
 	
 	private void refreshPanel(){
