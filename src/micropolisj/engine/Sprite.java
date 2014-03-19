@@ -52,6 +52,10 @@ public abstract class Sprite implements Serializable {
 		this.city = engine;
 		this.kind = kind;
 	}
+	
+	public void setMicropolis(Micropolis micro) {
+	    city = micro;
+	}
 
 	protected final int getChar(int x, int y) {
 		int xpos = x / 16;

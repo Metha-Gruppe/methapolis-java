@@ -927,6 +927,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 				: tool.name();
 
 		JToggleButton btn = new JToggleButton();
+		System.out.println(iconName);
 		btn.setIcon(new ImageIcon(MainWindow.class.getResource(iconName)));
 		btn.setSelectedIcon(new ImageIcon(MainWindow.class.getResource(iconSelectedName)));
 		btn.setToolTipText(tipText);

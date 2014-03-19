@@ -2050,7 +2050,7 @@ public class Micropolis {
 		return sprites.toArray(new Sprite[0]);
 	}
 
-	void moveObjects() {
+	protected void moveObjects() {
 		for(Sprite sprite : allSprites()) {
 			sprite.move();
 
