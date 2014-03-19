@@ -98,8 +98,8 @@ public class Micropolis {
 	int[][] policeMap; // police stations- cleared and rebuilt each sim cycle
 	public int[][] policeMapEffect;// police stations reach- used for overlay
 									// graphs
-	int[][] researchMap; // research labs- cleared and rebuilt each cylce
-	//public int[][] researchMapEffect; // Map Overlay = unused atm
+	int[][] researchMap; // research labs- cleared and rebuilt each cycle
+	public int[][] researchMapEffect; // Map Overlay = unused atm
 
 	/**
 	 * For each 8x8 section of city, this is an integer between 0 and 64, with
@@ -142,9 +142,6 @@ public class Micropolis {
 	int nuclearCount;
 	int seaportCount;
 	int airportCount;
-	
-	//Custom Counting
-//	int universityCount; //Changeswp
 
 	int totalPop;
 	int lastCityPop;
@@ -199,7 +196,7 @@ public class Micropolis {
 	int roadEffect = 32;
 	int policeEffect = 1000;
 	int fireEffect = 1000;
-	int researchEffect = 2500; //changeswp
+	int researchEffect = 1000; //changeswp
 
 	int cashFlow; // net change in totalFunds in previous year
 
@@ -1371,7 +1368,7 @@ public class Micropolis {
 		bb.put("STADIUM_FULL", new MapScanner(this, MapScanner.B.STADIUM_FULL));
 		bb.put("AIRPORT", new MapScanner(this, MapScanner.B.AIRPORT));
 		bb.put("SEAPORT", new MapScanner(this, MapScanner.B.SEAPORT));
-		bb.put("RESEARCH", new MapScanner(this, MapScanner.B.RESEARCH));
+		bb.put("UNIVERSITY", new MapScanner(this, MapScanner.B.UNIVERSITY));
 
 		this.tileBehaviors = bb;
 	}
@@ -1637,14 +1634,13 @@ public class Micropolis {
 		budget.roadFundEscrow -= b.roadFunded;
 		budget.fireFundEscrow -= b.fireFunded;
 		budget.policeFundEscrow -= b.policeFunded;
-		budget.researchFundEscrow -= b.policeFunded; //changeswp
+		budget.researchFundEscrow -= b.researchFunded; //changeswp
 
 		taxEffect = b.taxRate;
 		roadEffect = b.roadRequest != 0 ? (int) Math.floor(32.0 * (double) b.roadFunded / (double) b.roadRequest) : 32;
-		policeEffect = b.policeRequest != 0 ? (int) Math.floor(1000.0 * (double) b.policeFunded / (double) b.policeRequest)
-				: 1000;
+		policeEffect = b.policeRequest != 0 ? (int) Math.floor(1000.0 * (double) b.policeFunded / (double) b.policeRequest): 1000;
 		fireEffect = b.fireRequest != 0 ? (int) Math.floor(1000.0 * (double) b.fireFunded / (double) b.fireRequest) : 1000;
-		researchEffect = b.researchRequest != 0 ? (int) Math.floor(1000.0 * (double) b.researchFunded / (double) b.researchRequest) : 3500; //changeswp
+		researchEffect = b.researchRequest != 0 ? (int) Math.floor(1000.0 * (double) b.researchFunded / (double) b.researchRequest) : 1000; //changeswp
 	}
 
 	public static class FinancialHistory {
@@ -1686,7 +1682,7 @@ public class Micropolis {
 	static final int FIRE_STATION_MAINTENANCE = 100;
 
 	/** Annual maintenance cost of each academy. */
-	static final int RESEARCH_STATION_MAINTENANCE = 350; //changeswp
+	static final int RESEARCH_STATION_MAINTENANCE = 225; //changeswp
 
 	/**
 	 * Calculate the current budget numbers.
@@ -1873,12 +1869,12 @@ public class Micropolis {
 		//
 		long n = dis.readInt(); // 58,59... police percent
 		policePercent = (double) n / 65536.0;
+		n = dis.readInt(); //changeswp 49... research percent
+		researchPercent = (double) n / 65536.0;
 		n = dis.readInt(); // 60,61... fire percent
 		firePercent = (double) n / 65536.0;
 		n = dis.readInt(); // 62,63... road percent
 		roadPercent = (double) n / 65536.0;
-		n = dis.readInt(); //changeswp 49... research percent
-		researchPercent = (double) n / 65536.0;
 
 		for(int i = 64; i < 120; i++) {
 			dis.readShort();
@@ -1930,8 +1926,6 @@ public class Micropolis {
 		for(int i = 18; i < 49; i++) {
 			out.writeShort(0);
 		}
-		// 49
-		out.writeInt((int) (researchPercent * 65536));//changeswp ACHTUNG HEAVY VIELLEICHT EINS FRÜHER
 		// 50
 		out.writeInt(budget.totalFunds);
 		out.writeShort(autoBulldoze ? 1 : 0);
@@ -1946,6 +1940,7 @@ public class Micropolis {
 		out.writeInt((int) (policePercent * 65536));
 		out.writeInt((int) (firePercent * 65536));
 		out.writeInt((int) (roadPercent * 65536));
+		out.writeInt((int) (researchPercent * 65536));//changeswp ACHTUNG HEAVY -1 in Schleife verändert
 		
 
 		// 64
@@ -2492,7 +2487,7 @@ public class Micropolis {
 				}
 				break;
 			case 49:
-				if(researchEffect > 1500 && researchCount == 0) { //changeswp
+				if(researchEffect < 700 && researchCount == 0) { //changeswp
 					sendMessage(MicropolisMessage.NEED_RESEARCH);
 				}
 				break;
