@@ -8,10 +8,12 @@
 
 package micropolisj.engine;
 
+import java.io.Serializable;
+
 import static micropolisj.engine.TileConstants.*;
 
-public class ToolStroke {
-	final Micropolis city;
+public class ToolStroke implements Serializable{
+	transient Micropolis city;
 	final MicropolisTool tool;
 	int xpos;
 	int ypos;
@@ -28,6 +30,10 @@ public class ToolStroke {
 		this.ydest = ypos;
 	}
 
+	public void setCity(Micropolis engine) {
+	    city = engine;
+	}
+	
 	public final ToolPreview getPreview() {
 		ToolEffect eff = new ToolEffect(city);
 		inPreview = true;
@@ -93,10 +99,10 @@ public class ToolStroke {
 
 				// CUSTOM TOOLS
 			case ROCKET:
-				// shoot rocket (aka monster) to location
+				// shoot rocket (aka Plane) to location
 				city.generateRocket(0, 0, xpos, ypos);
 				city.spend(MicropolisTool.ROCKET.getToolCost());
-				return false;
+				return true;
 
 			default:
 				// not expected

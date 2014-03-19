@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 
 import micropolisj.engine.Micropolis;
 import micropolisj.engine.Sprite;
+import micropolisj.engine.ToolStroke;
 
 public class ClientMicropolis extends Micropolis{
     
@@ -16,16 +17,27 @@ public class ClientMicropolis extends Micropolis{
     
     @Override
     public void animate() {
-    	System.out.println(">>> animating in clientMicropolis");
+        System.out.println(">>> animating in clientMicropolis");
         MapInfo info = remote.getMap();
-        if(info != null)	{
+        applyMapInfo(info);
+        animateTiles();
+        moveObjects();
+    }
+    
+    private void applyMapInfo(MapInfo info) {
+        if(info != null)    {
             map = info.map;
             sprites = info.sprites;
             for(Sprite sprite : sprites) {
                 sprite.setMicropolis(this);
             }
+            budget.setValues(info.cityBudget);
+            fireFundsChanged();
         }
-        animateTiles();
-        moveObjects();
+    }
+    
+    public void toolUsed(ToolStroke tool) {
+        PlayerInput input = new PlayerInput(tool);
+        remote.sendInput(1, input);
     }
 }

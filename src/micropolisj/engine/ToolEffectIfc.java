@@ -8,7 +8,9 @@
 
 package micropolisj.engine;
 
-public interface ToolEffectIfc
+import java.io.Serializable;
+
+public interface ToolEffectIfc extends Serializable
 {
 	/**
 	 * Gets the tile at a relative location.

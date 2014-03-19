@@ -296,19 +296,19 @@ public class Micropolis {
 		}
 	}
 
-	void fireEvaluationChanged() {
+	protected void fireEvaluationChanged() {
 		for(Listener l : listeners) {
 			l.evaluationChanged();
 		}
 	}
 
-	void fireFundsChanged() {
+	protected void fireFundsChanged() {
 		for(Listener l : listeners) {
 			l.fundsChanged();
 		}
 	}
 
-	void fireMapOverlayDataChanged(MapState overlayDataType) {
+	protected void fireMapOverlayDataChanged(MapState overlayDataType) {
 		for(MapListener l : mapListeners) {
 			l.mapOverlayDataChanged(overlayDataType);
 		}
@@ -326,13 +326,13 @@ public class Micropolis {
 		}
 	}
 
-	void fireTileChanged(int xpos, int ypos) {
+	protected void fireTileChanged(int xpos, int ypos) {
 		for(MapListener l : mapListeners) {
 			l.tileChanged(xpos, ypos);
 		}
 	}
 
-	void fireWholeMapChanged() {
+	protected void fireWholeMapChanged() {
 		for(MapListener l : mapListeners) {
 			l.wholeMapChanged();
 		}
@@ -1367,7 +1367,7 @@ public class Micropolis {
 		this.tileBehaviors = bb;
 	}
 
-	void mapScan(int x0, int x1) {
+	protected void mapScan(int x0, int x1) {
 		for(int x = x0; x < x1; x++) {
 			for(int y = 0; y < getHeight(); y++) {
 				mapScanTile(x, y);

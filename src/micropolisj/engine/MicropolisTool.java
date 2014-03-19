@@ -8,12 +8,14 @@
 
 package micropolisj.engine;
 
+import java.io.Serializable;
+
 
 /**
  * Enumerates the various tools that can be applied to the map by the user.
  * Call the tool's apply() method to actually use the tool on the map.
  */
-public enum MicropolisTool
+public enum MicropolisTool implements Serializable
 {
 	BULLDOZER(1, 1),
 	WIRE(1, 5),   //cost=25 for underwater

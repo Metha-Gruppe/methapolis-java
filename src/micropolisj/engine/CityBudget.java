@@ -8,9 +8,11 @@
 
 package micropolisj.engine;
 
-public class CityBudget
+import java.io.Serializable;
+
+public class CityBudget implements Serializable
 {
-	private final Micropolis city;
+	private transient Micropolis city;
 
 	/**
 	 * The amount of cash on hand.
@@ -38,8 +40,20 @@ public class CityBudget
 	 */
 	int policeFundEscrow;
 
-	CityBudget(Micropolis city)
+	public CityBudget(Micropolis city)
 	{
-		this.city = city;
+		setEngine(city);
 	}
+	
+	public void setEngine(Micropolis city) {
+	    this.city = city;
+	}
+
+    public void setValues(CityBudget cityBudget) {
+        totalFunds = cityBudget.totalFunds;
+        taxFund = cityBudget.taxFund;
+        roadFundEscrow = cityBudget.roadFundEscrow;
+        fireFundEscrow = cityBudget.fireFundEscrow;
+        policeFundEscrow = cityBudget.policeFundEscrow;
+    }
 }

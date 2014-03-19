@@ -43,8 +43,12 @@ public class RemoteDistributor extends UnicastRemoteObject implements IMicropoli
     }
 
     @Override
-    public void storeInput(int playerID, PlayerInput input) throws RemoteException {
+    public synchronized void storeInput(int playerID, PlayerInput input) throws RemoteException {
         events.put(input, playerID);
+    }
+    
+    public synchronized Map<PlayerInput, Integer> getInput() {
+        return events;
     }
 
     @Override

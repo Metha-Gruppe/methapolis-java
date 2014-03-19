@@ -80,7 +80,7 @@ import micropolisj.engine.Speed;
 import micropolisj.engine.ToolResult;
 import micropolisj.engine.ToolStroke;
 import micropolisj.engine.ZoneStatus;
-import micropolisj.network.ServerMicropolis;
+import micropolisj.network.ClientMicropolis;
 import micropolisj.util.TranslationTool;
 
 public class MainWindow extends JFrame implements Micropolis.Listener, EarthquakeListener {
@@ -927,7 +927,6 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 				: tool.name();
 
 		JToggleButton btn = new JToggleButton();
-		System.out.println(iconName);
 		btn.setIcon(new ImageIcon(MainWindow.class.getResource(iconName)));
 		btn.setSelectedIcon(new ImageIcon(MainWindow.class.getResource(iconSelectedName)));
 		btn.setToolTipText(tipText);
@@ -1163,6 +1162,12 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 			drawingArea.setToolPreview(null);
 			
 			CityLocation loc = toolStroke.getLocation();
+			//Custom: for client-send
+			if(engine instanceof ClientMicropolis) {
+			    ((ClientMicropolis)engine).toolUsed(toolStroke);
+			    toolStroke = null;
+			    return;
+			}
 			ToolResult tr = toolStroke.apply();
 			showToolResult(loc, tr);
 			toolStroke = null;
