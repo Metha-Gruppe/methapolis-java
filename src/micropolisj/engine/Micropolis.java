@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Stack;
 
+import micropolisj.research.ResearchState;
 import static micropolisj.engine.TileConstants.*;
 
 /**
@@ -210,6 +211,8 @@ public class Micropolis {
 	int scycle; // same as cityTime, except mod 1024
 	int fcycle; // counts simulation steps (mod 1024)
 	int acycle; // animation cycle (mod 960)
+	
+	public ResearchState researchState = new ResearchState();
 
 	public CityEval evaluation;
 
@@ -1940,7 +1943,7 @@ public class Micropolis {
 		out.writeInt((int) (policePercent * 65536));
 		out.writeInt((int) (firePercent * 65536));
 		out.writeInt((int) (roadPercent * 65536));
-		out.writeInt((int) (researchPercent * 65536)); // changeswp ACHTUNG HEAVY -1 in Schleife veraendert
+		out.writeInt((int) (researchPercent * 65536));//changeswp ACHTUNG HEAVY -1 in Schleife veraendert
 		
 
 		// 64
