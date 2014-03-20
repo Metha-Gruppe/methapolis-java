@@ -7,4 +7,5 @@ graphics/generated
 
 # Eclipse Files #
 # .classpath
+.settings
 .project

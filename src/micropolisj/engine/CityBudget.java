@@ -40,6 +40,11 @@ public class CityBudget implements Serializable
 	 */
 	int policeFundEscrow;
 
+	/**
+	 * Amount of prepaid research station maintenance (in 1/TAXFREQ's).
+	 */
+	int researchFundEscrow;
+
 	public CityBudget(Micropolis city)
 	{
 		setEngine(city);

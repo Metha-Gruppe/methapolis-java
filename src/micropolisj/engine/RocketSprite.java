@@ -14,8 +14,10 @@ package micropolisj.engine;
  * crashing.
  */
 public class RocketSprite extends Sprite {
-	int destX;
-	int destY;
+	private int destX;
+	private int destY;
+	private double speedFactor;
+	private boolean soundPlaying;
 
 	// NOTE: used for movement
 	static int[] CDx = {
@@ -25,18 +27,26 @@ public class RocketSprite extends Sprite {
 			0, -8, -6, 0, 6, 8, 6, 0, -6
 	};
 
+	// CONSTRUCTORS
 	public RocketSprite(Micropolis engine, int xpos, int ypos, int xDest, int yDest) {
+		this(engine, xpos, ypos, xDest, yDest, 2);
+	}
+
+	public RocketSprite(Micropolis engine, int xpos, int ypos, int xDest, int yDest, double speedFactor) {
 		super(engine, SpriteKind.ROC);
 
 		setStart(xpos, ypos);
 		setDestination(xDest, yDest);
 
-		// size of the sprite image in pixels
-		this.width = 48;
-		this.height = 48;
+		this.speedFactor = speedFactor;
+		this.soundPlaying = false;
 
-		this.offx = -24;
-		this.offy = -24;
+		// size of the sprite image in pixels
+		this.width = 64;
+		this.height = 64;
+
+		this.offx = -32;
+		this.offy = -32;
 
 		frame = getDir(x, y, destY, destX);
 	}
@@ -95,12 +105,29 @@ public class RocketSprite extends Sprite {
 		if(z >= 1 && z <= 12) {
 			return Gdtab[z];
 		}
-		
+
 		return 0;
 	}
 
+	private double stepsTilBoom() {
+		int absY = Math.abs(destY - y);
+		int absX = Math.abs(destX - x);
+		int diffMin = Math.min(absX, absY);
+		int diffMax = Math.max(absX, absY);
+		return (diffMin / 6 + (diffMax - diffMin) / 8) / speedFactor;
+	}
+
 	public void moveImpl() {
-		if(getDis(x, y, destX, destY) <= 6) {
+		double secondsTilBoom = stepsTilBoom() / city.simSpeed.getAnimationsPerSecond();
+		double soundDuration = 3.25;
+
+		// play sound
+		if(secondsTilBoom <= soundDuration && !soundPlaying) {
+			city.makeSound(x, y, Sound.DUBSPLOSION);
+			soundPlaying = true;
+		}
+
+		if(getDis(x, y, destX, destY) <= 6 * speedFactor) {
 			// this.destroyTile(pixelToTilePos(x), pixelToTilePos(y));
 			this.explodeSprite();
 			this.city.sprites.remove(this);
@@ -109,7 +136,7 @@ public class RocketSprite extends Sprite {
 		int d = getDir(x, y, destX, destY);
 		frame = turnTo(frame, d);
 
-		this.x += CDx[frame];
-		this.y += CDy[frame];
+		this.x += CDx[frame] * speedFactor;
+		this.y += CDy[frame] * speedFactor;
 	}
 }

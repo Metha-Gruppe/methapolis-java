@@ -28,6 +28,7 @@ public enum MicropolisMessage
 	HIGH_TRAFFIC,          //  12            doMessages           1/20
 	NEED_FIRESTATION,      //  13            doMessages           1/19
 	NEED_POLICE,           //  14            doMessages           1/19
+	NEED_RESEARCH,
 	BLACKOUTS,             //  15            doMessages           1/19
 	HIGH_TAXES,            //  16            doMessages           1/19
 	ROADS_NEED_FUNDING,    //  17            doMessages

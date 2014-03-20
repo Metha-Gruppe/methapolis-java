@@ -10,10 +10,14 @@ package micropolisj.engine;
 
 import java.io.Serializable;
 
+import javax.swing.JOptionPane;
+
 import static micropolisj.engine.TileConstants.*;
+import micropolisj.research.ResearchState;
 
 public class ToolStroke implements Serializable{
 	transient Micropolis city;
+
 	final MicropolisTool tool;
 	int xpos;
 	int ypos;
@@ -96,13 +100,20 @@ public class ToolStroke implements Serializable{
 
 			case AIRPORT:
 				return applyZone(eff, AIRPORT);
-
+				
 				// CUSTOM TOOLS
+			case UNIVERSITY:
+				return applyZone(eff, UNIVERSITY);
+
 			case ROCKET:
-				// shoot rocket (aka Plane) to location
-				city.generateRocket(0, 0, xpos, ypos);
-				city.spend(MicropolisTool.ROCKET.getToolCost());
-				return true;
+				if(city.researchState.isRocketPossible()){
+					// shoot rocket (aka monster) to location
+					city.generateRocket(0, 0, xpos, ypos);
+					city.spend(MicropolisTool.ROCKET.getToolCost());
+				}else{
+					JOptionPane.showMessageDialog(ResearchState.getInstance(), "You need some research before you can use rockets.");
+				}
+				return false;
 
 			default:
 				// not expected
