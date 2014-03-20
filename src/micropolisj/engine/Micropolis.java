@@ -101,6 +101,8 @@ public class Micropolis {
                   // graphs
   int[][] researchMap; // research labs- cleared and rebuilt each cycle
   public int[][] researchMapEffect; // Map Overlay = unused atm
+  int researchDelayCharger = 0; // changing variable - should stay at 0
+  int researchDelay = 5; // amount of skipped ticks - higher number = fewer research points
 
   /**
    * For each 8x8 section of city, this is an integer between 0 and 64, with
@@ -136,7 +138,7 @@ public class Micropolis {
   int hospitalCount;
   int churchCount;
   int policeCount;
-  int researchCount; //Changeswp
+  int researchCount;
   int fireStationCount;
   int stadiumCount;
   int coalCount;
@@ -197,7 +199,7 @@ public class Micropolis {
   int roadEffect = 32;
   int policeEffect = 1000;
   int fireEffect = 1000;
-  int researchEffect = 1000; //changeswp
+  int researchEffect = 1000;
 
   int cashFlow; // net change in totalFunds in previous year
 
@@ -497,7 +499,7 @@ public class Micropolis {
     hospitalCount = 0;
     churchCount = 0;
     policeCount = 0;
-    researchCount = 0; //changeswp
+    researchCount = 0;
     fireStationCount = 0;
     stadiumCount = 0;
     coalCount = 0;
@@ -1622,13 +1624,31 @@ public class Micropolis {
       1.4, 1.2, 0.8
   };
 
+  
+  void addResearchPoints() {
+	  //used in collectTaxPartial()
+	  //Charger accumulates to Delay.
+	  //researchEffect needs a divison as it is 1000 base.
+	  // div 100 => you need at least 1 research station at 10% fund to get a point
+	  // TODO: Change ResearchPoints from Int to Double
+	    
+	  if (researchDelayCharger == researchDelay) {
+	      researchState.researchPoints += (researchEffect*researchCount)/100;
+	      researchState.refreshPanel();
+	    researchDelayCharger = 0;
+	    } else {
+	   	researchDelayCharger ++;
+	   } 
+	  }
+  
+  
   void collectTaxPartial() {
     lastRoadTotal = roadTotal;
     lastRailTotal = railTotal;
     lastTotalPop = totalPop;
     lastFireStationCount = fireStationCount;
     lastPoliceCount = policeCount;
-    lastResearchCount = researchCount; //changeswp
+    lastResearchCount = researchCount;
 
     BudgetNumbers b = generateBudget();
 
@@ -1637,13 +1657,16 @@ public class Micropolis {
     budget.roadFundEscrow -= b.roadFunded;
     budget.fireFundEscrow -= b.fireFunded;
     budget.policeFundEscrow -= b.policeFunded;
-    budget.researchFundEscrow -= b.researchFunded; //changeswp
+    budget.researchFundEscrow -= b.researchFunded;
+    
+  
 
     taxEffect = b.taxRate;
     roadEffect = b.roadRequest != 0 ? (int) Math.floor(32.0 * (double) b.roadFunded / (double) b.roadRequest) : 32;
     policeEffect = b.policeRequest != 0 ? (int) Math.floor(1000.0 * (double) b.policeFunded / (double) b.policeRequest): 1000;
     fireEffect = b.fireRequest != 0 ? (int) Math.floor(1000.0 * (double) b.fireFunded / (double) b.fireRequest) : 1000;
-    researchEffect = b.researchRequest != 0 ? (int) Math.floor(1000.0 * (double) b.researchFunded / (double) b.researchRequest) : 1000; //changeswp
+    researchEffect = b.researchRequest != 0 ? (int) Math.floor(1000.0 * (double) b.researchFunded / (double) b.researchRequest) : 1000;
+    addResearchPoints();
   }
 
   public static class FinancialHistory {
@@ -1657,7 +1680,7 @@ public class Micropolis {
 
   void collectTax() {
     int revenue = budget.taxFund / TAXFREQ;
-    int expenses = -(budget.roadFundEscrow + budget.fireFundEscrow + budget.policeFundEscrow + budget.researchFundEscrow) / TAXFREQ; //changeswp
+    int expenses = -(budget.roadFundEscrow + budget.fireFundEscrow + budget.policeFundEscrow + budget.researchFundEscrow) / TAXFREQ;
 
     FinancialHistory hist = new FinancialHistory();
     hist.cityTime = cityTime;
@@ -1685,7 +1708,7 @@ public class Micropolis {
   static final int FIRE_STATION_MAINTENANCE = 100;
 
   /** Annual maintenance cost of each academy. */
-  static final int RESEARCH_STATION_MAINTENANCE = 225; //changeswp
+  static final int RESEARCH_STATION_MAINTENANCE = 500;
 
   /**
    * Calculate the current budget numbers.
@@ -1696,7 +1719,7 @@ public class Micropolis {
     b.roadPercent = Math.max(0.0, roadPercent);
     b.firePercent = Math.max(0.0, firePercent);
     b.policePercent = Math.max(0.0, policePercent);
-    b.researchPercent = Math.max(0.0, researchPercent);//changeswp
+    b.researchPercent = Math.max(0.0, researchPercent);
 
     b.previousBalance = budget.totalFunds;
     b.taxIncome = (int) Math.round(lastTotalPop * landValueAverage / 120 * b.taxRate * FLevels[gameLevel]);
@@ -2490,7 +2513,7 @@ public class Micropolis {
         }
         break;
       case 49:
-        if(researchEffect < 700 && researchCount == 0) { //changeswp
+        if(totalPop > 150 && researchCount == 0) {
           sendMessage(MicropolisMessage.NEED_RESEARCH);
         }
         break;
