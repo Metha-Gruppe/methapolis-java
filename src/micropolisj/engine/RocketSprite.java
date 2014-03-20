@@ -114,7 +114,7 @@ public class RocketSprite extends Sprite {
 		int absX = Math.abs(destX - x);
 		int diffMin = Math.min(absX, absY);
 		int diffMax = Math.max(absX, absY);
-		return (diffMin / 12 + (diffMax - diffMin) / 8) / speedFactor;
+		return (diffMin / 6 + (diffMax - diffMin) / 8) / speedFactor;
 	}
 
 	public void moveImpl() {
