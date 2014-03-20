@@ -32,9 +32,9 @@ public class ResearchState extends JFrame implements ActionListener {
 		return rocketResearch > 0;
 	}
 
-	ResearchTree tree = new ResearchTree();
+	ResearchTree tree;// = new ResearchTree();
 
-	HashSet<Integer> reached_nodes = new HashSet<Integer>();
+	HashSet<Integer> reached_nodes;// = new HashSet<Integer>();
 
 	int researchPoints = 300;
 
@@ -63,6 +63,9 @@ public class ResearchState extends JFrame implements ActionListener {
 
 	// CONSTRUCTOR
 	public ResearchState() {
+		tree = new ResearchTree();
+		reached_nodes = new HashSet<Integer>();
+		
 		setName("Research Tree");
 		setLayout(new BorderLayout());
 
