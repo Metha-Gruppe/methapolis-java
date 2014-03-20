@@ -6,10 +6,10 @@ public class ResearchTree {
 
 	static ResearchNode[] possible_nodes;
 	static int[][] needed = {
-		{}, {0}, {1}
-	  , {}, {3}, {4}
-	  , {}, {6}, {7}
-	  , {}, {9}, {10}
+			{}, {0}, {1}, 
+			{}, {3}, {4}, 
+			{}, {6}, {7}, 
+			{}, {9}, {10}
 	};
 	int height = 2, width = 2;
 	static int[] positionsX = {

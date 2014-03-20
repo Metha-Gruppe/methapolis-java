@@ -13,20 +13,20 @@ import javax.swing.*;
 public class ResearchState extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
-	int policeResearch = 0;
-	int getPoliceResearchState(){return policeResearch;}
-	double getPoliceStationRange(){
+	public int policeResearch = 0;
+	public int getPoliceResearchState(){return policeResearch;}
+	public double getPoliceStationRange(){
 		return 1000.0 + policeResearch* 75.0;
 	}
 
-	int firemanResearch = 0;
-	int getFiremanResearchState(){return firemanResearch;}
+	public int firemanResearch = 0;
+	public int getFiremanResearchState(){return firemanResearch;}
 
-	int environmentResearch = 0;
-	int getEnvironmentResearchState(){return environmentResearch;}
+	public int environmentResearch = 0;
+	public int getEnvironmentResearchState(){return environmentResearch;}
 
-	int rocketResearch = 0;
-	int getRocketResearchState(){return rocketResearch;}
+	public int rocketResearch = 0;
+	public int getRocketResearchState(){return rocketResearch;}
 
 	ResearchTree tree = new ResearchTree();
 
@@ -52,7 +52,7 @@ public class ResearchState extends JFrame implements ActionListener {
 		if(instance == null)	{
 			return new ResearchState();
 		}
-		else	{
+		else{
 			return instance;
 		}
 	}
@@ -94,6 +94,10 @@ public class ResearchState extends JFrame implements ActionListener {
 			buttons[node_id] = new JButton("<html>" + node.getDesc() + "</html>");
 			buttons[node_id].setBounds(new Rectangle(ResearchTree.positionsX[node_id], ResearchTree.positionsY[node_id],
 					buttonWidth, buttonHeight));
+			
+			buttons[node_id].setActionCommand(Integer.toString(node_id));
+			buttons[node_id].addActionListener(this);
+			
 
 			maxWidth = Math.max(maxWidth, ResearchTree.positionsX[node_id] + buttonWidth);
 			maxHeight = Math.max(maxHeight, ResearchTree.positionsY[node_id] + buttonHeight);
@@ -110,6 +114,8 @@ public class ResearchState extends JFrame implements ActionListener {
 
 	public void showResearchPanel() {
 		setBounds(200, 200, maxWidth + 10, maxHeight + 100);
+		
+		refreshPanel();
 
 		setVisible(true);
 	}
@@ -131,12 +137,8 @@ public class ResearchState extends JFrame implements ActionListener {
 				buttons[node_id].setText("<html>"+node.getDesc()+"</html>");
 			}
 			else {
-				System.out.println(node_id);
-
-				buttons[node_id].setActionCommand(Integer.toString(node_id));
 				buttons[node_id].setEnabled(true);
 				buttons[node_id].setText("<html>"+node.getDesc() + " (" + Integer.toString(node.getCost()) + "pts)</html>");
-				buttons[node_id].addActionListener(this);
 			}
 		}
 
