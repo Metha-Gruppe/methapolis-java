@@ -30,7 +30,9 @@ public enum Sound
 	HONKHONK_HI   ("honkhonk-hi"),
 	SIREN         ("siren"),
 	HEAVYTRAFFIC  ("heavytraffic"),
-	MONSTER       ("zombie-roar-5");
+	MONSTER       ("zombie-roar-5"),
+	// CUSTOM
+	DUBSPLOSION   ("dubsplosion");
 
 	String wavName;
 	private Sound(String wavName)
