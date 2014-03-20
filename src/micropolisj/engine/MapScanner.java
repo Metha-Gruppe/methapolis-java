@@ -43,7 +43,8 @@ class MapScanner extends TileBehavior
 		STADIUM_EMPTY,
 		STADIUM_FULL,
 		AIRPORT,
-		SEAPORT;
+		SEAPORT,
+		UNIVERSITY;
 	}
 
 	@Override
@@ -85,6 +86,9 @@ class MapScanner extends TileBehavior
 			return;
 		case SEAPORT:
 			doSeaport();
+			return;
+		case UNIVERSITY:
+			doUniversity();
 			return;
 		default:
 			assert false;
@@ -172,6 +176,7 @@ class MapScanner extends TileBehavior
 			}
 		}
 
+
 		// refresh rawTile, tile
 		this.rawTile = city.map[ypos][xpos];
 		this.tile = (char) (rawTile & LOMASK);
@@ -253,6 +258,34 @@ class MapScanner extends TileBehavior
 		}
 
 		city.policeMap[ypos/8][xpos/8] += z;
+	}
+	
+	/**
+	 * TODO: make senseful comment
+	 */
+	void doUniversity()
+	{
+		boolean powerOn = checkZonePower();
+		city.researchCount++;
+		if ((city.cityTime % 8) == 0) {
+			repairZone(UNIVERSITY, 3);
+		}
+//		Following code disabled for University copied from PoliceStation
+//		TODO: Insert sense
+//		int z;
+//		if (powerOn) {
+//			z = city.policeEffect;
+//		} else {
+//			z = city.policeEffect / 2;
+//		}
+//
+//		traffic.mapX = xpos;
+//		traffic.mapY = ypos;
+//		if (!traffic.findPerimeterRoad()) {
+//			z /= 2;
+//		}
+//
+//		city.policeMap[ypos/8][xpos/8] += z;
 	}
 
 	void doStadiumEmpty()

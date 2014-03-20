@@ -152,12 +152,12 @@ public class TileConstants {
 	static final char VBRDG1 = 949;
 	static final char VBRDG2 = 950;
 	static final char VBRDG3 = 951;
-	public static final char LAST_TILE = 956;
-	
-	// CUSTOM TILES FOR CUSTOM TOOLS
-	public static final char ROCKET = 1001;
-	
 
+	//CUSTOM TILES FOR CUSTOM TOOLS
+	static final char UNIVERSITY = 964;
+	public static final char LAST_TILE = 968;
+
+	// TODO COMMENT where the order in these arrays comes from
 	static final char[] RoadTable = new char[] {
 			ROADS, ROADS2, ROADS, ROADS3, ROADS2, ROADS2, ROADS4, ROADS8, ROADS, ROADS6, ROADS, ROADS7, ROADS5, ROADS10, ROADS9,
 			INTERSECTION
@@ -205,6 +205,9 @@ public class TileConstants {
 		// FIXME- what is significance of POWERBASE+2 and POWERBASE+12 ?
 
 		// can we autobulldoze this tile?
+		// TODO: check if the following could replace this function
+		//return ((tileValue >= FIRSTRIVEDGE && tileValue <= LASTRUBBLE) || (tileValue >= POWERBASE && tileValue <= LASTPOWER)
+		//		|| (tileValue >= TINYEXP && tileValue <= LASTTINYEXP));
 		if((tileValue >= FIRSTRIVEDGE && tileValue <= LASTRUBBLE) || (tileValue >= POWERBASE + 2 && tileValue <= POWERBASE + 12)
 				|| (tileValue >= TINYEXP && tileValue <= LASTTINYEXP)) {
 			return true;

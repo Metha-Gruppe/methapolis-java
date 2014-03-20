@@ -930,6 +930,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 	}
 
 	private JToggleButton makeToolBtn(final MicropolisTool tool) {
+		System.out.println("tool." + tool.name() + ".icon");
 		String iconName = strings.containsKey("tool." + tool.name() + ".icon") ? strings.getString("tool." + tool.name()
 				+ ".icon") : "/graphics/tools/" + tool.name().toLowerCase() + ".png";
 		String iconSelectedName = strings.containsKey("tool." + tool.name() + ".selected_icon") ? strings.getString("tool."
@@ -938,6 +939,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 				: tool.name();
 
 		JToggleButton btn = new JToggleButton();
+		System.out.println(iconName);
 		btn.setIcon(new ImageIcon(MainWindow.class.getResource(iconName)));
 		btn.setSelectedIcon(new ImageIcon(MainWindow.class.getResource(iconSelectedName)));
 		btn.setToolTipText(tipText);
@@ -1014,7 +1016,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 
 		b4.add(makeToolBtn(MicropolisTool.POWERPLANT));
 		b4.add(makeToolBtn(MicropolisTool.NUCLEAR));
-		b4.add(makeToolBtn(MicropolisTool.SCHOOL));
+		b4.add(makeToolBtn(MicropolisTool.UNIVERSITY));
 
 		c.gridy++;
 		Box b5 = new Box(BoxLayout.X_AXIS);
