@@ -19,7 +19,7 @@ public class ResearchState extends JFrame implements ActionListener {
 
 	HashSet<Integer> reached_nodes = new HashSet<Integer>();
 
-	int researchPoints = 20;
+	int researchPoints = 0;
 
 	int buttonWidth = 150;
 	int buttonHeight = 75;

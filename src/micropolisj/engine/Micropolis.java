@@ -1943,7 +1943,7 @@ public class Micropolis {
 		out.writeInt((int) (policePercent * 65536));
 		out.writeInt((int) (firePercent * 65536));
 		out.writeInt((int) (roadPercent * 65536));
-		out.writeInt((int) (researchPercent * 65536));//changeswp ACHTUNG HEAVY -1 in Schleife verändert
+		out.writeInt((int) (researchPercent * 65536));//changeswp ACHTUNG HEAVY -1 in Schleife veraendert
 		
 
 		// 64
