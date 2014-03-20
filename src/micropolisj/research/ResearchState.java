@@ -12,12 +12,26 @@ import javax.swing.*;
 
 public class ResearchState extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
+	
+	int policeResearch = 0;
+	int getPoliceResearchState(){return policeResearch;}
+	double getPoliceStationRange(){
+		return 1000.0 + policeResearch* 75.0;
+	}
 
-	int rocket_speed = 1;
+	int firemanResearch = 0;
+	int getFiremanResearchState(){return firemanResearch;}
+
+	int environmentResearch = 0;
+	int getEnvironmentResearchState(){return environmentResearch;}
+
+	int rocketResearch = 0;
+	int getRocketResearchState(){return rocketResearch;}
 
 	ResearchTree tree = new ResearchTree();
 
 	HashSet<Integer> reached_nodes = new HashSet<Integer>();
+
 
 	public int researchPoints = 0;
 
@@ -111,16 +125,19 @@ public class ResearchState extends JFrame implements ActionListener {
 
 			if(reached_nodes.contains(node_id)) {
 				buttons[node_id].setEnabled(false);
+				buttons[node_id].setText("<html>"+node.getDesc()+"</html>");
 				buttons[node_id].setBackground(Color.red);
 			}
 			else if(!tree.isReachable(reached_nodes, node_id)) {
 				buttons[node_id].setEnabled(false);
+				buttons[node_id].setText("<html>"+node.getDesc()+"</html>");
 			}
 			else {
 				System.out.println(node_id);
 
 				buttons[node_id].setActionCommand(Integer.toString(node_id));
 				buttons[node_id].setEnabled(true);
+				buttons[node_id].setText("<html>"+node.getDesc() + " (" + Integer.toString(node.getCost()) + "pts)</html>");
 				buttons[node_id].addActionListener(this);
 			}
 		}

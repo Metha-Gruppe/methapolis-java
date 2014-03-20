@@ -6,21 +6,31 @@ public class ResearchTree {
 
 	static ResearchNode[] possible_nodes;
 	static int[][] needed = {
-			{}, {
-				0
-			}
+		{}, {0}, {1}
+	  , {}, {3}, {4}
+	  , {}, {6}, {7}
+	  , {}, {9}, {10}
 	};
 	int height = 2, width = 2;
 	static int[] positionsX = {
-			0, 120
+			0, 0, 0
+		  , 200, 200, 200
+		  , 400, 400, 400
+		  , 600, 600, 600
 	};
 	static int[] positionsY = {
-			0, 70
+			0, 100, 200
+		  , 0, 100, 200
+		  , 0, 100, 200
+		  , 0, 100, 200
 	};
 
 	public ResearchTree() {
 		possible_nodes = new ResearchNode[] {
-				new RocketRangeNode(), new RocketDamageNode()
+				new RocketNode(1), new RocketNode(2), new RocketNode(3)
+			  , new PoliceNode(1), new PoliceNode(2), new PoliceNode(3)
+			  , new FiremanNode(1), new FiremanNode(2), new FiremanNode(3)
+			  , new EnvironmentNode(1), new EnvironmentNode(2), new EnvironmentNode(3)
 		};
 	}
 
@@ -34,11 +44,17 @@ public class ResearchTree {
 	}
 
 	// INNER CLASSES FOR UPGRADE FEATURES
-	class RocketRangeNode implements ResearchNode {
+	class RocketNode implements ResearchNode {
 
+		int id=0;
+		
+		public RocketNode(int st){
+			id = st;
+		}
+		
 		@Override
 		public String getDesc() {
-			return "increase rockets range";
+			return "rocket research";
 		}
 
 		@Override
@@ -56,33 +72,91 @@ public class ResearchTree {
 
 		@Override
 		public void makeChanges(ResearchState state) {
-			state.rocket_speed = 2;
+			state.rocketResearch = id;
 		}
 	}
+	// INNER CLASSES FOR UPGRADE FEATURES
+	class PoliceNode implements ResearchNode {
 
-	class RocketDamageNode implements ResearchNode {
-
+		int id=0;
+		
+		public PoliceNode(int st){
+			id = st;
+		}
+		
 		@Override
 		public String getDesc() {
-			return "increase rockets damage";
+			return "larger police station range";
 		}
 
 		@Override
 		public String getIcon() {
-			return "/coal.png";
+			return "/firestation.png";
 		}
 
 		@Override
 		public int getCost() {
-			return 20;
+			return 15;
 		}
-
-		// @Override
-		// public int getId(){return 0;}
-
 		@Override
 		public void makeChanges(ResearchState state) {
-			state.rocket_speed = 3;
+			state.policeResearch = id;
+		}
+	}
+	// INNER CLASSES FOR UPGRADE FEATURES
+	class FiremanNode implements ResearchNode {
+
+		int id=0;
+		
+		public FiremanNode(int st){
+			id = st;
+		}
+		
+		@Override
+		public String getDesc() {
+			return "larger firestation range";
+		}
+
+		@Override
+		public String getIcon() {
+			return "/firestation.png";
+		}
+
+		@Override
+		public int getCost() {
+			return 15;
+		}
+		@Override
+		public void makeChanges(ResearchState state) {
+			state.firemanResearch = id;
+		}
+	}
+	// INNER CLASSES FOR UPGRADE FEATURES
+	class EnvironmentNode implements ResearchNode {
+
+		int id=0;
+		
+		public EnvironmentNode(int st){
+			id = st;
+		}
+		
+		@Override
+		public String getDesc() {
+			return "smaller polution range";
+		}
+
+		@Override
+		public String getIcon() {
+			return "/firestation.png";
+		}
+
+		@Override
+		public int getCost() {
+			return 15;
+		}
+		@Override
+		public void makeChanges(ResearchState state) {
+			state.environmentResearch = id;
 		}
 	}
 }
