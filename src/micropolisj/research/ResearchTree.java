@@ -4,7 +4,7 @@ import java.util.HashSet;
 
 public class ResearchTree {
 
-	static ResearchNode[] possible_nodes;// = {new RocketRangeNode()};
+	static ResearchNode[] possible_nodes;
 	static int[][] needed = {
 			{}, {
 				0
@@ -18,7 +18,7 @@ public class ResearchTree {
 			0, 70
 	};
 
-	ResearchTree() {
+	public ResearchTree() {
 		possible_nodes = new ResearchNode[] {
 				new RocketRangeNode(), new RocketDamageNode()
 		};

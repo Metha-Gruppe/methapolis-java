@@ -44,6 +44,7 @@ public class ResearchState extends JFrame implements ActionListener {
 		}
 	}
 
+	// CONSTRUCTOR
 	public ResearchState() {
 		setName("Research Tree");
 		setLayout(new BorderLayout());
