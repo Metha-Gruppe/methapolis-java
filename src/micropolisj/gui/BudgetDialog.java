@@ -95,7 +95,7 @@ public class BudgetDialog extends JDialog
 		fireFundAlloc.setText(formatFunds(b.fireFunded));
 		
 		researchFundRequest.setText(formatFunds(b.researchRequest));
-		researchFundAlloc.setText(formatFunds(b.researchRequest));
+		researchFundAlloc.setText(formatFunds(b.researchFunded));
 	}
 
 	static void adjustSliderSize(JSlider slider)

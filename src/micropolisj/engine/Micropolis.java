@@ -138,13 +138,15 @@ public class Micropolis {
   int hospitalCount;
   int churchCount;
   int policeCount;
-  int researchCount;
   int fireStationCount;
   int stadiumCount;
   int coalCount;
   int nuclearCount;
   int seaportCount;
   int airportCount;
+
+  //CUSTOM
+  int researchCount;
 
   int totalPop;
   int lastCityPop;
@@ -1626,15 +1628,14 @@ public class Micropolis {
   };
 
   
-  void addResearchPoints() {
-	  //used in collectTaxPartial()
-	  //Charger accumulates to Delay.
-	  //researchEffect needs a divison as it is 1000 base.
-	  // div 100 => you need at least 1 research station at 10% fund to get a point
-	  // TODO: Change ResearchPoints from Int to Double
-	    
-	  if (researchDelayCharger == researchDelay) {
-	      researchState.researchPoints += (researchEffect*researchCount)/100;
+  public void addResearchPoints() {
+//	  used in collectTaxPartial()
+//	  Charger accumulates to Delay.
+//	  researchEffect needs a divison as it is 1000 base.
+//	   div 100 => you need at least 1 research station at 10% fund to get a point
+	    System.out.println(researchDelayCharger);
+	  if (researchDelayCharger >= researchDelay) {
+	      researchState.researchPoints += (researchEffect)/100;
 	      researchState.refreshPanel();
 	    researchDelayCharger = 0;
 	    } else {
@@ -1667,7 +1668,6 @@ public class Micropolis {
     policeEffect = b.policeRequest != 0 ? (int) Math.floor(1000.0 * (double) b.policeFunded / (double) b.policeRequest): 1000;
     fireEffect = b.fireRequest != 0 ? (int) Math.floor(1000.0 * (double) b.fireFunded / (double) b.fireRequest) : 1000;
     researchEffect = b.researchRequest != 0 ? (int) Math.floor(1000.0 * (double) b.researchFunded / (double) b.researchRequest) : 1000;
-    addResearchPoints();
   }
 
   public static class FinancialHistory {
