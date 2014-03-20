@@ -124,6 +124,7 @@ public class RocketSprite extends Sprite {
 		// play sound
 		if(secondsTilBoom <= soundDuration && !soundPlaying) {
 			city.makeSound(x, y, Sound.DUBSPLOSION);
+			soundPlaying = true;
 		}
 
 		if(getDis(x, y, destX, destY) <= 6 * speedFactor) {
