@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import micropolisj.research.ResearchState;
+
 public class TileSpec {
 	int tileNumber;
 	TileSpec animNext;
@@ -120,15 +122,19 @@ public class TileSpec {
 	public String[] getImages() {
 		return images.toArray(new String[0]);
 	}
-
-	public int getPollutionValue() {
+	
+	//custom: apply research value to TilePollution
+	private int usePollutionResearch(int pollutionValue, Micropolis city){
+		return pollutionValue - city.researchState.environmentResearch * 10000;
+	}
+	public int getPollutionValue(Micropolis city) {
 		String v = getAttribute("pollution");
 		if(v != null) {
-			return Integer.parseInt(v);
+			return usePollutionResearch(Integer.parseInt(v), city);
 		}
 		else if(owner != null) {
 			// pollution inherits from building tile
-			return owner.getPollutionValue();
+			return owner.getPollutionValue(city);
 		}
 		else {
 			return 0;

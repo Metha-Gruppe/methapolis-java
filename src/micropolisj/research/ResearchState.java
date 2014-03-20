@@ -17,11 +17,14 @@ public class ResearchState extends JFrame implements ActionListener {
 	public int policeResearch = 0;
 	public int getPoliceResearchState(){return policeResearch;}
 	public double getPoliceStationRange(){
-		return 1000.0 + policeResearch* 75.0;
+		return 1000.0 + policeResearch* 500.0;
 	}
 
 	public int firemanResearch = 0;
 	public int getFiremanResearchState(){return firemanResearch;}
+	public double getFireStationRange(){
+		return 1000.0 + firemanResearch* 500.0;
+	}
 
 	public int environmentResearch = 0;
 	public int getEnvironmentResearchState(){return environmentResearch;}
@@ -52,7 +55,7 @@ public class ResearchState extends JFrame implements ActionListener {
 	
 	// SINGLETON PATTERN
 	private static ResearchState instance = null;
-	public ResearchState getInstance()	{
+	public static ResearchState getInstance()	{
 		if(instance == null)	{
 			return new ResearchState();
 		}

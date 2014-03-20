@@ -238,11 +238,11 @@ public class TileConstants {
 		}
 	}
 
-	public static int getPollutionValue(int tile) {
+	public static int getPollutionValue(int tile, Micropolis city) {
 		assert (tile & LOMASK) == tile;
 
 		TileSpec spec = Tiles.get(tile);
-		return spec != null ? spec.getPollutionValue() : 0;
+		return spec != null ? spec.getPollutionValue(city) : 0;
 	}
 
 	public static boolean isAnimated(int tile) {

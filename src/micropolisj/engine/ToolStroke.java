@@ -12,6 +12,8 @@ import static micropolisj.engine.TileConstants.*;
 
 import javax.swing.JOptionPane;
 
+import micropolisj.research.ResearchState;
+
 public class ToolStroke {
 	final Micropolis city;
 	final MicropolisTool tool;
@@ -103,7 +105,7 @@ public class ToolStroke {
 					city.generateRocket(0, 0, xpos, ypos);
 					city.spend(MicropolisTool.ROCKET.getToolCost());
 				}else{
-					JOptionPane.showMessageDialog(city.researchState, "You need some research before you can use rockets.");
+					JOptionPane.showMessageDialog(ResearchState.getInstance(), "You need some research before you can use rockets.");
 				}
 				return false;
 

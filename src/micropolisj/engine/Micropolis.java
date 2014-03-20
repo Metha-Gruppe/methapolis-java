@@ -1088,7 +1088,7 @@ public class Micropolis {
 								qtem[y / 2][x / 2] += 15;
 								continue;
 							}
-							plevel += getPollutionValue(tile);
+							plevel += getPollutionValue(tile, this);
 							if(isConstructed(tile))
 								lvflag++;
 						}
@@ -1623,6 +1623,8 @@ public class Micropolis {
 	};
 
 	void collectTaxPartial() {
+		double policeStationRange= researchState.getPoliceStationRange();
+		double fireStationRange= researchState.getFireStationRange();
 		lastRoadTotal = roadTotal;
 		lastRailTotal = railTotal;
 		lastTotalPop = totalPop;
@@ -1641,8 +1643,8 @@ public class Micropolis {
 
 		taxEffect = b.taxRate;
 		roadEffect = b.roadRequest != 0 ? (int) Math.floor(32.0 * (double) b.roadFunded / (double) b.roadRequest) : 32;
-		policeEffect = b.policeRequest != 0 ? (int) Math.floor(1000.0 * (double) b.policeFunded / (double) b.policeRequest): 1000;
-		fireEffect = b.fireRequest != 0 ? (int) Math.floor(1000.0 * (double) b.fireFunded / (double) b.fireRequest) : 1000;
+		policeEffect = b.policeRequest != 0 ? (int) Math.floor(policeStationRange * (double) b.policeFunded / (double) b.policeRequest): 1000;
+		fireEffect = b.fireRequest != 0 ? (int) Math.floor(fireStationRange * (double) b.fireFunded / (double) b.fireRequest) : 1000;
 		researchEffect = b.researchRequest != 0 ? (int) Math.floor(1000.0 * (double) b.researchFunded / (double) b.researchRequest) : 1000; //changeswp
 	}
 
