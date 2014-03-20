@@ -35,6 +35,8 @@ public class TileSpec {
 
 	Map<String, String> attributes;
 	List<String> images;
+	
+	private final static int POLLUTION_FACTOR = 25; 
 
 	protected TileSpec(int tileNumber) {
 		this.tileNumber = tileNumber;
@@ -125,7 +127,7 @@ public class TileSpec {
 	
 	//custom: apply research value to TilePollution
 	private int usePollutionResearch(int pollutionValue, Micropolis city){
-		return pollutionValue - city.researchState.environmentResearch * 10000;
+		return Math.max(0, pollutionValue - city.researchState.getEnvironmentResearchState() * POLLUTION_FACTOR);
 	}
 	public int getPollutionValue(Micropolis city) {
 		String v = getAttribute("pollution");

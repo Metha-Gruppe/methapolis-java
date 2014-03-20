@@ -1100,6 +1100,7 @@ public class Micropolis {
 
 				if(plevel > 255)
 					plevel = 255;
+				
 
 				tem[y][x] = plevel;
 
