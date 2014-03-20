@@ -109,17 +109,17 @@ public class RocketSprite extends Sprite {
 		return 0;
 	}
 
-	private int stepsTilBoom() {
+	private double stepsTilBoom() {
 		int absY = Math.abs(destY - y);
 		int absX = Math.abs(destX - x);
 		int diffMin = Math.min(absX, absY);
 		int diffMax = Math.max(absX, absY);
-		return (int) ((diffMin / 12 + (diffMax - diffMin) / 8) / speedFactor);
+		return (diffMin / 12 + (diffMax - diffMin) / 8) / speedFactor;
 	}
 
 	public void moveImpl() {
 		double secondsTilBoom = stepsTilBoom() / city.simSpeed.getAnimationsPerSecond();
-		double soundDuration = 3.5;
+		double soundDuration = 3.25;
 
 		// play sound
 		if(secondsTilBoom <= soundDuration && !soundPlaying) {
