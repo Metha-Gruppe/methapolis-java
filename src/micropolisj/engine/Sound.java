@@ -10,6 +10,9 @@ package micropolisj.engine;
 
 import java.net.URL;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 /**
  * Enumerates the various sounds that the city may produce.
  * The engine is not responsible for actually playing the sound. That task
@@ -32,18 +35,47 @@ public enum Sound
 	HEAVYTRAFFIC  ("heavytraffic"),
 	MONSTER       ("zombie-roar-5"),
 	// CUSTOM
-	DUBSPLOSION   ("dubsplosion");
+	DUBSPLOSION   ("dubsplosion"),
+	BG_MUSIC      ("siren");
 
 	String wavName;
-	private Sound(String wavName)
-	{
+	private Sound(String wavName)	{
 		this.wavName = wavName;
 	}
 
-	public URL getAudioFile()
-	{
-		String n2 = "/sounds/"+wavName+".wav";
+	public URL getAudioFile()	{
+		return getAudioFile("wav");
+	}
+	
+	/**
+	 * @param fileEnding (String) - no dot!
+	 * @return
+	 */
+	public URL getAudioFile(String fileEnding)	{
+		String n2 = "/sounds/" + wavName + "." + fileEnding;
 		URL u = Sound.class.getResource(n2);
 		return u;
+	}
+	
+	public static void playSound(Sound sound) {
+		playSound(sound, "wav");
+	}
+	
+	public static void playSound(Sound sound, String fileEnding) {
+		URL afile = sound.getAudioFile(fileEnding);
+		if(afile == null)	{
+			return;			
+		}
+		
+		System.out.println(afile);
+
+		try {
+			Clip clip = AudioSystem.getClip();
+			clip.open(AudioSystem.getAudioInputStream(afile));
+			clip.start();
+		}
+		catch(Exception e) {
+			e.printStackTrace(System.err);
+		}
 	}
 }

@@ -126,6 +126,12 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 	public MainWindow(Micropolis engine) {
 		setIconImage(appIcon.getImage());
 
+		Sound.playSound(Sound.BG_MUSIC);
+//		String bip = "bip.mp3";
+//		Media hit = new Media(bip);
+//		MediaPlayer mediaPlayer = new MediaPlayer(hit);
+//		mediaPlayer.play();
+		
 		this.engine = engine;
 		
 		engine.researchState.setLocationRelativeTo(this);
