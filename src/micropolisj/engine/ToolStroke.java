@@ -10,6 +10,8 @@ package micropolisj.engine;
 
 import static micropolisj.engine.TileConstants.*;
 
+import javax.swing.JOptionPane;
+
 public class ToolStroke {
 	final Micropolis city;
 	final MicropolisTool tool;
@@ -96,9 +98,13 @@ public class ToolStroke {
 				return applyZone(eff, UNIVERSITY);
 
 			case ROCKET:
-				// shoot rocket (aka monster) to location
-				city.generateRocket(0, 0, xpos, ypos);
-				city.spend(MicropolisTool.ROCKET.getToolCost());
+				if(city.researchState.isRocketPossible()){
+					// shoot rocket (aka monster) to location
+					city.generateRocket(0, 0, xpos, ypos);
+					city.spend(MicropolisTool.ROCKET.getToolCost());
+				}else{
+					JOptionPane.showMessageDialog(city.researchState, "You need some research before you can use rockets.");
+				}
 				return false;
 
 			default:

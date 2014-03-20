@@ -3,6 +3,7 @@ package micropolisj.research;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +28,9 @@ public class ResearchState extends JFrame implements ActionListener {
 
 	public int rocketResearch = 0;
 	public int getRocketResearchState(){return rocketResearch;}
+	public boolean isRocketPossible(){
+		return rocketResearch > 0;
+	}
 
 	ResearchTree tree = new ResearchTree();
 
@@ -75,6 +79,10 @@ public class ResearchState extends JFrame implements ActionListener {
 
 		researchPointsLabel = new JLabel(Integer.toString(researchPoints) + " research points");
 		subMenu.add(researchPointsLabel, BorderLayout.EAST);
+		
+		JPanel ppanel = new JPanel();
+		ppanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		subMenu.add(ppanel, BorderLayout.CENTER);
 
 		closeButton = new JButton("close");
 		closeButton.addActionListener(new ActionListener() {
@@ -83,7 +91,7 @@ public class ResearchState extends JFrame implements ActionListener {
 				setVisible(false);
 			}
 		});
-		subMenu.add(closeButton);
+		ppanel.add(closeButton);
 
 		int n = ResearchTree.possible_nodes.length;
 		buttons = new JButton[n];
