@@ -9,15 +9,18 @@ public class ResearchTree {
 		{}, {0}, {1}
 	  , {}, {3}, {4}
 	  , {}, {6}, {7}
+	  , {}, {9}, {10}
 	};
 	int height = 2, width = 2;
 	static int[] positionsX = {
 			0, 0, 0
 		  , 200, 200, 200
 		  , 400, 400, 400
+		  , 600, 600, 600
 	};
 	static int[] positionsY = {
 			0, 100, 200
+		  , 0, 100, 200
 		  , 0, 100, 200
 		  , 0, 100, 200
 	};
@@ -27,6 +30,7 @@ public class ResearchTree {
 				new RocketNode(1), new RocketNode(2), new RocketNode(3)
 			  , new PoliceNode(1), new PoliceNode(2), new PoliceNode(3)
 			  , new FiremanNode(1), new FiremanNode(2), new FiremanNode(3)
+			  , new EnvironmentNode(1), new EnvironmentNode(2), new EnvironmentNode(3)
 		};
 	}
 
@@ -125,6 +129,34 @@ public class ResearchTree {
 		@Override
 		public void makeChanges(ResearchState state) {
 			state.firemanResearch = id;
+		}
+	}
+	// INNER CLASSES FOR UPGRADE FEATURES
+	class EnvironmentNode implements ResearchNode {
+
+		int id=0;
+		
+		public EnvironmentNode(int st){
+			id = st;
+		}
+		
+		@Override
+		public String getDesc() {
+			return "smaller polution range";
+		}
+
+		@Override
+		public String getIcon() {
+			return "/firestation.png";
+		}
+
+		@Override
+		public int getCost() {
+			return 15;
+		}
+		@Override
+		public void makeChanges(ResearchState state) {
+			state.environmentResearch = id;
 		}
 	}
 }
