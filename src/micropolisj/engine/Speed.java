@@ -34,4 +34,8 @@ public enum Speed
 		this.animationDelay = delay;
 		this.simStepsPerUpdate = simSteps;
 	}
+	
+	public int getAnimationsPerSecond()	{
+		return 1000 / animationDelay;
+	}
 }

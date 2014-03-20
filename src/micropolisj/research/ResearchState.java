@@ -39,7 +39,8 @@ public class ResearchState extends JFrame implements ActionListener {
 
 	HashSet<Integer> reached_nodes;// = new HashSet<Integer>();
 
-	int researchPoints = 30000;
+	
+	public int researchPoints = 0;
 
 	int buttonWidth = 150;
 	int buttonHeight = 75;
@@ -125,6 +126,7 @@ public class ResearchState extends JFrame implements ActionListener {
 
 		setVisible(false);
 	}
+	
 
 	public void showResearchPanel() {
 		setBounds(200, 200, maxWidth + 10, maxHeight + 100);
@@ -134,7 +136,7 @@ public class ResearchState extends JFrame implements ActionListener {
 		setVisible(true);
 	}
 
-	private void refreshPanel() {
+	public void refreshPanel() {
 
 		researchPointsLabel.setText(Integer.toString(researchPoints) + " research points");
 
