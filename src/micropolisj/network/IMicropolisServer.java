@@ -7,6 +7,8 @@ public interface IMicropolisServer extends Remote{
     
     public MapInfo getLatestMap() throws RemoteException;
     
+    public int getNewID() throws RemoteException;
+    
     public void storeInput(int playerID, PlayerInput input) throws RemoteException;
     
     public void setRemoteClient(RemoteClient client) throws RemoteException;
