@@ -17,6 +17,9 @@ public class RemoteClient extends UnicastRemoteObject implements Serializable{
         try {
             IP = ip;
             // TODO: make constants for address
+            if(ip.equalsIgnoreCase("local") || ip.equalsIgnoreCase("localhost"))	{
+            	ip = "127.0.0.1";
+            }
             server = (IMicropolisServer) Naming.lookup("rmi://" + IP + "/" + NetworkServer.NAMING_BIND);
 //            server.setRemoteClient(this);
             System.out.println(">>> connected to server...");
