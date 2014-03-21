@@ -15,352 +15,350 @@ import javax.swing.JOptionPane;
 import static micropolisj.engine.TileConstants.*;
 import micropolisj.research.ResearchState;
 
-public class ToolStroke implements Serializable{
-	transient Micropolis city;
+public class ToolStroke implements Serializable {
+    transient Micropolis city;
 
-	final MicropolisTool tool;
-	int xpos;
-	int ypos;
-	int xdest;
-	int ydest;
-	boolean inPreview;
+    final MicropolisTool tool;
+    int xpos;
+    int ypos;
+    int xdest;
+    int ydest;
+    boolean inPreview;
+    int playerID;
 
-	ToolStroke(Micropolis city, MicropolisTool tool, int xpos, int ypos) {
-		this.city = city;
-		this.tool = tool;
-		this.xpos = xpos;
-		this.ypos = ypos;
-		this.xdest = xpos;
-		this.ydest = ypos;
-	}
+    public ToolStroke(Micropolis city, MicropolisTool tool, int xpos, int ypos) {
+        this.city = city;
+        this.tool = tool;
+        this.xpos = xpos;
+        this.ypos = ypos;
+        this.xdest = xpos;
+        this.ydest = ypos;
+        playerID = city.getPlayerID();
+        System.out.println(playerID);
+    }
 
-	public void setCity(Micropolis engine) {
-	    city = engine;
-	}
-	
-	public final ToolPreview getPreview() {
-		ToolEffect eff = new ToolEffect(city);
-		inPreview = true;
-		try {
-			applyArea(eff);
-		}
-		finally {
-			inPreview = false;
-		}
-		return eff.preview;
-	}
+    public void setCity(Micropolis engine) {
+        city = engine;
+    }
 
-	public final ToolResult apply() {
-		ToolEffect eff = new ToolEffect(city);
-		applyArea(eff);
-		return eff.apply();
-	}
+    public final ToolPreview getPreview() {
+        ToolEffect eff = new ToolEffect(city, playerID);
+        inPreview = true;
+        try {
+            applyArea(eff);
+        } finally {
+            inPreview = false;
+        }
+        return eff.preview;
+    }
 
-	protected void applyArea(ToolEffectIfc eff) {
-		CityRect r = getBounds();
+    public final ToolResult apply() {
+        ToolEffect eff = new ToolEffect(city, playerID);
+        applyArea(eff);
+        return eff.apply(playerID);
+    }
+    
+    protected void applyArea(ToolEffectIfc eff) {
+        CityRect r = getBounds();
 
-		for(int i = 0; i < r.height; i += tool.getHeight()) {
-			for(int j = 0; j < r.width; j += tool.getWidth()) {
-				apply1(new TranslatedToolEffect(eff, r.x + j, r.y + i));
-			}
-		}
-	}
+        for (int i = 0; i < r.height; i += tool.getHeight()) {
+            for (int j = 0; j < r.width; j += tool.getWidth()) {
+                apply1(new TranslatedToolEffect(eff, r.x + j, r.y + i));
+            }
+        }
+    }
 
-	boolean apply1(ToolEffectIfc eff) {
-		switch(tool) {
-			case PARK:
-				return applyParkTool(eff);
+    
+    boolean apply1(ToolEffectIfc eff) {
+        switch (tool) {
+        case PARK:
+            return applyParkTool(eff);
 
-			case RESIDENTIAL:
-				return applyZone(eff, RESCLR);
+        case RESIDENTIAL:
+            return applyZone(eff, RESCLR);
 
-			case COMMERCIAL:
-				return applyZone(eff, COMCLR);
+        case COMMERCIAL:
+            return applyZone(eff, COMCLR);
 
-			case INDUSTRIAL:
-				return applyZone(eff, INDCLR);
+        case INDUSTRIAL:
+            return applyZone(eff, INDCLR);
 
-			case FIRE:
-				return applyZone(eff, FIRESTATION);
+        case FIRE:
+            return applyZone(eff, FIRESTATION);
 
-			case POLICE:
-				return applyZone(eff, POLICESTATION);
+        case POLICE:
+            return applyZone(eff, POLICESTATION);
 
-			case POWERPLANT:
-				return applyZone(eff, POWERPLANT);
+        case POWERPLANT:
+            return applyZone(eff, POWERPLANT);
 
-			case STADIUM:
-				return applyZone(eff, STADIUM);
+        case STADIUM:
+            return applyZone(eff, STADIUM);
 
-			case SEAPORT:
-				return applyZone(eff, PORT);
+        case SEAPORT:
+            return applyZone(eff, PORT);
 
-			case NUCLEAR:
-				return applyZone(eff, NUCLEAR);
+        case NUCLEAR:
+            return applyZone(eff, NUCLEAR);
 
-			case AIRPORT:
-				return applyZone(eff, AIRPORT);
-				
-				// CUSTOM TOOLS
-			case UNIVERSITY:
-				return applyZone(eff, UNIVERSITY);
+        case AIRPORT:
+            return applyZone(eff, AIRPORT);
 
-			case ROCKET:
-				if(city.researchState.isRocketPossible()){
-					// shoot rocket (aka monster) to location
-					city.generateRocket(0, 0, xpos, ypos);
-					city.spend(MicropolisTool.ROCKET.getToolCost());
-				}else{
-					JOptionPane.showMessageDialog(ResearchState.getInstance(), "You need some research before you can use rockets.");
-				}
-				return false;
+            // CUSTOM TOOLS
+        case UNIVERSITY:
+            return applyZone(eff, UNIVERSITY);
 
-			default:
-				// not expected
-				throw new Error("unexpected tool: " + tool);
-		}
-	}
+        case ROCKET:
+            if (city.researchState.isRocketPossible()) {
+                // shoot rocket (aka monster) to location
+                city.generateRocket(0, 0, xpos, ypos);
+                city.spend(MicropolisTool.ROCKET.getToolCost());
+            } else {
+                JOptionPane.showMessageDialog(ResearchState.getInstance(), "You need some research before you can use rockets.");
+            }
+            return false;
 
-	public void dragTo(int xdest, int ydest) {
-		this.xdest = xdest;
-		this.ydest = ydest;
-	}
+        default:
+            // not expected
+            throw new Error("unexpected tool: " + tool);
+        }
+    }
 
-	public CityRect getBounds() {
-		CityRect r = new CityRect();
+    public void dragTo(int xdest, int ydest) {
+        this.xdest = xdest;
+        this.ydest = ydest;
+    }
 
-		r.x = xpos;
-		if(tool.getWidth() >= 3) {
-			r.x--;
-		}
-		if(xdest >= xpos) {
-			r.width = ((xdest - xpos) / tool.getWidth() + 1) * tool.getWidth();
-		}
-		else {
-			r.width = ((xpos - xdest) / tool.getWidth() + 1) * tool.getHeight();
-			r.x += tool.getWidth() - r.width;
-		}
+    public CityRect getBounds() {
+        CityRect r = new CityRect();
 
-		r.y = ypos;
-		if(tool.getHeight() >= 3) {
-			r.y--;
-		}
-		if(ydest >= ypos) {
-			r.height = ((ydest - ypos) / tool.getHeight() + 1) * tool.getHeight();
-		}
-		else {
-			r.height = ((ypos - ydest) / tool.getHeight() + 1) * tool.getHeight();
-			r.y += tool.getHeight() - r.height;
-		}
+        r.x = xpos;
+        if (tool.getWidth() >= 3) {
+            r.x--;
+        }
+        if (xdest >= xpos) {
+            r.width = ((xdest - xpos) / tool.getWidth() + 1) * tool.getWidth();
+        } else {
+            r.width = ((xpos - xdest) / tool.getWidth() + 1) * tool.getHeight();
+            r.x += tool.getWidth() - r.width;
+        }
 
-		return r;
-	}
+        r.y = ypos;
+        if (tool.getHeight() >= 3) {
+            r.y--;
+        }
+        if (ydest >= ypos) {
+            r.height = ((ydest - ypos) / tool.getHeight() + 1) * tool.getHeight();
+        } else {
+            r.height = ((ypos - ydest) / tool.getHeight() + 1) * tool.getHeight();
+            r.y += tool.getHeight() - r.height;
+        }
 
-	public CityLocation getLocation() {
-		return new CityLocation(xpos, ypos);
-	}
+        return r;
+    }
 
-	boolean applyZone(ToolEffectIfc eff, int base) {
-		assert isZoneCenter(base);
+    public CityLocation getLocation() {
+        return new CityLocation(xpos, ypos);
+    }
 
-		TileSpec.BuildingInfo bi = Tiles.get(base).getBuildingInfo();
-		if(bi == null) {
-			throw new Error("Cannot applyZone to #" + base);
-		}
+    
+    boolean applyZone(ToolEffectIfc eff, int base) {
+        assert isZoneCenter(base);
 
-		int cost = tool.getToolCost();
-		boolean canBuild = true;
-		for(int rowNum = 0; rowNum < bi.height; rowNum++) {
-			for(int columnNum = 0; columnNum < bi.width; columnNum++) {
-				int tileValue = eff.getTile(columnNum, rowNum);
-				tileValue = tileValue & LOMASK;
+        TileSpec.BuildingInfo bi = Tiles.get(base).getBuildingInfo();
+        if (bi == null) {
+            throw new Error("Cannot applyZone to #" + base);
+        }
 
-				if(tileValue != DIRT) {
-					if(city.autoBulldoze && canAutoBulldozeZ((char) tileValue)) {
-						cost++;
-					}
-					else {
-						canBuild = false;
-					}
-				}
-			}
-		}
-		if(!canBuild) {
-			eff.toolResult(ToolResult.UH_OH);
-			return false;
-		}
+        int cost = tool.getToolCost();
+        boolean canBuild = true;
+        for (int rowNum = 0; rowNum < bi.height; rowNum++) {
+            for (int columnNum = 0; columnNum < bi.width; columnNum++) {
+                int tileValue = eff.getTile(columnNum, rowNum);
+                tileValue = tileValue & LOMASK;
 
-		eff.spend(cost);
+                if (tileValue != DIRT) {
+                    if (city.autoBulldoze && canAutoBulldozeZ((char) tileValue)) {
+                        cost++;
+                    } else {
+                        canBuild = false;
+                    }
+                }
+            }
+        }
+        if (!canBuild) {
+            eff.toolResult(ToolResult.UH_OH);
+            return false;
+        }
 
-		int i = 0;
-		for(int rowNum = 0; rowNum < bi.height; rowNum++) {
-			for(int columnNum = 0; columnNum < bi.width; columnNum++) {
-				eff.setTile(columnNum, rowNum, (char) bi.members[i]);
-				i++;
-			}
-		}
+        eff.spend(cost);
 
-		fixBorder(eff, bi.width, bi.height);
-		return true;
-	}
+        int i = 0;
+        for (int rowNum = 0; rowNum < bi.height; rowNum++) {
+            for (int columnNum = 0; columnNum < bi.width; columnNum++) {
+                eff.setTile(columnNum, rowNum, (char) bi.members[i]);
+                i++;
+            }
+        }
 
-	// compatible function
-	void fixBorder(int left, int top, int right, int bottom) {
-		ToolEffect eff = new ToolEffect(city, left, top);
-		fixBorder(eff, right + 1 - left, bottom + 1 - top);
-		eff.apply();
-	}
+        fixBorder(eff, bi.width, bi.height);
+        return true;
+    }
 
-	void fixBorder(ToolEffectIfc eff, int width, int height) {
-		for(int x = 0; x < width; x++) {
-			fixZone(new TranslatedToolEffect(eff, x, 0));
-			fixZone(new TranslatedToolEffect(eff, x, height - 1));
-		}
-		for(int y = 1; y < height - 1; y++) {
-			fixZone(new TranslatedToolEffect(eff, 0, y));
-			fixZone(new TranslatedToolEffect(eff, width - 1, y));
-		}
-	}
+    // compatible function
+    void fixBorder(int left, int top, int right, int bottom) {
+        ToolEffect eff = new ToolEffect(city, left, top, playerID);
+        fixBorder(eff, right + 1 - left, bottom + 1 - top);
+        eff.apply(playerID);
+    }
 
-	boolean applyParkTool(ToolEffectIfc eff) {
-		int cost = tool.getToolCost();
+    void fixBorder(ToolEffectIfc eff, int width, int height) {
+        for (int x = 0; x < width; x++) {
+            fixZone(new TranslatedToolEffect(eff, x, 0));
+            fixZone(new TranslatedToolEffect(eff, x, height - 1));
+        }
+        for (int y = 1; y < height - 1; y++) {
+            fixZone(new TranslatedToolEffect(eff, 0, y));
+            fixZone(new TranslatedToolEffect(eff, width - 1, y));
+        }
+    }
 
-		if(eff.getTile(0, 0) != DIRT) {
-			// some sort of bulldozing is necessary
-			if(!city.autoBulldoze) {
-				eff.toolResult(ToolResult.UH_OH);
-				return false;
-			}
+    boolean applyParkTool(ToolEffectIfc eff) {
+        int cost = tool.getToolCost();
 
-			// FIXME- use a canAutoBulldoze-style function here
-			if(isRubble(eff.getTile(0, 0))) {
-				// this tile can be auto-bulldozed
-				cost++;
-			}
-			else {
-				// cannot be auto-bulldozed
-				eff.toolResult(ToolResult.UH_OH);
-				return false;
-			}
-		}
+        if (eff.getTile(0, 0) != DIRT) {
+            // some sort of bulldozing is necessary
+            if (!city.autoBulldoze) {
+                eff.toolResult(ToolResult.UH_OH);
+                return false;
+            }
 
-		int z = inPreview ? 0 : city.PRNG.nextInt(5);
-		int tile;
-		if(z < 4) {
-			tile = WOODS2 + z;
-		}
-		else {
-			tile = FOUNTAIN;
-		}
+            // FIXME- use a canAutoBulldoze-style function here
+            if (isRubble(eff.getTile(0, 0))) {
+                // this tile can be auto-bulldozed
+                cost++;
+            } else {
+                // cannot be auto-bulldozed
+                eff.toolResult(ToolResult.UH_OH);
+                return false;
+            }
+        }
 
-		eff.spend(cost);
-		eff.setTile(0, 0, tile);
+        int z = inPreview ? 0 : city.PRNG.nextInt(5);
+        int tile;
+        if (z < 4) {
+            tile = WOODS2 + z;
+        } else {
+            tile = FOUNTAIN;
+        }
 
-		return true;
-	}
+        eff.spend(cost);
+        eff.setTile(0, 0, tile);
 
-	protected void fixZone(int xpos, int ypos) {
-		ToolEffect eff = new ToolEffect(city, xpos, ypos);
-		fixZone(eff);
-		eff.apply();
-	}
+        return true;
+    }
 
-	protected void fixZone(ToolEffectIfc eff) {
-		fixSingle(eff);
+    protected void fixZone(int xpos, int ypos) {
+        ToolEffect eff = new ToolEffect(city, xpos, ypos, playerID);
+        fixZone(eff);
+        eff.apply(playerID);
+    }
 
-		// "fix" the cells to the north, west, east, and south
-		fixSingle(new TranslatedToolEffect(eff, 0, -1));
-		fixSingle(new TranslatedToolEffect(eff, -1, 0));
-		fixSingle(new TranslatedToolEffect(eff, 1, 0));
-		fixSingle(new TranslatedToolEffect(eff, 0, 1));
-	}
+    protected void fixZone(ToolEffectIfc eff) {
+        fixSingle(eff);
 
-	private void fixSingle(ToolEffectIfc eff) {
-		int tile = eff.getTile(0, 0);
+        // "fix" the cells to the north, west, east, and south
+        fixSingle(new TranslatedToolEffect(eff, 0, -1));
+        fixSingle(new TranslatedToolEffect(eff, -1, 0));
+        fixSingle(new TranslatedToolEffect(eff, 1, 0));
+        fixSingle(new TranslatedToolEffect(eff, 0, 1));
+    }
 
-		if(isRoadDynamic(tile)) {
-			// cleanup road
-			int adjTile = 0;
+    private void fixSingle(ToolEffectIfc eff) {
+        int tile = eff.getTile(0, 0);
 
-			// check road to north
-			if(roadConnectsSouth(eff.getTile(0, -1))) {
-				adjTile |= 1;
-			}
+        if (isRoadDynamic(tile)) {
+            // cleanup road
+            int adjTile = 0;
 
-			// check road to east
-			if(roadConnectsWest(eff.getTile(1, 0))) {
-				adjTile |= 2;
-			}
+            // check road to north
+            if (roadConnectsSouth(eff.getTile(0, -1))) {
+                adjTile |= 1;
+            }
 
-			// check road to south
-			if(roadConnectsNorth(eff.getTile(0, 1))) {
-				adjTile |= 4;
-			}
+            // check road to east
+            if (roadConnectsWest(eff.getTile(1, 0))) {
+                adjTile |= 2;
+            }
 
-			// check road to west
-			if(roadConnectsEast(eff.getTile(-1, 0))) {
-				adjTile |= 8;
-			}
+            // check road to south
+            if (roadConnectsNorth(eff.getTile(0, 1))) {
+                adjTile |= 4;
+            }
 
-			eff.setTile(0, 0, RoadTable[adjTile]);
-		} // endif on a road tile
+            // check road to west
+            if (roadConnectsEast(eff.getTile(-1, 0))) {
+                adjTile |= 8;
+            }
 
-		else if(isRailDynamic(tile)) {
-			// cleanup Rail
-			int adjTile = 0;
+            eff.setTile(0, 0, RoadTable[adjTile]);
+        } // endif on a road tile
 
-			// check rail to north
-			if(railConnectsSouth(eff.getTile(0, -1))) {
-				adjTile |= 1;
-			}
+        else if (isRailDynamic(tile)) {
+            // cleanup Rail
+            int adjTile = 0;
 
-			// check rail to east
-			if(railConnectsWest(eff.getTile(1, 0))) {
-				adjTile |= 2;
-			}
+            // check rail to north
+            if (railConnectsSouth(eff.getTile(0, -1))) {
+                adjTile |= 1;
+            }
 
-			// check rail to south
-			if(railConnectsNorth(eff.getTile(0, 1))) {
-				adjTile |= 4;
-			}
+            // check rail to east
+            if (railConnectsWest(eff.getTile(1, 0))) {
+                adjTile |= 2;
+            }
 
-			// check rail to west
-			if(railConnectsEast(eff.getTile(-1, 0))) {
-				adjTile |= 8;
-			}
+            // check rail to south
+            if (railConnectsNorth(eff.getTile(0, 1))) {
+                adjTile |= 4;
+            }
 
-			eff.setTile(0, 0, RailTable[adjTile]);
-		} // end if on a rail tile
+            // check rail to west
+            if (railConnectsEast(eff.getTile(-1, 0))) {
+                adjTile |= 8;
+            }
 
-		else if(isWireDynamic(tile)) {
-			// Cleanup Wire
-			int adjTile = 0;
+            eff.setTile(0, 0, RailTable[adjTile]);
+        } // end if on a rail tile
 
-			// check wire to north
-			if(wireConnectsSouth(eff.getTile(0, -1))) {
-				adjTile |= 1;
-			}
+        else if (isWireDynamic(tile)) {
+            // Cleanup Wire
+            int adjTile = 0;
 
-			// check wire to east
-			if(wireConnectsWest(eff.getTile(1, 0))) {
-				adjTile |= 2;
-			}
+            // check wire to north
+            if (wireConnectsSouth(eff.getTile(0, -1))) {
+                adjTile |= 1;
+            }
 
-			// check wire to south
-			if(wireConnectsNorth(eff.getTile(0, 1))) {
-				adjTile |= 4;
-			}
+            // check wire to east
+            if (wireConnectsWest(eff.getTile(1, 0))) {
+                adjTile |= 2;
+            }
 
-			// check wire to west
-			if(wireConnectsEast(eff.getTile(-1, 0))) {
-				adjTile |= 8;
-			}
+            // check wire to south
+            if (wireConnectsNorth(eff.getTile(0, 1))) {
+                adjTile |= 4;
+            }
 
-			eff.setTile(0, 0, WireTable[adjTile]);
-		} // end if on a rail tile
+            // check wire to west
+            if (wireConnectsEast(eff.getTile(-1, 0))) {
+                adjTile |= 8;
+            }
 
-		return;
-	}
-	
-	
+            eff.setTile(0, 0, WireTable[adjTile]);
+        } // end if on a rail tile
+
+        return;
+    }
+
 }

@@ -16,13 +16,17 @@ class ToolEffect implements ToolEffectIfc {
 	final int originX;
 	final int originY;
 
-	ToolEffect(Micropolis city) {
-		this(city, 0, 0);
+	public ToolEffect(Micropolis city) {
+		this(city, 0);
+	}
+	
+	public ToolEffect(Micropolis city, int playerID) {
+	    this(city, 0, 0, playerID);
 	}
 
-	ToolEffect(Micropolis city, int xpos, int ypos) {
+	public ToolEffect(Micropolis city, int xpos, int ypos, int playerID) {
 		this.city = city;
-		this.preview = new ToolPreview();
+		this.preview = new ToolPreview(playerID);
 		this.originX = xpos;
 		this.originY = ypos;
 	}
@@ -64,7 +68,9 @@ class ToolEffect implements ToolEffectIfc {
 		preview.toolResult(tr);
 	}
 
-	ToolResult apply() {
+	
+	//TODO: dont bulldoze enemy buildings
+	public ToolResult apply(int playerID) {
 		if(originX - preview.offsetX < 0 || originX - preview.offsetX + preview.getWidth() > city.getWidth()
 				|| originY - preview.offsetY < 0 || originY - preview.offsetY + preview.getHeight() > city.getHeight()) {
 			return ToolResult.UH_OH;
@@ -74,6 +80,8 @@ class ToolEffect implements ToolEffectIfc {
 			return ToolResult.INSUFFICIENT_FUNDS;
 		}
 
+	
+		
 		boolean anyFound = false;
 		for(int y = 0; y < preview.tiles.length; y++) {
 			for(int x = 0; x < preview.tiles[y].length; x++) {
@@ -97,4 +105,5 @@ class ToolEffect implements ToolEffectIfc {
 			return preview.toolResult;
 		}
 	}
+
 }

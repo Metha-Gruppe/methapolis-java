@@ -169,8 +169,6 @@ public class TileSpec {
 				in.eatChar(')');
 
 				if(!attributes.containsKey(k)) {
-					// TODO:
-					System.out.println(k + ", " + v);
 					
 					attributes.put(k, v);
 					String sup = tilesRc.getProperty(k);

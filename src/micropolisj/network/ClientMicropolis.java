@@ -17,7 +17,6 @@ public class ClientMicropolis extends Micropolis{
     
     @Override
     public void animate() {
-        System.out.println(">>> animating in clientMicropolis");
         MapInfo info = remote.getMap();
         applyMapInfo(info);
         animateTiles();
@@ -38,6 +37,11 @@ public class ClientMicropolis extends Micropolis{
     
     public void toolUsed(ToolStroke tool) {
         PlayerInput input = new PlayerInput(tool);
-        remote.sendInput(1, input);
+        remote.sendInput(input);
+    }
+    
+    @Override
+    public int getPlayerID() {
+        return remote.getID();
     }
 }
