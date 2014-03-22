@@ -41,7 +41,7 @@ public class ServerMicropolis extends Micropolis{
     //custom: 
     private MapInfo generateMapInfo() {
         MapInfo mapInfo = new MapInfo(map, sprites);
-        mapInfo.cityBudget = this.budget;
+        mapInfo.cityBudget = playerInfo.budget;
         return mapInfo;
     }
 }

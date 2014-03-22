@@ -49,7 +49,7 @@ class TerrainBehavior extends TileBehavior {
 	}
 
 	void doFire() {
-		city.firePop++;
+		city.playerInfo.firePop++;
 
 		// one in four times
 		if(PRNG.nextInt(4) != 0) {
@@ -144,13 +144,13 @@ class TerrainBehavior extends TileBehavior {
 	 * Called when the current tile is a road tile.
 	 */
 	void doRoad() {
-		city.roadTotal++;
+		city.playerInfo.roadTotal++;
 
-		if(city.roadEffect < 30) {
+		if(city.playerInfo.roadEffect < 30) {
 			// deteriorating roads
 			if(PRNG.nextInt(512) == 0) {
 				if(!isConductive(tile)) {
-					if(city.roadEffect < PRNG.nextInt(32)) {
+					if(city.playerInfo.roadEffect < PRNG.nextInt(32)) {
 						if(isOverWater(tile))
 							city.setTile(xpos, ypos, RIVER);
 						else
@@ -163,7 +163,7 @@ class TerrainBehavior extends TileBehavior {
 
 		if(!isCombustible(tile)) // bridge
 		{
-			city.roadTotal += 4;
+			city.playerInfo.roadTotal += 4;
 			if(doBridge())
 				return;
 		}
@@ -174,7 +174,7 @@ class TerrainBehavior extends TileBehavior {
 		else if(tile < HTRFBASE)
 			tden = 1;
 		else {
-			city.roadTotal++;
+			city.playerInfo.roadTotal++;
 			tden = 2;
 		}
 
@@ -195,13 +195,13 @@ class TerrainBehavior extends TileBehavior {
 	 * Called when the current tile is railroad.
 	 */
 	void doRail() {
-		city.railTotal++;
+		city.playerInfo.railTotal++;
 		city.generateTrain(xpos, ypos);
 
-		if(city.roadEffect < 30) { // deteriorating rail
+		if(city.playerInfo.roadEffect < 30) { // deteriorating rail
 			if(PRNG.nextInt(512) == 0) {
 				if(!isConductive(tile)) {
-					if(city.roadEffect < PRNG.nextInt(32)) {
+					if(city.playerInfo.roadEffect < PRNG.nextInt(32)) {
 						if(isOverWater(tile)) {
 							city.setTile(xpos, ypos, RIVER);
 						}

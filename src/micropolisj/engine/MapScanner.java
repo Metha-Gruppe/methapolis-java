@@ -82,10 +82,10 @@ class MapScanner extends TileBehavior {
 		boolean zonePwrFlag = setZonePower();
 
 		if(zonePwrFlag) {
-			city.poweredZoneCount++;
+			city.playerInfo.poweredZoneCount++;
 		}
 		else {
-			city.unpoweredZoneCount++;
+			city.playerInfo.unpoweredZoneCount++;
 		}
 
 		return zonePwrFlag;
@@ -155,7 +155,7 @@ class MapScanner extends TileBehavior {
 
 	void doCoalPower() {
 		boolean powerOn = checkZonePower();
-		city.coalCount++;
+		city.playerInfo.coalCount++;
 		if((city.cityTime % 8) == 0) {
 			repairZone(POWERPLANT, 4);
 		}
@@ -170,7 +170,7 @@ class MapScanner extends TileBehavior {
 			return;
 		}
 
-		city.nuclearCount++;
+		city.playerInfo.nuclearCount++;
 		if((city.cityTime % 8) == 0) {
 			repairZone(NUCLEAR, 4);
 		}
@@ -180,17 +180,17 @@ class MapScanner extends TileBehavior {
 
 	void doFireStation() {
 		boolean powerOn = checkZonePower();
-		city.fireStationCount++;
+		city.playerInfo.fireStationCount++;
 		if((city.cityTime % 8) == 0) {
 			repairZone(FIRESTATION, 3);
 		}
 
 		int z;
 		if(powerOn) {
-			z = city.fireEffect; // if powered, get effect
+			z = city.playerInfo.fireEffect; // if powered, get effect
 		}
 		else {
-			z = city.fireEffect / 2; // from the funding ratio
+			z = city.playerInfo.fireEffect / 2; // from the funding ratio
 		}
 
 		traffic.mapX = xpos;
@@ -204,17 +204,17 @@ class MapScanner extends TileBehavior {
 
 	void doPoliceStation() {
 		boolean powerOn = checkZonePower();
-		city.policeCount++;
+		city.playerInfo.policeCount++;
 		if((city.cityTime % 8) == 0) {
 			repairZone(POLICESTATION, 3);
 		}
 
 		int z;
 		if(powerOn) {
-			z = city.policeEffect;
+			z = city.playerInfo.policeEffect;
 		}
 		else {
-			z = city.policeEffect / 2;
+			z = city.playerInfo.policeEffect / 2;
 		}
 
 		traffic.mapX = xpos;
@@ -227,7 +227,7 @@ class MapScanner extends TileBehavior {
 	}
 
 	void doUniversity() {
-		city.researchCount++;
+		city.playerInfo.researchCount++;
 		if((city.cityTime % 8) == 0) {
 			repairZone(UNIVERSITY, 3);
 		}
@@ -238,7 +238,7 @@ class MapScanner extends TileBehavior {
 
 	void doStadiumEmpty() {
 		boolean powerOn = checkZonePower();
-		city.stadiumCount++;
+		city.playerInfo.stadiumCount++;
 		if((city.cityTime % 16) == 0) {
 			repairZone(STADIUM, 4);
 		}
@@ -254,7 +254,7 @@ class MapScanner extends TileBehavior {
 
 	void doStadiumFull() {
 		boolean powerOn = checkZonePower();
-		city.stadiumCount++;
+		city.playerInfo.stadiumCount++;
 		if(((city.cityTime + xpos + ypos) % 8) == 0) {
 			drawStadium(STADIUM);
 		}
@@ -262,7 +262,7 @@ class MapScanner extends TileBehavior {
 
 	void doAirport() {
 		boolean powerOn = checkZonePower();
-		city.airportCount++;
+		city.playerInfo.airportCount++;
 		if((city.cityTime % 8) == 0) {
 			repairZone(AIRPORT, 6);
 		}
@@ -281,7 +281,7 @@ class MapScanner extends TileBehavior {
 
 	void doSeaport() {
 		boolean powerOn = checkZonePower();
-		city.seaportCount++;
+		city.playerInfo.seaportCount++;
 		if((city.cityTime % 16) == 0) {
 			repairZone(PORT, 4);
 		}
@@ -295,15 +295,15 @@ class MapScanner extends TileBehavior {
 	 * Place hospital or church if needed.
 	 */
 	void makeHospital() {
-		if(city.needHospital > 0) {
+		if(city.playerInfo.needHospital > 0) {
 			zonePlop(HOSPITAL);
-			city.needHospital = 0;
+			city.playerInfo.needHospital = 0;
 		}
 
 		// FIXME- should be 'else if'
-		if(city.needChurch > 0) {
+		if(city.playerInfo.needChurch > 0) {
 			zonePlop(CHURCH);
-			city.needChurch = 0;
+			city.playerInfo.needChurch = 0;
 		}
 	}
 
@@ -313,12 +313,12 @@ class MapScanner extends TileBehavior {
 	void doHospitalChurch() {
 		boolean powerOn = checkZonePower();
 		if(tile == HOSPITAL) {
-			city.hospitalCount++;
+			city.playerInfo.hospitalCount++;
 
 			if(city.cityTime % 16 == 0) {
 				repairZone(HOSPITAL, 3);
 			}
-			if(city.needHospital == -1) // too many hospitals
+			if(city.playerInfo.needHospital == -1) // too many hospitals
 			{
 				if(PRNG.nextInt(21) == 0) {
 					zonePlop(RESCLR);
@@ -326,12 +326,12 @@ class MapScanner extends TileBehavior {
 			}
 		}
 		else if(tile == CHURCH) {
-			city.churchCount++;
+			city.playerInfo.churchCount++;
 
 			if(city.cityTime % 16 == 0) {
 				repairZone(CHURCH, 3);
 			}
-			if(city.needChurch == -1) // too many churches
+			if(city.playerInfo.needChurch == -1) // too many churches
 			{
 				if(PRNG.nextInt(21) == 0) {
 					zonePlop(RESCLR);
@@ -384,10 +384,10 @@ class MapScanner extends TileBehavior {
 	 */
 	void doCommercial() {
 		boolean powerOn = checkZonePower();
-		city.comZoneCount++;
+		city.playerInfo.comZoneCount++;
 
 		int tpop = commercialZonePop(tile);
-		city.comPop += tpop;
+		city.playerInfo.comPop += tpop;
 
 		int trafficGood;
 		if(tpop > PRNG.nextInt(6)) {
@@ -405,7 +405,7 @@ class MapScanner extends TileBehavior {
 
 		if(PRNG.nextInt(8) == 0) {
 			int locValve = evalCommercial(trafficGood);
-			int zscore = city.comValve + locValve;
+			int zscore = city.playerInfo.comValve + locValve;
 
 			if(!powerOn)
 				zscore = -500;
@@ -428,10 +428,10 @@ class MapScanner extends TileBehavior {
 	 */
 	void doIndustrial() {
 		boolean powerOn = checkZonePower();
-		city.indZoneCount++;
+		city.playerInfo.indZoneCount++;
 
 		int tpop = industrialZonePop(tile);
-		city.indPop += tpop;
+		city.playerInfo.indPop += tpop;
 
 		int trafficGood;
 		if(tpop > PRNG.nextInt(6)) {
@@ -448,7 +448,7 @@ class MapScanner extends TileBehavior {
 
 		if(PRNG.nextInt(8) == 0) {
 			int locValve = evalIndustrial(trafficGood);
-			int zscore = city.indValve + locValve;
+			int zscore = city.playerInfo.indValve + locValve;
 
 			if(!powerOn)
 				zscore = -500;
@@ -471,7 +471,7 @@ class MapScanner extends TileBehavior {
 	 */
 	void doResidential() {
 		boolean powerOn = checkZonePower();
-		city.resZoneCount++;
+		city.playerInfo.resZoneCount++;
 
 		int tpop; // population of this zone
 		if(tile == RESCLR) {
@@ -481,7 +481,7 @@ class MapScanner extends TileBehavior {
 			tpop = residentialZonePop(tile);
 		}
 
-		city.resPop += tpop;
+		city.playerInfo.resPop += tpop;
 
 		int trafficGood;
 		if(tpop > PRNG.nextInt(36)) {
@@ -499,7 +499,7 @@ class MapScanner extends TileBehavior {
 
 		if(tile == RESCLR || PRNG.nextInt(8) == 0) {
 			int locValve = evalResidential(trafficGood);
-			int zscore = city.resValve + locValve;
+			int zscore = city.playerInfo.resValve + locValve;
 
 			if(!powerOn)
 				zscore = -500;

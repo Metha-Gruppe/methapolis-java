@@ -258,12 +258,12 @@ public class EvaluationPane extends JPanel
 	private void loadEvaluation()
 	{
 		NumberFormat pctFmt = NumberFormat.getPercentInstance();
-		yesLbl.setText(pctFmt.format(0.01 * engine.evaluation.cityYes));
-		noLbl.setText(pctFmt.format(0.01 * engine.evaluation.cityNo));
+		yesLbl.setText(pctFmt.format(0.01 * engine.playerInfo.evaluation.cityYes));
+		noLbl.setText(pctFmt.format(0.01 * engine.playerInfo.evaluation.cityNo));
 
 		for (int i = 0; i < voterProblemLbl.length; i++) {
-			CityProblem p = i < engine.evaluation.problemOrder.length ? engine.evaluation.problemOrder[i] : null;
-			int numVotes = p != null ? engine.evaluation.problemVotes.get(p) : 0;
+			CityProblem p = i < engine.playerInfo.evaluation.problemOrder.length ? engine.playerInfo.evaluation.problemOrder[i] : null;
+			int numVotes = p != null ? engine.playerInfo.evaluation.problemVotes.get(p) : 0;
 
 			if (numVotes != 0) {
 				voterProblemLbl[i].setText(cstrings.getString("problem."+p.name()));
@@ -277,13 +277,13 @@ public class EvaluationPane extends JPanel
 		}
 
 		NumberFormat nf = NumberFormat.getInstance();
-		popLbl.setText(nf.format(engine.evaluation.cityPop));
-		deltaLbl.setText(nf.format(engine.evaluation.deltaCityPop));
-		assessLbl.setText(formatFunds(engine.evaluation.cityAssValue));
-		cityClassLbl.setText(getCityClassName(engine.evaluation.cityClass));
+		popLbl.setText(nf.format(engine.playerInfo.evaluation.cityPop));
+		deltaLbl.setText(nf.format(engine.playerInfo.evaluation.deltaCityPop));
+		assessLbl.setText(formatFunds(engine.playerInfo.evaluation.cityAssValue));
+		cityClassLbl.setText(getCityClassName(engine.playerInfo.evaluation.cityClass));
 		gameLevelLbl.setText(getGameLevelName(engine.gameLevel));
-		scoreLbl.setText(nf.format(engine.evaluation.cityScore));
-		scoreDeltaLbl.setText(nf.format(engine.evaluation.deltaCityScore));
+		scoreLbl.setText(nf.format(engine.playerInfo.evaluation.cityScore));
+		scoreDeltaLbl.setText(nf.format(engine.playerInfo.evaluation.deltaCityScore));
 	}
 
 	static String getCityClassName(int cityClass)

@@ -76,7 +76,7 @@ class ToolEffect implements ToolEffectIfc {
 			return ToolResult.UH_OH;
 		}
 
-		if(city.budget.totalFunds < preview.cost) {
+		if(city.playerInfo.budget.totalFunds < preview.cost) {
 			return ToolResult.INSUFFICIENT_FUNDS;
 		}
 

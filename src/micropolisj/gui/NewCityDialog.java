@@ -49,7 +49,7 @@ public class NewCityDialog extends JDialog
 		getContentPane().add(p1, BorderLayout.CENTER);
 
 		this.engine = engine;
-		this.engine.researchState = new ResearchState();
+		this.engine.playerInfo.researchState = new ResearchState();
 		new MapGenerator(engine).generateNewCity();
 
 		mapPane = new OverlayMapView(engine);

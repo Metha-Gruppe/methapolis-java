@@ -117,8 +117,12 @@ public class Micropolis {
 
     static final int DEFAULT_WIDTH = 120;
     static final int DEFAULT_HEIGHT = 100;
+    
+    
+    //TODO: make it a List/array to hold every players information individually
+    public PlayerInfo playerInfo;
+    
 
-    public final CityBudget budget = new CityBudget(this);
     public boolean autoBulldoze = true;
     public boolean autoBudget = false;
     public Speed simSpeed = Speed.NORMAL;
@@ -128,89 +132,8 @@ public class Micropolis {
 
     boolean autoGo;
 
-    // census numbers, reset in phase 0 of each cycle, summed during map scan
-    int poweredZoneCount;
-    int unpoweredZoneCount;
-    int roadTotal;
-    int railTotal;
-    int firePop;
-    int resZoneCount;
-    int comZoneCount;
-    int indZoneCount;
-    int resPop;
-    int comPop;
-    int indPop;
-    int hospitalCount;
-    int churchCount;
-    int policeCount;
-    int fireStationCount;
-    int stadiumCount;
-    int coalCount;
-    int nuclearCount;
-    int seaportCount;
-    int airportCount;
-
-    // CUSTOM
-    int researchCount;
-
-    int totalPop;
-    int lastCityPop;
-
-    // used in generateBudget()
-    int lastRoadTotal;
-    int lastRailTotal;
-    int lastTotalPop;
-    int lastFireStationCount;
-    int lastPoliceCount;
-    int lastResearchCount;
-
-    int trafficMaxLocationX;
-    int trafficMaxLocationY;
-    int pollutionMaxLocationX;
-    int pollutionMaxLocationY;
-    int crimeMaxLocationX;
-    int crimeMaxLocationY;
-    public int centerMassX;
-    public int centerMassY;
     CityLocation meltdownLocation; // may be null
     CityLocation crashLocation; // may be null
-
-    int needHospital; // -1 too many already, 0 just right, 1 not enough
-    int needChurch; // -1 too many already, 0 just right, 1 not enough
-
-    int crimeAverage;
-    int pollutionAverage;
-    int landValueAverage;
-    int trafficAverage;
-
-    int resValve; // ranges between -2000 and 2000, updated by setValves
-    int comValve; // ranges between -1500 and 1500
-    int indValve; // ranges between -1500 and 1500
-
-    boolean resCap; // residents demand a stadium, caps resValve at 0
-    boolean comCap; // commerce demands airport, caps comValve at 0
-    boolean indCap; // industry demands sea port, caps indValve at 0
-    int crimeRamp;
-    int polluteRamp;
-
-    //
-    // budget stuff
-    //
-    public int cityTax = 7;
-    public double roadPercent = 1.0;
-    public double policePercent = 1.0;
-    public double firePercent = 1.0;
-    public double researchPercent = 1.0;
-
-    int taxEffect = 7;
-    int roadEffect = 32;
-    int policeEffect = 1000;
-    int fireEffect = 1000;
-    int researchEffect = 1000;
-
-    int cashFlow; // net change in totalFunds in previous year
-
-    boolean newPower;
 
     int floodCnt; // number of turns the flood will last
     int floodX;
@@ -221,10 +144,6 @@ public class Micropolis {
     int fcycle; // counts simulation steps (mod 1024)
     int acycle; // animation cycle (mod 960)
 
-    public ResearchState researchState = new ResearchState();
-
-    public CityEval evaluation;
-
     protected List<Sprite> sprites = new ArrayList<Sprite>();
 
     static final int VALVERATE = 2;
@@ -232,7 +151,7 @@ public class Micropolis {
     static final int TAXFREQ = 48;
 
     public void spend(int amount) {
-        budget.totalFunds -= amount;
+        playerInfo.budget.totalFunds -= amount;
         fireFundsChanged();
     }
 
@@ -245,9 +164,11 @@ public class Micropolis {
      */
     public Micropolis(int width, int height) {
         PRNG = DEFAULT_PRNG;
-        evaluation = new CityEval(this);
+        playerInfo = new PlayerInfo(this);
+        playerInfo.evaluation = new CityEval(this);
         init(width, height);
         initTileBehaviors();
+        playerInfo.researchState = new ResearchState();
     }
 
     protected void init(int width, int height) {
@@ -278,8 +199,8 @@ public class Micropolis {
         fireRate = new int[smY][smX];
         comRate = new int[smY][smX];
 
-        centerMassX = hX;
-        centerMassY = hY;
+        playerInfo.centerMassX = hX;
+        playerInfo.centerMassY = hY;
     }
 
     void fireCensusChanged() {
@@ -399,13 +320,13 @@ public class Micropolis {
         void censusChanged();
 
         /**
-         * Fired whenever resValve, comValve, or indValve changes. (Twice a
+         * Fired whenever playerInfo.resValve, playerInfo.comValve, or playerInfo.indValve changes. (Twice a
          * month in game.)
          */
         void demandChanged();
 
         /**
-         * Fired whenever the city evaluation is recalculated. (Once a year.)
+         * Fired whenever the city playerInfo.evaluation is recalculated. (Once a year.)
          */
         void evaluationChanged();
 
@@ -480,7 +401,7 @@ public class Micropolis {
 
     /**
      * Checks whether the next call to animate() will collect taxes and process
-     * the budget.
+     * the playerInfo.budget.
      */
     public boolean isBudgetTime() {
         return (cityTime != 0 && (cityTime % TAXFREQ) == 0 && ((fcycle + 1) % 16) == 10 && ((acycle + 1) % 2) == 0);
@@ -492,27 +413,27 @@ public class Micropolis {
     }
 
     void clearCensus() {
-        poweredZoneCount = 0;
-        unpoweredZoneCount = 0;
-        firePop = 0;
-        roadTotal = 0;
-        railTotal = 0;
-        resPop = 0;
-        comPop = 0;
-        indPop = 0;
-        resZoneCount = 0;
-        comZoneCount = 0;
-        indZoneCount = 0;
-        hospitalCount = 0;
-        churchCount = 0;
-        policeCount = 0;
-        researchCount = 0;
-        fireStationCount = 0;
-        stadiumCount = 0;
-        coalCount = 0;
-        nuclearCount = 0;
-        seaportCount = 0;
-        airportCount = 0;
+        playerInfo.poweredZoneCount = 0;
+        playerInfo.poweredZoneCount = 0;
+        playerInfo.firePop = 0;
+        playerInfo.roadTotal = 0;
+        playerInfo.railTotal = 0;
+        playerInfo.resPopAverage = 0;
+        playerInfo.comPopAverage = 0;
+        playerInfo.indPop = 0;
+        playerInfo.resZoneCount = 0;
+        playerInfo.comZoneCount = 0;
+        playerInfo.indZoneCount = 0;
+        playerInfo.hospitalCount = 0;
+        playerInfo.churchCount = 0;
+        playerInfo.policeCount = 0;
+        playerInfo.researchCount = 0;
+        playerInfo.fireStationCount = 0;
+        playerInfo.stadiumCount = 0;
+        playerInfo.coalCount = 0;
+        playerInfo.nuclearCount = 0;
+        playerInfo.seaportCount = 0;
+        playerInfo.airportCount = 0;
         powerPlants.clear();
 
         for (int y = 0; y < fireStMap.length; y++) {
@@ -588,7 +509,7 @@ public class Micropolis {
 
             if (cityTime % TAXFREQ == 0) {
                 collectTax();
-                evaluation.cityEvaluation();
+                playerInfo.evaluation.cityEvaluation();
             }
             break;
 
@@ -610,7 +531,7 @@ public class Micropolis {
         case 11:
             powerScan();
             fireMapOverlayDataChanged(MapState.POWER_OVERLAY);
-            newPower = true;
+            playerInfo.newPower = true;
             break;
 
         case 12:
@@ -719,11 +640,11 @@ public class Micropolis {
 
         // find center of mass for city
         if (zoneCount != 0) {
-            centerMassX = xtot / zoneCount;
-            centerMassY = ytot / zoneCount;
+            playerInfo.centerMassX = xtot / zoneCount;
+            playerInfo.centerMassY = ytot / zoneCount;
         } else {
-            centerMassX = (width + 1) / 2;
-            centerMassY = (height + 1) / 2;
+            playerInfo.centerMassX = (width + 1) / 2;
+            playerInfo.centerMassY = (height + 1) / 2;
         }
 
         fireMapOverlayDataChanged(MapState.POPDEN_OVERLAY); // PDMAP
@@ -814,8 +735,8 @@ public class Micropolis {
                     sum += z;
                     if (z > cmax || (z == cmax && PRNG.nextInt(4) == 0)) {
                         cmax = z;
-                        crimeMaxLocationX = hx * 2;
-                        crimeMaxLocationY = hy * 2;
+                        playerInfo.crimeMaxLocationX = hx * 2;
+                        playerInfo.crimeMaxLocationY = hy * 2;
                     }
                 } else {
                     crimeMem[hy][hx] = 0;
@@ -824,9 +745,9 @@ public class Micropolis {
         }
 
         if (count != 0)
-            crimeAverage = sum / count;
+            playerInfo.crimeAverage = sum / count;
         else
-            crimeAverage = 0;
+            playerInfo.crimeAverage = 0;
 
         fireMapOverlayDataChanged(MapState.POLICE_OVERLAY);
     }
@@ -862,7 +783,7 @@ public class Micropolis {
             break;
         case 7:
         case 8:
-            if (pollutionAverage > 60) {
+            if (playerInfo.pollutionAverage > 60) {
                 makeMonster();
             }
             break;
@@ -967,7 +888,7 @@ public class Micropolis {
         // of powerplants connected to your city.
         //
 
-        int maxPower = coalCount * 700 + nuclearCount * 2000;
+        int maxPower = playerInfo.coalCount * 700 + playerInfo.nuclearCount * 2000;
         int numPower = 0;
 
         // This is kind of odd algorithm, but I haven't the heart to rewrite it
@@ -1021,8 +942,8 @@ public class Micropolis {
 
         if (z > 240 && PRNG.nextInt(6) == 0) {
             z = 240;
-            trafficMaxLocationX = mapX;
-            trafficMaxLocationY = mapY;
+            playerInfo.trafficMaxLocationX = mapX;
+            playerInfo.trafficMaxLocationY = mapY;
 
             HelicopterSprite copter = (HelicopterSprite) getSprite(SpriteKind.COP);
             if (copter != null) {
@@ -1123,7 +1044,7 @@ public class Micropolis {
             }
         }
 
-        landValueAverage = landValueCount != 0 ? (landValueTotal / landValueCount) : 0;
+        playerInfo.landValueAverage = landValueCount != 0 ? (landValueTotal / landValueCount) : 0;
 
         tem = doSmooth(tem);
         tem = doSmooth(tem);
@@ -1142,14 +1063,14 @@ public class Micropolis {
 
                     if (z > pmax || (z == pmax && PRNG.nextInt(4) == 0)) {
                         pmax = z;
-                        pollutionMaxLocationX = 2 * x;
-                        pollutionMaxLocationY = 2 * y;
+                        playerInfo.pollutionMaxLocationX = 2 * x;
+                        playerInfo.pollutionMaxLocationY = 2 * y;
                     }
                 }
             }
         }
 
-        pollutionAverage = pcount != 0 ? (ptotal / pcount) : 0;
+        playerInfo.pollutionAverage = pcount != 0 ? (ptotal / pcount) : 0;
 
         terrainMem = smoothTerrain(qtem);
 
@@ -1158,7 +1079,7 @@ public class Micropolis {
     }
 
     public CityLocation getLocationOfMaxPollution() {
-        return new CityLocation(pollutionMaxLocationX, pollutionMaxLocationY);
+        return new CityLocation(playerInfo.pollutionMaxLocationX, playerInfo.pollutionMaxLocationY);
     }
 
     static final int[] TaxTable = { 200, 150, 120, 100, 80, 50, 30, 0, -10, -40, -100, -150, -200, -250, -300, -350, -400, -450, -500, -550, -600 };
@@ -1179,8 +1100,8 @@ public class Micropolis {
     public History history = new History();
 
     void setValves() {
-        double normResPop = (double) resPop / 8.0;
-        totalPop = (int) (normResPop + comPop + indPop);
+        double normResPop = (double) playerInfo.resPopAverage / 8.0;
+        playerInfo.totalPop = (int) (normResPop + playerInfo.comPopAverage + playerInfo.indPop);
 
         double employment;
         if (normResPop != 0.0) {
@@ -1205,7 +1126,7 @@ public class Micropolis {
         // clamp laborBase to between 0.0 and 1.3
         laborBase = Math.max(0.0, Math.min(1.3, laborBase));
 
-        double internalMarket = (double) (normResPop + comPop + indPop) / 3.7;
+        double internalMarket = (double) (normResPop + playerInfo.comPopAverage + playerInfo.indPop) / 3.7;
         double projectedComPop = internalMarket * laborBase;
 
         int z = gameLevel;
@@ -1222,7 +1143,7 @@ public class Micropolis {
             break;
         }
 
-        double projectedIndPop = indPop * laborBase * temp;
+        double projectedIndPop = playerInfo.indPop * laborBase * temp;
         if (projectedIndPop < 5.0)
             projectedIndPop = 5.0;
 
@@ -1234,14 +1155,14 @@ public class Micropolis {
         }
 
         double comRatio;
-        if (comPop != 0)
-            comRatio = (double) projectedComPop / (double) comPop;
+        if (playerInfo.comPopAverage != 0)
+            comRatio = (double) projectedComPop / (double) playerInfo.comPopAverage;
         else
             comRatio = projectedComPop;
 
         double indRatio;
-        if (indPop != 0)
-            indRatio = (double) projectedIndPop / (double) indPop;
+        if (playerInfo.indPop != 0)
+            indRatio = (double) projectedIndPop / (double) playerInfo.indPop;
         else
             indRatio = projectedIndPop;
 
@@ -1254,7 +1175,7 @@ public class Micropolis {
         if (indRatio > 2.0)
             indRatio = 2.0;
 
-        int z2 = taxEffect + gameLevel;
+        int z2 = playerInfo.taxEffect + gameLevel;
         if (z2 > 20)
             z2 = 20;
 
@@ -1263,38 +1184,38 @@ public class Micropolis {
         indRatio = (indRatio - 1) * 600 + TaxTable[z2];
 
         // ratios are velocity changes to valves
-        resValve += (int) resRatio;
-        comValve += (int) comRatio;
-        indValve += (int) indRatio;
+        playerInfo.resValve += (int) resRatio;
+        playerInfo.comValve += (int) comRatio;
+        playerInfo.indValve += (int) indRatio;
 
-        if (resValve > 2000)
-            resValve = 2000;
-        else if (resValve < -2000)
-            resValve = -2000;
+        if (playerInfo.resValve > 2000)
+            playerInfo.resValve = 2000;
+        else if (playerInfo.resValve < -2000)
+            playerInfo.resValve = -2000;
 
-        if (comValve > 1500)
-            comValve = 1500;
-        else if (comValve < -1500)
-            comValve = -1500;
+        if (playerInfo.comValve > 1500)
+            playerInfo.comValve = 1500;
+        else if (playerInfo.comValve < -1500)
+            playerInfo.comValve = -1500;
 
-        if (indValve > 1500)
-            indValve = 1500;
-        else if (indValve < -1500)
-            indValve = -1500;
+        if (playerInfo.indValve > 1500)
+            playerInfo.indValve = 1500;
+        else if (playerInfo.indValve < -1500)
+            playerInfo.indValve = -1500;
 
-        if (resCap && resValve > 0) {
+        if (playerInfo.resCap && playerInfo.resValve > 0) {
             // residents demand stadium
-            resValve = 0;
+            playerInfo.resValve = 0;
         }
 
-        if (comCap && comValve > 0) {
+        if (playerInfo.comCap && playerInfo.comValve > 0) {
             // commerce demands airport
-            comValve = 0;
+            playerInfo.comValve = 0;
         }
 
-        if (indCap && indValve > 0) {
+        if (playerInfo.indCap && playerInfo.indValve > 0) {
             // industry demands sea port
-            indValve = 0;
+            playerInfo.indValve = 0;
         }
 
         fireDemandChanged();
@@ -1328,8 +1249,8 @@ public class Micropolis {
         assert x >= 0 && x <= getWidth() / 2;
         assert y >= 0 && y <= getHeight() / 2;
 
-        int xdis = Math.abs(x - centerMassX / 2);
-        int ydis = Math.abs(y - centerMassY / 2);
+        int xdis = Math.abs(x - playerInfo.centerMassX / 2);
+        int ydis = Math.abs(y - playerInfo.centerMassY / 2);
 
         int z = (xdis + ydis);
         if (z > 32)
@@ -1455,7 +1376,7 @@ public class Micropolis {
     }
 
     void generateTrain(int xpos, int ypos) {
-        if (totalPop > 20 && !hasSprite(SpriteKind.TRA) && PRNG.nextInt(26) == 0) {
+        if (playerInfo.totalPop > 20 && !hasSprite(SpriteKind.TRA) && PRNG.nextInt(26) == 0) {
             sprites.add(new TrainSprite(this, xpos, ypos));
         }
     }
@@ -1521,18 +1442,18 @@ public class Micropolis {
         // graph10max = Math.max(resMax, Math.max(comMax, indMax));
 
         // set newest value (front)
-        history.res[0] = resPop / 8;
-        history.com[0] = comPop;
-        history.ind[0] = indPop;
+        history.res[0] = playerInfo.resPopAverage / 8;
+        history.com[0] = playerInfo.comPopAverage;
+        history.ind[0] = playerInfo.indPop;
 
         // apply quarter of change (-> smoothing?)
-        crimeRamp += (crimeAverage - crimeRamp) / 4;
-        history.crime[0] = Math.min(255, crimeRamp);
+        playerInfo.crimeRamp += (playerInfo.crimeAverage - playerInfo.crimeRamp) / 4;
+        history.crime[0] = Math.min(255, playerInfo.crimeRamp);
 
-        polluteRamp += (pollutionAverage - polluteRamp) / 4;
-        history.pollution[0] = Math.min(255, polluteRamp);
+        playerInfo.polluteRamp += (playerInfo.pollutionAverage - playerInfo.polluteRamp) / 4;
+        history.pollution[0] = Math.min(255, playerInfo.polluteRamp);
 
-        int moneyScaled = cashFlow / 20 + 128; // - 3
+        int moneyScaled = playerInfo.cashFlow / 20 + 128; // - 3
 
         if (moneyScaled < 0)
             moneyScaled = 0;
@@ -1543,20 +1464,20 @@ public class Micropolis {
         history.cityTime = cityTime;
 
         // need of buildings?
-        if (hospitalCount < resPop / 256) {
-            needHospital = 1;
-        } else if (hospitalCount > resPop / 256) {
-            needHospital = -1;
+        if (playerInfo.hospitalCount < playerInfo.resPopAverage / 256) {
+            playerInfo.needHospital = 1;
+        } else if (playerInfo.hospitalCount > playerInfo.resPopAverage / 256) {
+            playerInfo.needHospital = -1;
         } else {
-            needHospital = 0;
+            playerInfo.needHospital = 0;
         }
 
-        if (churchCount < resPop / 256) {
-            needChurch = 1;
-        } else if (churchCount > resPop / 256) {
-            needChurch = -1;
+        if (playerInfo.churchCount < playerInfo.resPopAverage / 256) {
+            playerInfo.needChurch = 1;
+        } else if (playerInfo.churchCount > playerInfo.resPopAverage / 256) {
+            playerInfo.needChurch = -1;
         } else {
-            needChurch = 0;
+            playerInfo.needChurch = 0;
         }
     }
 
@@ -1583,9 +1504,9 @@ public class Micropolis {
             history.money[i + 1] = history.money[i];
         }
 
-        history.res[120] = resPop / 8;
-        history.com[120] = comPop;
-        history.ind[120] = indPop;
+        history.res[120] = playerInfo.resPopAverage / 8;
+        history.com[120] = playerInfo.comPopAverage;
+        history.ind[120] = playerInfo.indPop;
         history.crime[120] = history.crime[0];
         history.pollution[120] = history.pollution[0];
         history.money[120] = history.money[0];
@@ -1604,13 +1525,13 @@ public class Micropolis {
     public void addResearchPoints() {
         // used in collectTaxPartial()
         // Charger accumulates to Delay.
-        // researchEffect needs a divison as it is 1000 base.
+        // playerInfo.researchEffect needs a divison as it is 1000 base.
         // div 100 => you need at least 1 research station at 10% fund to get a
         // point
         System.out.println(researchDelayCharger);
         if (researchDelayCharger >= researchDelay) {
-            researchState.researchPoints += (researchEffect) / 100;
-            researchState.refreshPanel();
+            playerInfo.researchState.researchPoints += (playerInfo.researchEffect) / 100;
+            playerInfo.researchState.refreshPanel();
             researchDelayCharger = 0;
         } else {
             researchDelayCharger++;
@@ -1618,27 +1539,27 @@ public class Micropolis {
     }
 
     void collectTaxPartial() {
-        lastRoadTotal = roadTotal;
-        lastRailTotal = railTotal;
-        lastTotalPop = totalPop;
-        lastFireStationCount = fireStationCount;
-        lastPoliceCount = policeCount;
-        lastResearchCount = researchCount;
+        playerInfo.lastRoadTotal = playerInfo.roadTotal;
+        playerInfo.lastRailTotal = playerInfo.railTotal;
+        playerInfo.lastTotalPop = playerInfo.totalPop;
+        playerInfo.lastFireStationCount = playerInfo.fireStationCount;
+        playerInfo.lastPoliceCount = playerInfo.policeCount;
+        playerInfo.lastResearchCount = playerInfo.researchCount;
 
         BudgetNumbers b = generateBudget();
 
         // update instance variables
-        budget.taxFund += b.taxIncome;
-        budget.roadFundEscrow -= b.roadFunded;
-        budget.fireFundEscrow -= b.fireFunded;
-        budget.policeFundEscrow -= b.policeFunded;
-        budget.researchFundEscrow -= b.researchFunded;
+        playerInfo.budget.taxFund += b.taxIncome;
+        playerInfo.budget.roadFundEscrow -= b.roadFunded;
+        playerInfo.budget.fireFundEscrow -= b.fireFunded;
+        playerInfo.budget.policeFundEscrow -= b.policeFunded;
+        playerInfo.budget.researchFundEscrow -= b.researchFunded;
 
-        taxEffect = b.taxRate;
-        roadEffect = b.roadRequest != 0 ? (int) Math.floor(32.0 * (double) b.roadFunded / (double) b.roadRequest) : 32;
-        policeEffect = b.policeRequest != 0 ? (int) Math.floor(1000.0 * (double) b.policeFunded / (double) b.policeRequest) : 1000;
-        fireEffect = b.fireRequest != 0 ? (int) Math.floor(1000.0 * (double) b.fireFunded / (double) b.fireRequest) : 1000;
-        researchEffect = b.researchRequest != 0 ? (int) Math.floor(1000.0 * (double) b.researchFunded / (double) b.researchRequest) : 1000;
+        playerInfo.taxEffect = b.taxRate;
+        playerInfo.roadEffect = b.roadRequest != 0 ? (int) Math.floor(32.0 * (double) b.roadFunded / (double) b.roadRequest) : 32;
+        playerInfo.policeEffect = b.policeRequest != 0 ? (int) Math.floor(1000.0 * (double) b.policeFunded / (double) b.policeRequest) : 1000;
+        playerInfo.fireEffect = b.fireRequest != 0 ? (int) Math.floor(1000.0 * (double) b.fireFunded / (double) b.fireRequest) : 1000;
+        playerInfo.researchEffect = b.researchRequest != 0 ? (int) Math.floor(1000.0 * (double) b.researchFunded / (double) b.researchRequest) : 1000;
     }
 
     public static class FinancialHistory {
@@ -1651,25 +1572,25 @@ public class Micropolis {
     public ArrayList<FinancialHistory> financialHistory = new ArrayList<FinancialHistory>();
 
     void collectTax() {
-        int revenue = budget.taxFund / TAXFREQ;
-        int expenses = -(budget.roadFundEscrow + budget.fireFundEscrow + budget.policeFundEscrow + budget.researchFundEscrow) / TAXFREQ;
+        int revenue = playerInfo.budget.taxFund / TAXFREQ;
+        int expenses = -(playerInfo.budget.roadFundEscrow + playerInfo.budget.fireFundEscrow + playerInfo.budget.policeFundEscrow + playerInfo.budget.researchFundEscrow) / TAXFREQ;
 
         FinancialHistory hist = new FinancialHistory();
         hist.cityTime = cityTime;
         hist.taxIncome = revenue;
         hist.operatingExpenses = expenses;
 
-        cashFlow = revenue - expenses;
-        spend(-cashFlow);
+        playerInfo.cashFlow = revenue - expenses;
+        spend(-playerInfo.cashFlow);
 
-        hist.totalFunds = budget.totalFunds;
+        hist.totalFunds = playerInfo.budget.totalFunds;
         financialHistory.add(0, hist);
 
-        budget.taxFund = 0;
-        budget.roadFundEscrow = 0;
-        budget.fireFundEscrow = 0;
-        budget.policeFundEscrow = 0;
-        budget.researchFundEscrow = 0;
+        playerInfo.budget.taxFund = 0;
+        playerInfo.budget.roadFundEscrow = 0;
+        playerInfo.budget.fireFundEscrow = 0;
+        playerInfo.budget.policeFundEscrow = 0;
+        playerInfo.budget.researchFundEscrow = 0;
 
     }
 
@@ -1683,31 +1604,31 @@ public class Micropolis {
     static final int RESEARCH_STATION_MAINTENANCE = 500;
 
     /**
-     * Calculate the current budget numbers.
+     * Calculate the current playerInfo.budget numbers.
      */
     public BudgetNumbers generateBudget() {
         BudgetNumbers b = new BudgetNumbers();
-        b.taxRate = Math.max(0, cityTax);
-        b.roadPercent = Math.max(0.0, roadPercent);
-        b.firePercent = Math.max(0.0, firePercent);
-        b.policePercent = Math.max(0.0, policePercent);
-        b.researchPercent = Math.max(0.0, researchPercent);
+        b.taxRate = Math.max(0, playerInfo.cityTax);
+        b.roadPercent = Math.max(0.0, playerInfo.roadPercent);
+        b.firePercent = Math.max(0.0, playerInfo.firePercent);
+        b.policePercent = Math.max(0.0, playerInfo.policePercent);
+        b.researchPercent = Math.max(0.0, playerInfo.researchPercent);
 
-        b.previousBalance = budget.totalFunds;
-        b.taxIncome = (int) Math.round(lastTotalPop * landValueAverage / 120 * b.taxRate * FLevels[gameLevel]);
+        b.previousBalance = playerInfo.budget.totalFunds;
+        b.taxIncome = (int) Math.round(playerInfo.lastTotalPop * playerInfo.landValueAverage / 120 * b.taxRate * FLevels[gameLevel]);
         assert b.taxIncome >= 0;
 
-        b.roadRequest = (int) Math.round((lastRoadTotal + lastRailTotal * 2) * RLevels[gameLevel]);
-        b.fireRequest = FIRE_STATION_MAINTENANCE * lastFireStationCount;
-        b.policeRequest = POLICE_STATION_MAINTENANCE * lastPoliceCount;
-        b.researchRequest = RESEARCH_STATION_MAINTENANCE * lastResearchCount;
+        b.roadRequest = (int) Math.round((playerInfo.lastRoadTotal + playerInfo.lastRailTotal * 2) * RLevels[gameLevel]);
+        b.fireRequest = FIRE_STATION_MAINTENANCE * playerInfo.lastFireStationCount;
+        b.policeRequest = POLICE_STATION_MAINTENANCE * playerInfo.lastPoliceCount;
+        b.researchRequest = RESEARCH_STATION_MAINTENANCE * playerInfo.lastResearchCount;
 
         b.roadFunded = (int) Math.round(b.roadRequest * b.roadPercent);
         b.fireFunded = (int) Math.round(b.fireRequest * b.firePercent);
         b.policeFunded = (int) Math.round(b.policeRequest * b.policePercent);
         b.researchFunded = (int) Math.round(b.researchRequest * b.researchPercent);
 
-        int yumDuckets = budget.totalFunds + b.taxIncome;
+        int yumDuckets = playerInfo.budget.totalFunds + b.taxIncome;
         assert yumDuckets >= 0;
 
         // changeswp IF Inserted HEAVY CHANGES
@@ -1822,50 +1743,50 @@ public class Micropolis {
     void loadMisc(DataInputStream dis) throws IOException {
         dis.readShort(); // [0]... ignored?
         dis.readShort(); // [1] externalMarket, ignored
-        resPop = dis.readShort(); // [2-4] populations
-        comPop = dis.readShort();
-        indPop = dis.readShort();
-        resValve = dis.readShort(); // [5-7] valves
-        comValve = dis.readShort();
-        indValve = dis.readShort();
+        playerInfo.resPopAverage = dis.readShort(); // [2-4] populations
+        playerInfo.comPopAverage = dis.readShort();
+        playerInfo.indPop = dis.readShort();
+        playerInfo.resValve = dis.readShort(); // [5-7] valves
+        playerInfo.comValve = dis.readShort();
+        playerInfo.indValve = dis.readShort();
         cityTime = dis.readInt(); // [8-9] city time
-        crimeRamp = dis.readShort(); // [10]
-        polluteRamp = dis.readShort();
-        landValueAverage = dis.readShort(); // [12]
-        crimeAverage = dis.readShort();
-        pollutionAverage = dis.readShort(); // [14]
+        playerInfo.crimeRamp = dis.readShort(); // [10]
+        playerInfo.polluteRamp = dis.readShort();
+        playerInfo.landValueAverage = dis.readShort(); // [12]
+        playerInfo.crimeAverage = dis.readShort();
+        playerInfo.pollutionAverage = dis.readShort(); // [14]
         gameLevel = dis.readShort();
-        evaluation.cityClass = dis.readShort(); // [16]
-        evaluation.cityScore = dis.readShort();
+        playerInfo.evaluation.cityClass = dis.readShort(); // [16]
+        playerInfo.evaluation.cityScore = dis.readShort();
 
         for (int i = 18; i < 50; i++) {
             dis.readShort();
         }
 
-        budget.totalFunds = dis.readInt(); // [50-51] total funds
+        playerInfo.budget.totalFunds = dis.readInt(); // [50-51] total funds
         autoBulldoze = dis.readShort() != 0; // 52
         autoBudget = dis.readShort() != 0;
         autoGo = dis.readShort() != 0; // 54
         dis.readShort(); // userSoundOn (this setting not saved to game file
         // in this edition of the game)
-        cityTax = dis.readShort(); // 56
-        taxEffect = cityTax;
+        playerInfo.cityTax = dis.readShort(); // 56
+        playerInfo.taxEffect = playerInfo.cityTax;
         int simSpeedAsInt = dis.readShort();
         if (simSpeedAsInt >= 0 && simSpeedAsInt <= 4)
             simSpeed = Speed.values()[simSpeedAsInt];
         else
             simSpeed = Speed.NORMAL;
 
-        // read budget numbers, convert them to percentages
+        // read playerInfo.budget numbers, convert them to percentages
         //
         long n = dis.readInt(); // 58,59... police percent
-        policePercent = (double) n / 65536.0;
+        playerInfo.policePercent = (double) n / 65536.0;
         n = dis.readInt(); // changeswp 49... research percent
-        researchPercent = (double) n / 65536.0;
+        playerInfo.researchPercent = (double) n / 65536.0;
         n = dis.readInt(); // 60,61... fire percent
-        firePercent = (double) n / 65536.0;
+        playerInfo.firePercent = (double) n / 65536.0;
         n = dis.readInt(); // 62,63... road percent
-        roadPercent = (double) n / 65536.0;
+        playerInfo.roadPercent = (double) n / 65536.0;
 
         for (int i = 64; i < 120; i++) {
             dis.readShort();
@@ -1874,64 +1795,64 @@ public class Micropolis {
         if (cityTime < 0) {
             cityTime = 0;
         }
-        if (cityTax < 0 || cityTax > 20) {
-            cityTax = 7;
+        if (playerInfo.cityTax < 0 || playerInfo.cityTax > 20) {
+            playerInfo.cityTax = 7;
         }
         if (gameLevel < 0 || gameLevel > 2) {
             gameLevel = 0;
         }
-        if (evaluation.cityClass < 0 || evaluation.cityClass > 5) {
-            evaluation.cityClass = 0;
+        if (playerInfo.evaluation.cityClass < 0 || playerInfo.evaluation.cityClass > 5) {
+            playerInfo.evaluation.cityClass = 0;
         }
-        if (evaluation.cityScore < 1 || evaluation.cityScore > 999) {
-            evaluation.cityScore = 500;
+        if (playerInfo.evaluation.cityScore < 1 || playerInfo.evaluation.cityScore > 999) {
+            playerInfo.evaluation.cityScore = 500;
         }
 
-        resCap = false;
-        comCap = false;
-        indCap = false;
+        playerInfo.resCap = false;
+        playerInfo.comCap = false;
+        playerInfo.indCap = false;
     }
 
     void writeMisc(DataOutputStream out) throws IOException {
         out.writeShort(0);
         out.writeShort(0);
-        out.writeShort(resPop);
-        out.writeShort(comPop);
-        out.writeShort(indPop);
-        out.writeShort(resValve);
-        out.writeShort(comValve);
-        out.writeShort(indValve);
+        out.writeShort(playerInfo.resPopAverage);
+        out.writeShort(playerInfo.comPopAverage);
+        out.writeShort(playerInfo.indPop);
+        out.writeShort(playerInfo.resValve);
+        out.writeShort(playerInfo.comValve);
+        out.writeShort(playerInfo.indValve);
         // 8
         out.writeInt(cityTime);
-        out.writeShort(crimeRamp);
-        out.writeShort(polluteRamp);
+        out.writeShort(playerInfo.crimeRamp);
+        out.writeShort(playerInfo.polluteRamp);
         // 12
-        out.writeShort(landValueAverage);
-        out.writeShort(crimeAverage);
-        out.writeShort(pollutionAverage);
+        out.writeShort(playerInfo.landValueAverage);
+        out.writeShort(playerInfo.crimeAverage);
+        out.writeShort(playerInfo.pollutionAverage);
         out.writeShort(gameLevel);
         // 16
-        out.writeShort(evaluation.cityClass);
-        out.writeShort(evaluation.cityScore);
+        out.writeShort(playerInfo.evaluation.cityClass);
+        out.writeShort(playerInfo.evaluation.cityScore);
         // 18
         for (int i = 18; i < 49; i++) {
             out.writeShort(0);
         }
         // 50
-        out.writeInt(budget.totalFunds);
+        out.writeInt(playerInfo.budget.totalFunds);
         out.writeShort(autoBulldoze ? 1 : 0);
         out.writeShort(autoBudget ? 1 : 0);
         // 54
         out.writeShort(autoGo ? 1 : 0);
         out.writeShort(1); // userSoundOn
-        out.writeShort(cityTax);
+        out.writeShort(playerInfo.cityTax);
         out.writeShort(simSpeed.ordinal());
 
         // 58 AND 49
-        out.writeInt((int) (policePercent * 65536));
-        out.writeInt((int) (firePercent * 65536));
-        out.writeInt((int) (roadPercent * 65536));
-        out.writeInt((int) (researchPercent * 65536));// changeswp ACHTUNG HEAVY
+        out.writeInt((int) (playerInfo.policePercent * 65536));
+        out.writeInt((int) (playerInfo.firePercent * 65536));
+        out.writeInt((int) (playerInfo.roadPercent * 65536));
+        out.writeInt((int) (playerInfo.researchPercent * 65536));// changeswp ACHTUNG HEAVY
                                                       // -1 in Schleife
                                                       // veraendert
 
@@ -1992,25 +1913,25 @@ public class Micropolis {
     }
 
     void checkPowerMap() {
-        coalCount = 0;
-        nuclearCount = 0;
+        playerInfo.coalCount = 0;
+        playerInfo.nuclearCount = 0;
 
         powerPlants.clear();
         for (int y = 0; y < map.length; y++) {
             for (int x = 0; x < map[y].length; x++) {
                 int tile = getTile(x, y);
                 if (tile == NUCLEAR) {
-                    nuclearCount++;
+                    playerInfo.nuclearCount++;
                     powerPlants.add(new CityLocation(x, y));
                 } else if (tile == POWERPLANT) {
-                    coalCount++;
+                    playerInfo.coalCount++;
                     powerPlants.add(new CityLocation(x, y));
                 }
             }
         }
 
         powerScan();
-        newPower = true;
+        playerInfo.newPower = true;
     }
 
     public void load(InputStream inStream) throws IOException {
@@ -2105,7 +2026,7 @@ public class Micropolis {
     }
 
     public int getCityPopulation() {
-        return lastCityPop;
+        return playerInfo.lastCityPop;
     }
 
     void makeSound(int x, int y, Sound sound) {
@@ -2113,10 +2034,10 @@ public class Micropolis {
     }
 
     public void makeEarthquake() {
-        makeSound(centerMassX, centerMassY, Sound.EXPLOSION_LOW);
+        makeSound(playerInfo.centerMassX, playerInfo.centerMassY, Sound.EXPLOSION_LOW);
         fireEarthquakeStarted();
 
-        sendMessageAt(MicropolisMessage.EARTHQUAKE_REPORT, centerMassX, centerMassY);
+        sendMessageAt(MicropolisMessage.EARTHQUAKE_REPORT, playerInfo.centerMassX, playerInfo.centerMassY);
         int time = PRNG.nextInt(701) + 300;
         for (int z = 0; z < time; z++) {
             int x = PRNG.nextInt(getWidth());
@@ -2194,8 +2115,8 @@ public class Micropolis {
             monster.soundCount = 1;
             monster.count = 1000;
             monster.flag = false;
-            monster.destX = pollutionMaxLocationX;
-            monster.destY = pollutionMaxLocationY;
+            monster.destX = playerInfo.pollutionMaxLocationX;
+            monster.destY = playerInfo.pollutionMaxLocationY;
             return;
         }
 
@@ -2358,25 +2279,25 @@ public class Micropolis {
 
     void checkGrowth() {
         if (cityTime % 4 == 0) {
-            int newPop = (resPop + comPop * 8 + indPop * 8) * 20;
-            if (lastCityPop != 0) {
+            int newPop = (playerInfo.resPopAverage + playerInfo.comPopAverage * 8 + playerInfo.indPop * 8) * 20;
+            if (playerInfo.lastCityPop != 0) {
                 MicropolisMessage z = null;
-                if (lastCityPop < 500000 && newPop >= 500000) {
+                if (playerInfo.lastCityPop < 500000 && newPop >= 500000) {
                     z = MicropolisMessage.POP_500K_REACHED;
-                } else if (lastCityPop < 100000 && newPop >= 100000) {
+                } else if (playerInfo.lastCityPop < 100000 && newPop >= 100000) {
                     z = MicropolisMessage.POP_100K_REACHED;
-                } else if (lastCityPop < 50000 && newPop >= 50000) {
+                } else if (playerInfo.lastCityPop < 50000 && newPop >= 50000) {
                     z = MicropolisMessage.POP_50K_REACHED;
-                } else if (lastCityPop < 10000 && newPop >= 10000) {
+                } else if (playerInfo.lastCityPop < 10000 && newPop >= 10000) {
                     z = MicropolisMessage.POP_10K_REACHED;
-                } else if (lastCityPop < 2000 && newPop >= 2000) {
+                } else if (playerInfo.lastCityPop < 2000 && newPop >= 2000) {
                     z = MicropolisMessage.POP_2K_REACHED;
                 }
                 if (z != null) {
                     sendMessage(z);
                 }
             }
-            lastCityPop = newPop;
+            playerInfo.lastCityPop = newPop;
         }
     }
 
@@ -2385,33 +2306,33 @@ public class Micropolis {
 
         checkGrowth();
 
-        int totalZoneCount = resZoneCount + comZoneCount + indZoneCount;
-        int powerCount = nuclearCount + coalCount;
+        int totalZoneCount = playerInfo.resZoneCount + playerInfo.comZoneCount + playerInfo.indZoneCount;
+        int powerCount = playerInfo.nuclearCount + playerInfo.coalCount;
 
         int z = cityTime % 64;
         switch (z) {
         case 1:
-            if (totalZoneCount / 4 >= resZoneCount) {
+            if (totalZoneCount / 4 >= playerInfo.resZoneCount) {
                 sendMessage(MicropolisMessage.NEED_RES);
             }
             break;
         case 5:
-            if (totalZoneCount / 8 >= comZoneCount) {
+            if (totalZoneCount / 8 >= playerInfo.comZoneCount) {
                 sendMessage(MicropolisMessage.NEED_COM);
             }
             break;
         case 10:
-            if (totalZoneCount / 8 >= indZoneCount) {
+            if (totalZoneCount / 8 >= playerInfo.indZoneCount) {
                 sendMessage(MicropolisMessage.NEED_IND);
             }
             break;
         case 14:
-            if (totalZoneCount > 10 && totalZoneCount * 2 > roadTotal) {
+            if (totalZoneCount > 10 && totalZoneCount * 2 > playerInfo.roadTotal) {
                 sendMessage(MicropolisMessage.NEED_ROADS);
             }
             break;
         case 18:
-            if (totalZoneCount > 50 && totalZoneCount > railTotal) {
+            if (totalZoneCount > 50 && totalZoneCount > playerInfo.railTotal) {
                 sendMessage(MicropolisMessage.NEED_RAILS);
             }
             break;
@@ -2421,79 +2342,79 @@ public class Micropolis {
             }
             break;
         case 26:
-            resCap = (resPop > 500 && stadiumCount == 0);
-            if (resCap) {
+            playerInfo.resCap = (playerInfo.resPopAverage > 500 && playerInfo.stadiumCount == 0);
+            if (playerInfo.resCap) {
                 sendMessage(MicropolisMessage.NEED_STADIUM);
             }
             break;
         case 28:
-            indCap = (indPop > 70 && seaportCount == 0);
-            if (indCap) {
+            playerInfo.indCap = (playerInfo.indPop > 70 && playerInfo.seaportCount == 0);
+            if (playerInfo.indCap) {
                 sendMessage(MicropolisMessage.NEED_SEAPORT);
             }
             break;
         case 30:
-            comCap = (comPop > 100 && airportCount == 0);
-            if (comCap) {
+            playerInfo.comCap = (playerInfo.comPopAverage > 100 && playerInfo.airportCount == 0);
+            if (playerInfo.comCap) {
                 sendMessage(MicropolisMessage.NEED_AIRPORT);
             }
             break;
         case 32:
-            int TM = unpoweredZoneCount + poweredZoneCount;
+            int TM = playerInfo.poweredZoneCount + playerInfo.poweredZoneCount;
             if (TM != 0) {
-                if ((double) poweredZoneCount / (double) TM < 0.7) {
+                if ((double) playerInfo.poweredZoneCount / (double) TM < 0.7) {
                     sendMessage(MicropolisMessage.BLACKOUTS);
                 }
             }
             break;
         case 35:
-            if (pollutionAverage > 60) { // FIXME, consider changing
+            if (playerInfo.pollutionAverage > 60) { // FIXME, consider changing
                 // threshold to 80
                 sendMessage(MicropolisMessage.HIGH_POLLUTION);
             }
             break;
         case 42:
-            if (crimeAverage > 100) {
+            if (playerInfo.crimeAverage > 100) {
                 sendMessage(MicropolisMessage.HIGH_CRIME);
             }
             break;
         case 45:
-            if (totalPop > 60 && fireStationCount == 0) {
+            if (playerInfo.totalPop > 60 && playerInfo.fireStationCount == 0) {
                 sendMessage(MicropolisMessage.NEED_FIRESTATION);
             }
             break;
         case 48:
-            if (totalPop > 60 && policeCount == 0) {
+            if (playerInfo.totalPop > 60 && playerInfo.policeCount == 0) {
                 sendMessage(MicropolisMessage.NEED_POLICE);
             }
             break;
         case 49:
-            if (totalPop > 150 && researchCount == 0) {
+            if (playerInfo.totalPop > 150 && playerInfo.researchCount == 0) {
                 sendMessage(MicropolisMessage.NEED_RESEARCH);
             }
             break;
         case 51:
-            if (cityTax > 12) {
+            if (playerInfo.cityTax > 12) {
                 sendMessage(MicropolisMessage.HIGH_TAXES);
             }
             break;
         case 54:
-            if (roadEffect < 20 && roadTotal > 30) {
+            if (playerInfo.roadEffect < 20 && playerInfo.roadTotal > 30) {
                 sendMessage(MicropolisMessage.ROADS_NEED_FUNDING);
             }
             break;
         case 57:
-            if (fireEffect < 700 && totalPop > 20) {
+            if (playerInfo.fireEffect < 700 && playerInfo.totalPop > 20) {
                 sendMessage(MicropolisMessage.FIRE_NEED_FUNDING);
             }
             break;
         case 60:
-            if (policeEffect < 700 && totalPop > 20) {
+            if (playerInfo.policeEffect < 700 && playerInfo.totalPop > 20) {
                 sendMessage(MicropolisMessage.POLICE_NEED_FUNDING);
             }
             break;
         case 63:
-            if (trafficAverage > 60) {
+            if (playerInfo.trafficAverage > 60) {
                 sendMessage(MicropolisMessage.HIGH_TRAFFIC);
             }
             break;
@@ -2543,15 +2464,15 @@ public class Micropolis {
     }
 
     public int getResValve() {
-        return resValve;
+        return playerInfo.resValve;
     }
 
     public int getComValve() {
-        return comValve;
+        return playerInfo.comValve;
     }
 
     public int getIndValve() {
-        return indValve;
+        return playerInfo.indValve;
     }
 
     public void setGameLevel(int newLevel) {
@@ -2562,7 +2483,7 @@ public class Micropolis {
     }
 
     public void setFunds(int totalFunds) {
-        budget.totalFunds = totalFunds;
+        playerInfo.budget.totalFunds = totalFunds;
     }
 
     public int getPlayerID() {
