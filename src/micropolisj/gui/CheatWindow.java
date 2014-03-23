@@ -27,7 +27,6 @@ public class CheatWindow extends JFrame implements KeyEventDispatcher{
     
     public CheatWindow(Micropolis engine) {
         super("Let's cheat!");
-        System.out.println("new CheatWindow created");
         this.engine = engine;
         textField = new JTextField(10);
         textField.setText(lastInput);
