@@ -85,6 +85,7 @@ import micropolisj.engine.ToolStroke;
 import micropolisj.engine.ZoneStatus;
 import micropolisj.network.ClientMicropolis;
 import micropolisj.util.TranslationTool;
+import micropolisj.util.Utilities;
 
 public class MainWindow extends JFrame implements Micropolis.Listener, EarthquakeListener, KeyEventDispatcher {
 	Micropolis engine;
@@ -113,6 +114,8 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 							// save
 	long lastSavedTime = 0; // real-time clock of when file was last saved
 	boolean autoBudgetPending;
+	
+    private static final int SCROLLING_SPEED = 50;
 
 	static ImageIcon appIcon;
 	static {
@@ -1676,16 +1679,30 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 
 	
 	/**
-	 * called whenever a key is pressed in mainwindow - react to enter->calls the cheatwindow
+	 * called whenever a key is pressed in mainwindow
 	 */
     @Override
     public boolean dispatchKeyEvent(KeyEvent e) {
         if(e.getID() == KeyEvent.KEY_PRESSED) {
+            //ENTER --> cheatWindow
             if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                 if(this.isFocused()) {
-                    CheatWindow cheat = new CheatWindow(engine);
+                    new CheatWindow(engine);
                     return true;
                 }
+                //USE SCROLLING_SPEED pixels in the given direction
+            } if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+                drawingArea.scrollRectToVisible(Utilities.moveRectangle(drawingArea.getVisibleRect(), -SCROLLING_SPEED, 0));
+                return true;
+            } if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                drawingArea.scrollRectToVisible(Utilities.moveRectangle(drawingArea.getVisibleRect(), SCROLLING_SPEED, 0));
+                return true;
+            } if(e.getKeyCode() == KeyEvent.VK_UP) {
+                drawingArea.scrollRectToVisible(Utilities.moveRectangle(drawingArea.getVisibleRect(), 0, -SCROLLING_SPEED));
+                return true;
+            } if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+                drawingArea.scrollRectToVisible(Utilities.moveRectangle(drawingArea.getVisibleRect(), 0, SCROLLING_SPEED));
+                return true;
             }
         }
         return false;

@@ -1,5 +1,7 @@
 package micropolisj.util;
 
+import java.awt.Rectangle;
+
 import micropolisj.engine.TileConstants;
 
 public class Utilities {
@@ -22,9 +24,18 @@ public class Utilities {
     }
     
     
-        public static void main(String[] args) {
-        System.out.println((short)codePlayerID((char)130, 2));
-        System.out.println(getPlayerID(codePlayerID(130, 7)));
+    public static Rectangle moveRectangle(Rectangle rec, int dx, int dy) {
+        rec.setLocation(rec.x + dx, rec.y + dy);
+        return rec;
     }
+    
+    
+//        public static void main(String[] args) {
+//        System.out.println((short)codePlayerID((char)130, 2));
+//        System.out.println(getPlayerID(codePlayerID(130, 7)));
+//    }
 
+        
+        
+      
 }
