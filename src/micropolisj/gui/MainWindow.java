@@ -14,10 +14,13 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -83,7 +86,7 @@ import micropolisj.engine.ZoneStatus;
 import micropolisj.network.ClientMicropolis;
 import micropolisj.util.TranslationTool;
 
-public class MainWindow extends JFrame implements Micropolis.Listener, EarthquakeListener {
+public class MainWindow extends JFrame implements Micropolis.Listener, EarthquakeListener, KeyEventDispatcher {
 	Micropolis engine;
 	MicropolisDrawingArea drawingArea;
 	JScrollPane drawingAreaScroll;
@@ -338,6 +341,9 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		Preferences prefs = Preferences.userNodeForPackage(MainWindow.class);
 		doSounds = prefs.getBoolean(SOUNDS_PREF, true);
 
+		//CUSTOM: add cheat listener
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.addKeyEventDispatcher(this);
 		// start things up
 		mapView.setEngine(engine);
 		engine.addListener(this);
@@ -1667,4 +1673,22 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		};
 		JOptionPane.showMessageDialog(this, inputs, strings.getString("main.about_caption"), JOptionPane.PLAIN_MESSAGE, appIcon);
 	}
+
+	
+	/**
+	 * called whenever a key is pressed in mainwindow - react to enter->calls the cheatwindow
+	 */
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent e) {
+        if(e.getID() == KeyEvent.KEY_PRESSED) {
+            if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                if(this.isFocused()) {
+                    CheatWindow cheat = new CheatWindow(engine);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }

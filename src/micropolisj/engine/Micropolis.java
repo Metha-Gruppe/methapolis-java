@@ -239,7 +239,7 @@ public class Micropolis {
         }
     }
 
-    protected void fireFundsChanged() {
+    public void fireFundsChanged() {
         for (Listener l : listeners) {
             l.fundsChanged();
         }
