@@ -107,6 +107,9 @@ public class ToolStroke implements Serializable {
             // CUSTOM TOOLS
         case UNIVERSITY:
             return applyZone(eff, UNIVERSITY);
+            
+        case TEMPEL:
+            return applyZone(eff, TEMPEL);
 
         case ROCKET:
             if (city.playerInfo.researchState.isRocketPossible()) {
