@@ -418,8 +418,8 @@ public class Micropolis {
         playerInfo.firePop = 0;
         playerInfo.roadTotal = 0;
         playerInfo.railTotal = 0;
-        playerInfo.resPopAverage = 0;
-        playerInfo.comPopAverage = 0;
+        playerInfo.resPop = 0;
+        playerInfo.comPop = 0;
         playerInfo.indPop = 0;
         playerInfo.resZoneCount = 0;
         playerInfo.comZoneCount = 0;
@@ -1100,8 +1100,8 @@ public class Micropolis {
     public History history = new History();
 
     void setValves() {
-        double normResPop = (double) playerInfo.resPopAverage / 8.0;
-        playerInfo.totalPop = (int) (normResPop + playerInfo.comPopAverage + playerInfo.indPop);
+        double normResPop = (double) playerInfo.resPop / 8.0;
+        playerInfo.totalPop = (int) (normResPop + playerInfo.comPop + playerInfo.indPop);
 
         double employment;
         if (normResPop != 0.0) {
@@ -1126,7 +1126,7 @@ public class Micropolis {
         // clamp laborBase to between 0.0 and 1.3
         laborBase = Math.max(0.0, Math.min(1.3, laborBase));
 
-        double internalMarket = (double) (normResPop + playerInfo.comPopAverage + playerInfo.indPop) / 3.7;
+        double internalMarket = (double) (normResPop + playerInfo.comPop + playerInfo.indPop) / 3.7;
         double projectedComPop = internalMarket * laborBase;
 
         int z = gameLevel;
@@ -1155,8 +1155,8 @@ public class Micropolis {
         }
 
         double comRatio;
-        if (playerInfo.comPopAverage != 0)
-            comRatio = (double) projectedComPop / (double) playerInfo.comPopAverage;
+        if (playerInfo.comPop != 0)
+            comRatio = (double) projectedComPop / (double) playerInfo.comPop;
         else
             comRatio = projectedComPop;
 
@@ -1442,8 +1442,8 @@ public class Micropolis {
         // graph10max = Math.max(resMax, Math.max(comMax, indMax));
 
         // set newest value (front)
-        history.res[0] = playerInfo.resPopAverage / 8;
-        history.com[0] = playerInfo.comPopAverage;
+        history.res[0] = playerInfo.resPop / 8;
+        history.com[0] = playerInfo.comPop;
         history.ind[0] = playerInfo.indPop;
 
         // apply quarter of change (-> smoothing?)
@@ -1464,17 +1464,17 @@ public class Micropolis {
         history.cityTime = cityTime;
 
         // need of buildings?
-        if (playerInfo.hospitalCount < playerInfo.resPopAverage / 256) {
+        if (playerInfo.hospitalCount < playerInfo.resPop / 256) {
             playerInfo.needHospital = 1;
-        } else if (playerInfo.hospitalCount > playerInfo.resPopAverage / 256) {
+        } else if (playerInfo.hospitalCount > playerInfo.resPop / 256) {
             playerInfo.needHospital = -1;
         } else {
             playerInfo.needHospital = 0;
         }
 
-        if (playerInfo.churchCount < playerInfo.resPopAverage / 256) {
+        if (playerInfo.churchCount < playerInfo.resPop / 256) {
             playerInfo.needChurch = 1;
-        } else if (playerInfo.churchCount > playerInfo.resPopAverage / 256) {
+        } else if (playerInfo.churchCount > playerInfo.resPop / 256) {
             playerInfo.needChurch = -1;
         } else {
             playerInfo.needChurch = 0;
@@ -1504,8 +1504,8 @@ public class Micropolis {
             history.money[i + 1] = history.money[i];
         }
 
-        history.res[120] = playerInfo.resPopAverage / 8;
-        history.com[120] = playerInfo.comPopAverage;
+        history.res[120] = playerInfo.resPop / 8;
+        history.com[120] = playerInfo.comPop;
         history.ind[120] = playerInfo.indPop;
         history.crime[120] = history.crime[0];
         history.pollution[120] = history.pollution[0];
@@ -1743,8 +1743,8 @@ public class Micropolis {
     void loadMisc(DataInputStream dis) throws IOException {
         dis.readShort(); // [0]... ignored?
         dis.readShort(); // [1] externalMarket, ignored
-        playerInfo.resPopAverage = dis.readShort(); // [2-4] populations
-        playerInfo.comPopAverage = dis.readShort();
+        playerInfo.resPop = dis.readShort(); // [2-4] populations
+        playerInfo.comPop= dis.readShort();
         playerInfo.indPop = dis.readShort();
         playerInfo.resValve = dis.readShort(); // [5-7] valves
         playerInfo.comValve = dis.readShort();
@@ -1816,8 +1816,8 @@ public class Micropolis {
     void writeMisc(DataOutputStream out) throws IOException {
         out.writeShort(0);
         out.writeShort(0);
-        out.writeShort(playerInfo.resPopAverage);
-        out.writeShort(playerInfo.comPopAverage);
+        out.writeShort(playerInfo.resPop);
+        out.writeShort(playerInfo.comPop);
         out.writeShort(playerInfo.indPop);
         out.writeShort(playerInfo.resValve);
         out.writeShort(playerInfo.comValve);
@@ -2279,7 +2279,7 @@ public class Micropolis {
 
     void checkGrowth() {
         if (cityTime % 4 == 0) {
-            int newPop = (playerInfo.resPopAverage + playerInfo.comPopAverage * 8 + playerInfo.indPop * 8) * 20;
+            int newPop = (playerInfo.resPop + playerInfo.comPop * 8 + playerInfo.indPop * 8) * 20;
             if (playerInfo.lastCityPop != 0) {
                 MicropolisMessage z = null;
                 if (playerInfo.lastCityPop < 500000 && newPop >= 500000) {
@@ -2342,7 +2342,7 @@ public class Micropolis {
             }
             break;
         case 26:
-            playerInfo.resCap = (playerInfo.resPopAverage > 500 && playerInfo.stadiumCount == 0);
+            playerInfo.resCap = (playerInfo.resPop > 500 && playerInfo.stadiumCount == 0);
             if (playerInfo.resCap) {
                 sendMessage(MicropolisMessage.NEED_STADIUM);
             }
@@ -2354,7 +2354,7 @@ public class Micropolis {
             }
             break;
         case 30:
-            playerInfo.comCap = (playerInfo.comPopAverage > 100 && playerInfo.airportCount == 0);
+            playerInfo.comCap = (playerInfo.comPop > 100 && playerInfo.airportCount == 0);
             if (playerInfo.comCap) {
                 sendMessage(MicropolisMessage.NEED_AIRPORT);
             }
