@@ -16,6 +16,9 @@ public class CheatWindow extends JFrame implements KeyEventDispatcher{
     private static final String MORE_MONEY_CHEAT = "gimme";
     private static final int AMOUNT_GIVEN = 5000;
     
+    private static final String MORE_RESEARCH_CHEAT = "research";
+    private static final int AMOUNT_RESEARCH = 1000;
+    
     
     private static String lastInput;
     
@@ -47,6 +50,9 @@ public class CheatWindow extends JFrame implements KeyEventDispatcher{
                 if(textField.getText().equals(MORE_MONEY_CHEAT)) {
                     engine.playerInfo.budget.totalFunds += AMOUNT_GIVEN;
                     engine.fireFundsChanged();
+                }
+                if(textField.getText().equals(MORE_RESEARCH_CHEAT)) {
+                    engine.playerInfo.researchState.researchPoints += AMOUNT_RESEARCH;
                 }
                 lastInput = textField.getText();
                 manager.removeKeyEventDispatcher(this);

@@ -115,7 +115,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 	long lastSavedTime = 0; // real-time clock of when file was last saved
 	boolean autoBudgetPending;
 	
-    private static final int SCROLLING_SPEED = 50;
+    private static final int SCROLLING_SPEED = 100;
 
 	static ImageIcon appIcon;
 	static {
