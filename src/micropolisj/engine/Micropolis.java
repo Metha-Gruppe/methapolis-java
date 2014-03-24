@@ -25,7 +25,6 @@ import java.util.Random;
 import java.util.Stack;
 
 import static micropolisj.engine.TileConstants.*;
-import micropolisj.research.ResearchState;
 
 /**
  * The main simulation engine for Micropolis. The front-end should call

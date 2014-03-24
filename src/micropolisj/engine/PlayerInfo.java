@@ -9,9 +9,8 @@ import micropolisj.research.ResearchState;
  * @author nikolaibobenko
  *
  */
+
 public class PlayerInfo implements Serializable{
-    
-    
     //TODO: decide which variables are playerrelated and which ones are maprelated!!!
     // playerrelated --> PlayerInfo
     // maprelated --> Micropolis
@@ -108,7 +107,7 @@ public class PlayerInfo implements Serializable{
     public ResearchState researchState;
     public CityEval evaluation;
     
-    
+    // CONSTRUCTOR
     public PlayerInfo(Micropolis city) {
         this(new ResearchState(), new CityEval(city), new CityBudget(city));
     }
