@@ -113,7 +113,7 @@ public abstract class Sprite implements Serializable {
 
 		dispX = Math.abs(dispX);
 		dispY = Math.abs(dispY);
-		int absDist = dispX + dispY;
+//		int absDist = dispX + dispY;
 
 		if(dispX * 2 < dispY)
 			z++;

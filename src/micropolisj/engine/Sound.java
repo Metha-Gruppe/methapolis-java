@@ -36,9 +36,11 @@ public enum Sound
 	MONSTER       ("zombie-roar-5"),
 	// CUSTOM
 	DUBSPLOSION   ("dubsplosion"),
-	BG_MUSIC      ("siren");
+	BG_MUSIC      ("methapolis");
 
 	String wavName;
+	
+	
 	private Sound(String wavName)	{
 		this.wavName = wavName;
 	}
@@ -62,6 +64,7 @@ public enum Sound
 	}
 	
 	public static void playSound(Sound sound, String fileEnding) {
+		System.out.println("playing a sound");
 		URL afile = sound.getAudioFile(fileEnding);
 		if(afile == null)	{
 			return;			
@@ -77,5 +80,9 @@ public enum Sound
 		catch(Exception e) {
 			e.printStackTrace(System.err);
 		}
+	}
+	
+	public String getWavName()	{
+		return wavName;
 	}
 }

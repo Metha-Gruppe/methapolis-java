@@ -6,5 +6,6 @@
 	<classpathentry kind="src" path="strings"/>
 	<classpathentry kind="src" path="extlib"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="extlib/jl1.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

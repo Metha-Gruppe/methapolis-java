@@ -286,6 +286,7 @@ public class Micropolis {
 	}
 
 	void fireCitySound(Sound sound, CityLocation loc) {
+		System.out.println("playing a sound!!!!!!");
 		for(Listener l : listeners) {
 			l.citySound(sound, loc);
 		}

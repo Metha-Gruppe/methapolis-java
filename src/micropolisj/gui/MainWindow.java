@@ -80,7 +80,7 @@ import micropolisj.engine.Speed;
 import micropolisj.engine.ToolResult;
 import micropolisj.engine.ToolStroke;
 import micropolisj.engine.ZoneStatus;
-import micropolisj.network.ServerMicropolis;
+import micropolisj.util.MP3;
 import micropolisj.util.TranslationTool;
 
 public class MainWindow extends JFrame implements Micropolis.Listener, EarthquakeListener {
@@ -101,6 +101,8 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 	JLabel currentToolCostLbl;
 	Map<MicropolisTool, JToggleButton> toolBtns;
 	EnumMap<MapState, JMenuItem> mapStateMenuItems = new EnumMap<MapState, JMenuItem>(MapState.class);
+	// CUSTOM
+	MP3 backgroundMusic;
 	MicropolisTool currentTool;
 	File currentFile;
 	boolean doSounds = true;
@@ -125,12 +127,12 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 
 	public MainWindow(Micropolis engine) {
 		setIconImage(appIcon.getImage());
-
-		Sound.playSound(Sound.BG_MUSIC);
-//		String bip = "bip.mp3";
-//		Media hit = new Media(bip);
-//		MediaPlayer mediaPlayer = new MediaPlayer(hit);
-//		mediaPlayer.play();
+		
+//		System.out.println("/sounds/" + Sound.BG_MUSIC.getWavName() + ".mp3");
+		if(doSounds)	{
+			MP3 mp3 = new MP3(MainWindow.class.getResource("/sounds/" + Sound.BG_MUSIC.getWavName() + ".mp3"), true);
+			mp3.play();			
+		}
 		
 		this.engine = engine;
 		
@@ -822,6 +824,8 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 
 	static final String SOUNDS_PREF = "enable_sounds";
 
+	// TODO
+	// CUSTOM: toggle background music
 	private void onSoundClicked() {
 		doSounds = !doSounds;
 		Preferences prefs = Preferences.userNodeForPackage(MainWindow.class);
@@ -936,7 +940,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 	}
 
 	private JToggleButton makeToolBtn(final MicropolisTool tool) {
-		System.out.println("tool." + tool.name() + ".icon");
+		// System.out.println("tool." + tool.name() + ".icon");
 		String iconName = strings.containsKey("tool." + tool.name() + ".icon") ? strings.getString("tool." + tool.name()
 				+ ".icon") : "/graphics/tools/" + tool.name().toLowerCase() + ".png";
 		String iconSelectedName = strings.containsKey("tool." + tool.name() + ".selected_icon") ? strings.getString("tool."
@@ -945,7 +949,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 				: tool.name();
 
 		JToggleButton btn = new JToggleButton();
-		System.out.println(iconName);
+		// System.out.println(iconName);
 		btn.setIcon(new ImageIcon(MainWindow.class.getResource(iconName)));
 		btn.setSelectedIcon(new ImageIcon(MainWindow.class.getResource(iconSelectedName)));
 		btn.setToolTipText(tipText);
@@ -1536,6 +1540,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 	}
 
 	// implements Micropolis.Listener
+	// TODO bg music??
 	public void citySound(Sound sound, CityLocation loc) {
 		if(!doSounds)
 			return;
