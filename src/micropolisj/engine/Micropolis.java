@@ -1530,7 +1530,7 @@ public class Micropolis {
         // point
         System.out.println(researchDelayCharger);
         if (researchDelayCharger >= researchDelay) {
-            playerInfo.researchState.researchPoints += (playerInfo.researchEffect) / 100;
+            playerInfo.researchState.researchPoints += (playerInfo.researchEffect * this.getCityPopulation()) / (100 * 3000);
             playerInfo.researchState.refreshPanel();
             researchDelayCharger = 0;
         } else {
