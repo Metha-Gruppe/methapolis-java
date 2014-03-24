@@ -34,13 +34,16 @@ public class ResearchState extends JFrame implements ActionListener {
 	public boolean isRocketPossible(){
 		return rocketResearch > 0;
 	}
+	public int getRocketRadius(){
+		return Math.max(rocketResearch - 1, 0);
+	}
 
 	ResearchTree tree;// = new ResearchTree();
 
 	HashSet<Integer> reached_nodes;// = new HashSet<Integer>();
 
 	
-	public int researchPoints = 0;
+	public int researchPoints = 30000;
 
 	int buttonWidth = 150;
 	int buttonHeight = 75;
