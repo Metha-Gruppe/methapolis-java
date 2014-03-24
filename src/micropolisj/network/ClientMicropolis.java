@@ -41,6 +41,14 @@ public class ClientMicropolis extends Micropolis{
     }
     
     @Override
+    public void setBudgetNumbers(int newTaxRate, double roadPct, double newRoadPct, double newPolicePct, double newFirePct, double newResearchPct) {
+        super.setBudgetNumbers(newTaxRate, roadPct, newRoadPct, newPolicePct, newFirePct, newResearchPct);
+        PlayerInput budgetInput = new PlayerInput(null);
+        budgetInput.setBudgetNumbers(newTaxRate, roadPct, newPolicePct, newFirePct, newResearchPct);
+        remote.sendInput(budgetInput);
+    }
+    
+    @Override
     public int getPlayerID() {
         return remote.getID();
     }

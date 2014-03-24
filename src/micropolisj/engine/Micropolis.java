@@ -2500,4 +2500,12 @@ public class Micropolis {
     public int getPlayerID() {
         return 0;
     }
+    
+    public void setBudgetNumbers(int newTaxRate, double roadPct, double newRoadPct, double newPolicePct, double newFirePct, double newResearchPct) {
+        playerInfo.cityTax = newTaxRate;
+        playerInfo.roadPercent = newRoadPct;
+        playerInfo.policePercent = newPolicePct;
+        playerInfo.firePercent = newFirePct;
+        playerInfo.researchPercent = newResearchPct;
+    }
 }
