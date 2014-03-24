@@ -62,11 +62,8 @@ public class BudgetDialog extends JDialog
 		int newFirePct = ((Number) fireFundEntry.getValue()).intValue();
 		int newResearchPct = ((Number) researchFundEntry.getValue()).intValue();
 
-		engine.playerInfo.cityTax = newTaxRate;
-		engine.playerInfo.roadPercent = (double)newRoadPct / 100.0;
-		engine.playerInfo.policePercent = (double)newPolicePct / 100.0;
-		engine.playerInfo.firePercent = (double)newFirePct / 100.0;
-		engine.playerInfo.researchPercent = (double)newResearchPct / 100.0;
+		engine.setBudgetNumbers(newTaxRate, (double)newRoadPct / 100.0, (double)newRoadPct / 100.0,
+		        (double)newPolicePct / 100.0, (double)newFirePct / 100.0, (double)newResearchPct/100.0);
 
 		loadBudgetNumbers(false);
 	}
