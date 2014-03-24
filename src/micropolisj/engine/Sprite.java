@@ -147,7 +147,7 @@ public abstract class Sprite implements Serializable {
 		this.frame = 0;
 
 		if(kind == SpriteKind.ROC) {
-			city.makeGiantExplosionAt(x, y);
+			city.makeGiantExplosionAt(x, y, city.playerInfo.researchState.getRocketRadius());
 		}
 		else {
 			city.makeExplosionAt(x, y);
