@@ -1,8 +1,9 @@
 package micropolisj.research;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
-public class ResearchTree {
+public class ResearchTree implements Serializable{
 
 	static ResearchNode[] possible_nodes;
 	static int[][] needed = {

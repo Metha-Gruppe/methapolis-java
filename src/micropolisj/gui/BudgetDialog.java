@@ -70,7 +70,7 @@ public class BudgetDialog extends JDialog
 
 	private void loadBudgetNumbers(boolean updateEntries)
 	{	//Change required
-		BudgetNumbers b = engine.generateBudget();
+		BudgetNumbers b = engine.generateBudget(engine.getPlayerInfo());
 		if (updateEntries)
 		{
 		taxRateEntry.setValue(b.taxRate);
@@ -109,11 +109,11 @@ public class BudgetDialog extends JDialog
 		setTitle(strings.getString("budgetdlg.title"));
 
 		this.engine = engine;
-		this.origTaxRate = engine.playerInfo.cityTax;
-		this.origRoadPct = engine.playerInfo.roadPercent;
-		this.origFirePct = engine.playerInfo.firePercent;
-		this.origPolicePct = engine.playerInfo.policePercent;
-		this.origResearchPct = engine.playerInfo.researchPercent;
+		this.origTaxRate = engine.getPlayerInfo().cityTax;
+		this.origRoadPct = engine.getPlayerInfo().roadPercent;
+		this.origFirePct = engine.getPlayerInfo().firePercent;
+		this.origPolicePct = engine.getPlayerInfo().policePercent;
+		this.origResearchPct = engine.getPlayerInfo().researchPercent;
 
 		// give text fields of the fund-level spinners a minimum size
 		taxRateEntry = new JSpinner(new SpinnerNumberModel(7,0,20,1));
@@ -328,11 +328,11 @@ public class BudgetDialog extends JDialog
 
 	private void onResetClicked()
 	{
-		engine.playerInfo.cityTax = this.origTaxRate;
-		engine.playerInfo.roadPercent = this.origRoadPct;
-		engine.playerInfo.firePercent = this.origFirePct;
-		engine.playerInfo.policePercent = this.origPolicePct;
-		engine.playerInfo.researchPercent = this.origResearchPct;
+		engine.getPlayerInfo().cityTax = this.origTaxRate;
+		engine.getPlayerInfo().roadPercent = this.origRoadPct;
+		engine.getPlayerInfo().firePercent = this.origFirePct;
+		engine.getPlayerInfo().policePercent = this.origPolicePct;
+		engine.getPlayerInfo().researchPercent = this.origResearchPct;
 		loadBudgetNumbers(true);
 	}
 

@@ -1,5 +1,7 @@
 package micropolisj.engine;
 
+import java.io.Serializable;
+
 import micropolisj.research.ResearchState;
 
 /**
@@ -7,7 +9,7 @@ import micropolisj.research.ResearchState;
  * @author nikolaibobenko
  *
  */
-public class PlayerInfo {
+public class PlayerInfo implements Serializable{
     
     
     //TODO: decide which variables are playerrelated and which ones are maprelated!!!
@@ -108,6 +110,12 @@ public class PlayerInfo {
     
     
     public PlayerInfo(Micropolis city) {
-        budget = new CityBudget(city);
+        this(new ResearchState(), new CityEval(city), new CityBudget(city));
+    }
+    
+    public PlayerInfo(ResearchState researchState, CityEval cityEval, CityBudget budget) {
+        this.researchState = researchState;
+        this.evaluation = cityEval;
+        this.budget = budget;
     }
 }

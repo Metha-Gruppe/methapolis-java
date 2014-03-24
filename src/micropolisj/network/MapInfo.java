@@ -10,7 +10,7 @@ public class MapInfo implements Serializable{
     
     public char[][] map;
     public List<Sprite> sprites;
-    public CityBudget cityBudget;
+//    public CityBudget cityBudget;
     
     public MapInfo(char[][] map, List<Sprite> sprites) {
         this.map = map;

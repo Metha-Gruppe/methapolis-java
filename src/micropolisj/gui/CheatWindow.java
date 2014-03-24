@@ -48,11 +48,11 @@ public class CheatWindow extends JFrame implements KeyEventDispatcher{
         if(e.getID() == KeyEvent.KEY_PRESSED) {
             if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                 if(textField.getText().equals(MORE_MONEY_CHEAT)) {
-                    engine.playerInfo.budget.totalFunds += AMOUNT_GIVEN;
+                    engine.getPlayerInfo().budget.totalFunds += AMOUNT_GIVEN;
                     engine.fireFundsChanged();
                 }
                 if(textField.getText().equals(MORE_RESEARCH_CHEAT)) {
-                    engine.playerInfo.researchState.researchPoints += AMOUNT_RESEARCH;
+                    engine.getPlayerInfo().researchState.researchPoints += AMOUNT_RESEARCH;
                 }
                 lastInput = textField.getText();
                 manager.removeKeyEventDispatcher(this);

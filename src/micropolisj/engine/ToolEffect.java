@@ -76,7 +76,7 @@ class ToolEffect implements ToolEffectIfc {
 			return ToolResult.UH_OH;
 		}
 
-		if(city.playerInfo.budget.totalFunds < preview.cost) {
+		if(city.getPlayerInfo(playerID).budget.totalFunds < preview.cost) {
 			return ToolResult.INSUFFICIENT_FUNDS;
 		}
 
@@ -98,7 +98,7 @@ class ToolEffect implements ToolEffectIfc {
 		}
 
 		if(anyFound && preview.cost != 0) {
-			city.spend(preview.cost);
+			city.spend(preview.cost, city.getPlayerInfo());
 			return ToolResult.SUCCESS;
 		}
 		else {

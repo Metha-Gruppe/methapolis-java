@@ -7,11 +7,17 @@ import java.awt.FlowLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.io.Serializable;
+import java.util.HashSet;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
-public class ResearchState extends JFrame implements ActionListener {
+public class ResearchState extends JFrame implements ActionListener, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	public int policeResearch = 0;
@@ -38,7 +44,7 @@ public class ResearchState extends JFrame implements ActionListener {
 		return rocketResearch*rocketResearch;
 	}
 
-	ResearchTree tree;// = new ResearchTree();
+	public ResearchTree tree;// = new ResearchTree();
 
 	HashSet<Integer> reached_nodes;// = new HashSet<Integer>();
 
@@ -67,10 +73,15 @@ public class ResearchState extends JFrame implements ActionListener {
 			return instance;
 		}
 	}
+	
+	//TODO Separate Tree from Frame!!!
+	public ResearchState() {
+	    this(new ResearchTree());
+	}
 
 	// CONSTRUCTOR
-	public ResearchState() {
-		tree = new ResearchTree();
+	public ResearchState(ResearchTree tree) {
+		this.tree = tree;
 		reached_nodes = new HashSet<Integer>();
 		
 		setName("Research Tree");

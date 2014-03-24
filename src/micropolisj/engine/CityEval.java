@@ -8,14 +8,19 @@
 
 package micropolisj.engine;
 
-import java.util.*;
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * Contains the code for performing a city evaluation.
  */
-public class CityEval
+public class CityEval implements Serializable
 {
-	private final Micropolis engine;
+	private transient final Micropolis engine;
 	private final Random PRNG;
 
 	public CityEval(Micropolis engine)
@@ -59,6 +64,7 @@ public class CityEval
 	/** Score for various problems. */
 	public EnumMap<CityProblem,Integer> problemTable = new EnumMap<CityProblem,Integer>(CityProblem.class);
 
+	//in aniamteCycle
 	/**
 	 * Perform an evaluation.
 	 */
@@ -89,6 +95,7 @@ public class CityEval
 		problemOrder = new CityProblem[0];
 	}
 
+	//in animateCycle
 	void calculateAssValue()
 	{
 		int z = 0;
@@ -189,6 +196,7 @@ public class CityEval
 			}
 		}
 
+		//part of animateCycle
 		engine.playerInfo.trafficAverage = (int)Math.round(((double)total / (double)count) * 2.4);
 		return engine.playerInfo.trafficAverage;
 	}

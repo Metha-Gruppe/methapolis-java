@@ -18,6 +18,8 @@ public class RocketSprite extends Sprite {
 	private int destY;
 	private double speedFactor;
 	private boolean soundPlaying;
+	
+	public int ownerID;
 
 	// NOTE: used for movement
 	static int[] CDx = {
@@ -28,13 +30,15 @@ public class RocketSprite extends Sprite {
 	};
 
 	// CONSTRUCTORS
-	public RocketSprite(Micropolis engine, int xpos, int ypos, int xDest, int yDest) {
-		this(engine, xpos, ypos, xDest, yDest, 2);
+	public RocketSprite(Micropolis engine, int xpos, int ypos, int xDest, int yDest, int ownerID) {
+		this(engine, xpos, ypos, xDest, yDest, 2, ownerID);
 	}
 
-	public RocketSprite(Micropolis engine, int xpos, int ypos, int xDest, int yDest, double speedFactor) {
+	public RocketSprite(Micropolis engine, int xpos, int ypos, int xDest, int yDest, double speedFactor, int ownerID) {
 		super(engine, SpriteKind.ROC);
 
+		this.ownerID = ownerID;
+		
 		setStart(xpos, ypos);
 		setDestination(xDest, yDest);
 
@@ -116,6 +120,17 @@ public class RocketSprite extends Sprite {
 		int diffMax = Math.max(absX, absY);
 		return (diffMin / 6 + (diffMax - diffMin) / 8) / speedFactor;
 	}
+	
+	@Override
+    protected void explodeSprite() {
+        this.frame = 0;
+        city.makeGiantExplosionAt(x, y, city.getPlayerInfo(ownerID).researchState.getRocketRadius());
+        int xpos = x / 16;
+        int ypos = y / 16;
+        city.crashLocation = new CityLocation(xpos, ypos);
+        city.sendMessageAt(MicropolisMessage.ROCKETCRASH_REPORT, xpos, ypos);
+        city.makeSound(xpos, ypos, Sound.EXPLOSION_HIGH);
+    }
 
 	public void moveImpl() {
 		double secondsTilBoom = stepsTilBoom() / city.simSpeed.getAnimationsPerSecond();

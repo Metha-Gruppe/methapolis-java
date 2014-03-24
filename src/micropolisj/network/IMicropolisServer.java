@@ -3,6 +3,8 @@ package micropolisj.network;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import micropolisj.engine.PlayerInfo;
+
 public interface IMicropolisServer extends Remote{
     
     public MapInfo getLatestMap() throws RemoteException;
@@ -14,6 +16,8 @@ public interface IMicropolisServer extends Remote{
     public void setRemoteClient(RemoteClient client) throws RemoteException;
 
     byte[] getLevel() throws RemoteException;
+    
+    public PlayerInfo getPlayerInfo(int ID) throws RemoteException;
     
     
     

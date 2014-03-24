@@ -109,10 +109,10 @@ public class ToolStroke implements Serializable {
             return applyZone(eff, UNIVERSITY);
 
         case ROCKET:
-            if (city.playerInfo.researchState.isRocketPossible()) {
+            if (city.getPlayerInfo(playerID).researchState.isRocketPossible()) {
                 // shoot rocket (aka monster) to location
-                city.generateRocket(0, 0, xpos, ypos);
-                city.spend(MicropolisTool.ROCKET.getToolCost());
+                city.generateRocket(0, 0, xpos, ypos, playerID);
+                city.spend(MicropolisTool.ROCKET.getToolCost(), city.getPlayerInfo(playerID));
             } else {
                 //JOptionPane.showMessageDialog(ResearchState.getInstance(), "You need some research before you can use rockets.");
             	city.sendMessage(MicropolisMessage.INSUFFICIENT_RESEARCH);
