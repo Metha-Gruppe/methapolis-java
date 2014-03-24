@@ -120,6 +120,7 @@ public class Micropolis {
     
     
     //TODO: make it a List/array to hold every players information individually
+//    Map<Integer, PlayerInfo> playerInfos;
     public PlayerInfo playerInfo;
     
 
