@@ -14,10 +14,13 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -81,9 +84,11 @@ import micropolisj.engine.ToolResult;
 import micropolisj.engine.ToolStroke;
 import micropolisj.engine.ZoneStatus;
 import micropolisj.util.MP3;
+import micropolisj.network.ClientMicropolis;
 import micropolisj.util.TranslationTool;
+import micropolisj.util.Utilities;
 
-public class MainWindow extends JFrame implements Micropolis.Listener, EarthquakeListener {
+public class MainWindow extends JFrame implements Micropolis.Listener, EarthquakeListener, KeyEventDispatcher {
 	Micropolis engine;
 	MicropolisDrawingArea drawingArea;
 	JScrollPane drawingAreaScroll;
@@ -112,6 +117,8 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 							// save
 	long lastSavedTime = 0; // real-time clock of when file was last saved
 	boolean autoBudgetPending;
+	
+    private static final int SCROLLING_SPEED = 100;
 
 	static ImageIcon appIcon;
 	static {
@@ -136,7 +143,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		
 		this.engine = engine;
 		
-		engine.researchState.setLocationRelativeTo(this);
+		engine.playerInfo.researchState.setLocationRelativeTo(this);
 
 		JPanel mainArea = new JPanel(new BorderLayout());
 		add(mainArea, BorderLayout.CENTER);
@@ -346,6 +353,9 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		Preferences prefs = Preferences.userNodeForPackage(MainWindow.class);
 		doSounds = prefs.getBoolean(SOUNDS_PREF, true);
 
+		//CUSTOM: add cheat listener
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.addKeyEventDispatcher(this);
 		// start things up
 		mapView.setEngine(engine);
 		engine.addListener(this);
@@ -1185,6 +1195,12 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 			drawingArea.setToolPreview(null);
 			
 			CityLocation loc = toolStroke.getLocation();
+			//Custom: for client-send
+			if(engine instanceof ClientMicropolis) {
+			    ((ClientMicropolis)engine).toolUsed(toolStroke);
+			    toolStroke = null;
+			    return;
+			}
 			ToolResult tr = toolStroke.apply();
 			showToolResult(loc, tr);
 			toolStroke = null;
@@ -1504,7 +1520,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 	}
 
 	private void reloadFunds() {
-		fundsLbl.setText(formatFunds(getEngine().budget.totalFunds));
+		fundsLbl.setText(formatFunds(getEngine().playerInfo.budget.totalFunds));
 	}
 
 	// implements Micropolis.Listener
@@ -1583,7 +1599,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 	}
 
 	void onViewResearchClicked() {
-		engine.researchState.showResearchPanel();
+		engine.playerInfo.researchState.showResearchPanel();
 		//dirty1 = true;
 		//showBudgetWindow(false);
 	}
@@ -1672,4 +1688,36 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		};
 		JOptionPane.showMessageDialog(this, inputs, strings.getString("main.about_caption"), JOptionPane.PLAIN_MESSAGE, appIcon);
 	}
+
+	
+	/**
+	 * called whenever a key is pressed in mainwindow
+	 */
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent e) {
+        if(e.getID() == KeyEvent.KEY_PRESSED) {
+            //ENTER --> cheatWindow
+            if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                if(this.isFocused()) {
+                    new CheatWindow(engine);
+                    return true;
+                }
+                //USE SCROLLING_SPEED pixels in the given direction
+            } if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+                drawingArea.scrollRectToVisible(Utilities.moveRectangle(drawingArea.getVisibleRect(), -SCROLLING_SPEED, 0));
+                return true;
+            } if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                drawingArea.scrollRectToVisible(Utilities.moveRectangle(drawingArea.getVisibleRect(), SCROLLING_SPEED, 0));
+                return true;
+            } if(e.getKeyCode() == KeyEvent.VK_UP) {
+                drawingArea.scrollRectToVisible(Utilities.moveRectangle(drawingArea.getVisibleRect(), 0, -SCROLLING_SPEED));
+                return true;
+            } if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+                drawingArea.scrollRectToVisible(Utilities.moveRectangle(drawingArea.getVisibleRect(), 0, SCROLLING_SPEED));
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

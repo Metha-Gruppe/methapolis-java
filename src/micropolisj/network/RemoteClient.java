@@ -13,20 +13,31 @@ public class RemoteClient extends UnicastRemoteObject implements Serializable{
     
     private String IP;
     
+    private int playerID;
+    
     public RemoteClient(String ip) throws RemoteException{
         try {
-            IP = ip;
             // TODO: make constants for address
+            if(ip.equalsIgnoreCase("local") || ip.equalsIgnoreCase("localhost"))	{
+            	ip = "127.0.0.1";
+            }
+            IP = ip;
             server = (IMicropolisServer) Naming.lookup("rmi://" + IP + "/" + NetworkServer.NAMING_BIND);
 //            server.setRemoteClient(this);
             System.out.println(">>> connected to server...");
+            playerID = server.getNewID();
+            System.out.println(playerID);
         } catch (MalformedURLException | NotBoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
     
-    public void sendInput(int playerID, PlayerInput input){
+    public int getID() {
+        return playerID;
+    }
+    
+    public void sendInput(PlayerInput input){
         try {
             server.storeInput(playerID, input);
         } catch (RemoteException e) {

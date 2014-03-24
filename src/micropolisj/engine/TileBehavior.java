@@ -11,8 +11,7 @@ package micropolisj.engine;
 import java.util.Random;
 import static micropolisj.engine.TileConstants.*;
 
-public abstract class TileBehavior
-{
+public abstract class TileBehavior {
 	protected final Micropolis city;
 	protected final Random PRNG;
 	int xpos;
@@ -20,14 +19,12 @@ public abstract class TileBehavior
 	int tile;
 	int rawTile;
 
-	protected TileBehavior(Micropolis city)
-	{
+	protected TileBehavior(Micropolis city) {
 		this.city = city;
 		this.PRNG = city.PRNG;
 	}
 
-	public final void processTile(int xpos, int ypos)
-	{
+	public final void processTile(int xpos, int ypos) {
 		this.xpos = xpos;
 		this.ypos = ypos;
 		this.rawTile = city.getTileRaw(xpos, ypos);

@@ -64,7 +64,7 @@ public class CityEval
 	 */
 	void cityEvaluation()
 	{
-		if (engine.totalPop != 0) {
+		if (engine.playerInfo.totalPop != 0) {
 			calculateAssValue();
 			doPopNum();
 			doProblems();
@@ -92,17 +92,17 @@ public class CityEval
 	void calculateAssValue()
 	{
 		int z = 0;
-		z += engine.roadTotal * 5;
-		z += engine.railTotal * 10;
-		z += engine.policeCount * 1000;
-		z += engine.researchCount * 1000; //changeswp
-		z += engine.fireStationCount * 1000;
-		z += engine.hospitalCount * 400;
-		z += engine.stadiumCount * 3000;
-		z += engine.seaportCount * 5000;
-		z += engine.airportCount * 10000;
-		z += engine.coalCount * 3000;
-		z += engine.nuclearCount * 6000;
+		z += engine.playerInfo.roadTotal * 5;
+		z += engine.playerInfo.railTotal * 10;
+		z += engine.playerInfo.policeCount * 1000;
+		z += engine.playerInfo.researchCount * 1000; //changeswp
+		z += engine.playerInfo.fireStationCount * 1000;
+		z += engine.playerInfo.hospitalCount * 400;
+		z += engine.playerInfo.stadiumCount * 3000;
+		z += engine.playerInfo.seaportCount * 5000;
+		z += engine.playerInfo.airportCount * 10000;
+		z += engine.playerInfo.coalCount * 3000;
+		z += engine.playerInfo.nuclearCount * 6000;
 		cityAssValue = z * 1000;
 	}
 
@@ -124,10 +124,10 @@ public class CityEval
 	void doProblems()
 	{
 		problemTable.clear();
-		problemTable.put(CityProblem.CRIME, engine.crimeAverage);
-		problemTable.put(CityProblem.POLLUTION, engine.pollutionAverage);
-		problemTable.put(CityProblem.HOUSING, (int)Math.round(engine.landValueAverage * 0.7));
-		problemTable.put(CityProblem.TAXES, engine.cityTax * 10);
+		problemTable.put(CityProblem.CRIME, engine.playerInfo.crimeAverage);
+		problemTable.put(CityProblem.POLLUTION, engine.playerInfo.pollutionAverage);
+		problemTable.put(CityProblem.HOUSING, (int)Math.round(engine.playerInfo.landValueAverage * 0.7));
+		problemTable.put(CityProblem.TAXES, engine.playerInfo.cityTax * 10);
 		problemTable.put(CityProblem.TRAFFIC, averageTrf());
 		problemTable.put(CityProblem.UNEMPLOYMENT, getUnemployment());
 		problemTable.put(CityProblem.FIRE, getFire());
@@ -189,17 +189,17 @@ public class CityEval
 			}
 		}
 
-		engine.trafficAverage = (int)Math.round(((double)total / (double)count) * 2.4);
-		return engine.trafficAverage;
+		engine.playerInfo.trafficAverage = (int)Math.round(((double)total / (double)count) * 2.4);
+		return engine.playerInfo.trafficAverage;
 	}
 
 	int getUnemployment()
 	{
-		int b = (engine.comPop + engine.indPop) * 8;
+		int b = (engine.playerInfo.comPop + engine.playerInfo.indPop) * 8;
 		if (b == 0)
 			return 0;
 
-		double r = (double)engine.resPop / (double)b;
+		double r = (double)engine.playerInfo.resPop / (double)b;
 		b = (int)Math.floor((r-1.0)*255);
 		if (b > 255) {
 			b = 255;
@@ -209,7 +209,7 @@ public class CityEval
 
 	int getFire()
 	{
-		int z = engine.firePop * 5;
+		int z = engine.playerInfo.firePop * 5;
 		return Math.min(255, z);
 	}
 
@@ -232,15 +232,15 @@ public class CityEval
 
 		double z = clamp((256 - x) * 4, 0, 1000);
 
-		if (engine.resCap) { z = 0.85 * z; }
-		if (engine.comCap) { z = 0.85 * z; }
-		if (engine.indCap) { z = 0.85 * z; }
-		if (engine.roadEffect < 32) { z -= (32 - engine.roadEffect); }
-		if (engine.policeEffect < 1000) { z *= (0.9 + (engine.policeEffect / 10000.1)); }
-		if (engine.fireEffect < 1000) { z *= (0.9 + (engine.fireEffect / 10000.1)); }
-		if (engine.resValve < -1000) { z *= 0.85; }
-		if (engine.comValve < -1000) { z *= 0.85; }
-		if (engine.indValve < -1000) { z *= 0.85; }
+		if (engine.playerInfo.resCap) { z = 0.85 * z; }
+		if (engine.playerInfo.comCap) { z = 0.85 * z; }
+		if (engine.playerInfo.indCap) { z = 0.85 * z; }
+		if (engine.playerInfo.roadEffect < 32) { z -= (32 - engine.playerInfo.roadEffect); }
+		if (engine.playerInfo.policeEffect < 1000) { z *= (0.9 + (engine.playerInfo.policeEffect / 10000.1)); }
+		if (engine.playerInfo.fireEffect < 1000) { z *= (0.9 + (engine.playerInfo.fireEffect / 10000.1)); }
+		if (engine.playerInfo.resValve < -1000) { z *= 0.85; }
+		if (engine.playerInfo.comValve < -1000) { z *= 0.85; }
+		if (engine.playerInfo.indValve < -1000) { z *= 0.85; }
 
 		double SM = 1.0;
 		if (cityPop == 0 && deltaCityPop == 0) {
@@ -257,10 +257,10 @@ public class CityEval
 		}
 		z *= SM;
 		z -= getFire();
-		z -= engine.cityTax;
+		z -= engine.playerInfo.cityTax;
 
-		int TM = engine.unpoweredZoneCount + engine.poweredZoneCount;
-		SM = TM != 0 ? ((double)engine.poweredZoneCount / (double)TM) : 1.0;
+		int TM = engine.playerInfo.unpoweredZoneCount + engine.playerInfo.poweredZoneCount;
+		SM = TM != 0 ? ((double)engine.playerInfo.poweredZoneCount / (double)TM) : 1.0;
 		z *= SM;
 
 		z = clamp(z, 0, 1000);

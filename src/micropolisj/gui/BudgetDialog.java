@@ -62,11 +62,8 @@ public class BudgetDialog extends JDialog
 		int newFirePct = ((Number) fireFundEntry.getValue()).intValue();
 		int newResearchPct = ((Number) researchFundEntry.getValue()).intValue();
 
-		engine.cityTax = newTaxRate;
-		engine.roadPercent = (double)newRoadPct / 100.0;
-		engine.policePercent = (double)newPolicePct / 100.0;
-		engine.firePercent = (double)newFirePct / 100.0;
-		engine.researchPercent = (double)newResearchPct / 100.0;
+		engine.setBudgetNumbers(newTaxRate, (double)newRoadPct / 100.0, (double)newRoadPct / 100.0,
+		        (double)newPolicePct / 100.0, (double)newFirePct / 100.0, (double)newResearchPct/100.0);
 
 		loadBudgetNumbers(false);
 	}
@@ -95,7 +92,7 @@ public class BudgetDialog extends JDialog
 		fireFundAlloc.setText(formatFunds(b.fireFunded));
 		
 		researchFundRequest.setText(formatFunds(b.researchRequest));
-		researchFundAlloc.setText(formatFunds(b.researchRequest));
+		researchFundAlloc.setText(formatFunds(b.researchFunded));
 	}
 
 	static void adjustSliderSize(JSlider slider)
@@ -112,11 +109,11 @@ public class BudgetDialog extends JDialog
 		setTitle(strings.getString("budgetdlg.title"));
 
 		this.engine = engine;
-		this.origTaxRate = engine.cityTax;
-		this.origRoadPct = engine.roadPercent;
-		this.origFirePct = engine.firePercent;
-		this.origPolicePct = engine.policePercent;
-		this.origResearchPct = engine.researchPercent;
+		this.origTaxRate = engine.playerInfo.cityTax;
+		this.origRoadPct = engine.playerInfo.roadPercent;
+		this.origFirePct = engine.playerInfo.firePercent;
+		this.origPolicePct = engine.playerInfo.policePercent;
+		this.origResearchPct = engine.playerInfo.researchPercent;
 
 		// give text fields of the fund-level spinners a minimum size
 		taxRateEntry = new JSpinner(new SpinnerNumberModel(7,0,20,1));
@@ -331,11 +328,11 @@ public class BudgetDialog extends JDialog
 
 	private void onResetClicked()
 	{
-		engine.cityTax = this.origTaxRate;
-		engine.roadPercent = this.origRoadPct;
-		engine.firePercent = this.origFirePct;
-		engine.policePercent = this.origPolicePct;
-		engine.researchPercent = this.origResearchPct;
+		engine.playerInfo.cityTax = this.origTaxRate;
+		engine.playerInfo.roadPercent = this.origRoadPct;
+		engine.playerInfo.firePercent = this.origFirePct;
+		engine.playerInfo.policePercent = this.origPolicePct;
+		engine.playerInfo.researchPercent = this.origResearchPct;
 		loadBudgetNumbers(true);
 	}
 

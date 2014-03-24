@@ -1,8 +1,13 @@
 ========================================================================
 
-MicropolisJ (Micropolis in Java)
+Methapolis (An Unofficial MicropolisJ Extension)
 
 ========================================================================
+
+Methapolis was created in the context of a project which was part of
+a computer science class at the Freie Universität Berlin in 2014.
+The related GitHub Team conists of the Accounts jacotar, ran83, mo2go,
+superaffengeiltyp, egal27, Hanagnagana, jneuendorf and giterer.
 
 MicropolisJ is Micropolis for the Java platform.
 Copyright (C) 2013 Jason Long (jason@long.name).
@@ -21,27 +26,20 @@ Copyright (C) 2002 by Electronic Arts.
 
 ========================================================================
 
-How to Run This Program
------------------------
+This Program is run exactly like MicropolisJ's regular Version
 
-First of all, you must have Java (version 7 or better) installed on your
-computer. You can get Java at http://java.com/download.
+========================================================================
 
-Next, simply double-click the enclosed micropolisj.jar file to run the
-program.
+Methapolis extends MicropolisJ by a competitive spirit. The original
+gameplay is quite slow and was designed as an endless game. The main
+obstacles were the player's budget and, later, the randomly appearing
+disasters, which were able to screw a city's whole infrastructure.
 
-
-How to Build This Program from Source
--------------------------------------
-
-See the INSTALL file for instructions on building the program from this
-source code release.
-
-See the COPYING file for the full text copy of the GNU General Public
-License.
-
-If you need assistance with this program, you may contact:
-  Jason Long (jason@long.name)
+A multiplayer mode, sabotage abilities and a deep research tree were 
+implemented to distinguish between the skill levels of the competitors.
+Rush your rocket science upgrades to be an early threat or rely on a 
+strong infrastructure with enhancend city buildings - your decisions
+pave the way to victory.
 
 ========================================================================
 

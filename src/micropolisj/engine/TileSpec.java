@@ -33,6 +33,8 @@ public class TileSpec {
 
 	Map<String, String> attributes;
 	List<String> images;
+	
+	private final static int POLLUTION_FACTOR = 25; 
 
 	protected TileSpec(int tileNumber) {
 		this.tileNumber = tileNumber;
@@ -120,15 +122,19 @@ public class TileSpec {
 	public String[] getImages() {
 		return images.toArray(new String[0]);
 	}
-
-	public int getPollutionValue() {
+	
+	//custom: apply research value to TilePollution
+	private int usePollutionResearch(int pollutionValue, Micropolis city){
+		return Math.max(0, pollutionValue - city.playerInfo.researchState.getEnvironmentResearchState() * POLLUTION_FACTOR);
+	}
+	public int getPollutionValue(Micropolis city) {
 		String v = getAttribute("pollution");
 		if(v != null) {
-			return Integer.parseInt(v);
+			return usePollutionResearch(Integer.parseInt(v), city);
 		}
 		else if(owner != null) {
 			// pollution inherits from building tile
-			return owner.getPollutionValue();
+			return owner.getPollutionValue(city);
 		}
 		else {
 			return 0;
@@ -160,7 +166,7 @@ public class TileSpec {
 				}
 				in.eatChar(')');
 
-				if(!attributes.containsKey(k)) {					
+				if(!attributes.containsKey(k)) {
 					attributes.put(k, v);
 					String sup = tilesRc.getProperty(k);
 					if(sup != null) {

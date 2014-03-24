@@ -6,10 +6,10 @@ public class ResearchTree {
 
 	static ResearchNode[] possible_nodes;
 	static int[][] needed = {
-		{}, {0}, {1}
-	  , {}, {3}, {4}
-	  , {}, {6}, {7}
-	  , {}, {9}, {10}
+			{}, {0}, {1}, 
+			{}, {3}, {4}, 
+			{}, {6}, {7}, 
+			{}, {9}, {10}
 	};
 	int height = 2, width = 2;
 	static int[] positionsX = {
@@ -27,10 +27,10 @@ public class ResearchTree {
 
 	public ResearchTree() {
 		possible_nodes = new ResearchNode[] {
-				new RocketNode(1), new RocketNode(2), new RocketNode(3)
-			  , new PoliceNode(1), new PoliceNode(2), new PoliceNode(3)
-			  , new FiremanNode(1), new FiremanNode(2), new FiremanNode(3)
-			  , new EnvironmentNode(1), new EnvironmentNode(2), new EnvironmentNode(3)
+				new RocketNode(1, 150), new RocketNode(2, 200), new RocketNode(3, 250)
+			  , new PoliceNode(1, 150), new PoliceNode(2, 200), new PoliceNode(3, 250)
+			  , new FiremanNode(1, 150), new FiremanNode(2, 200), new FiremanNode(3, 250)
+			  , new EnvironmentNode(1, 150), new EnvironmentNode(2, 200), new EnvironmentNode(3, 250)
 		};
 	}
 
@@ -47,9 +47,11 @@ public class ResearchTree {
 	class RocketNode implements ResearchNode {
 
 		int id=0;
+		int cost=150;
 		
-		public RocketNode(int st){
+		public RocketNode(int st, int cost){
 			id = st;
+			this.cost = cost;
 		}
 		
 		@Override
@@ -64,7 +66,7 @@ public class ResearchTree {
 
 		@Override
 		public int getCost() {
-			return 15;
+			return cost;
 		}
 
 		// @Override
@@ -79,9 +81,11 @@ public class ResearchTree {
 	class PoliceNode implements ResearchNode {
 
 		int id=0;
+		int cost=150;
 		
-		public PoliceNode(int st){
+		public PoliceNode(int st, int cost){
 			id = st;
+			this.cost = cost;
 		}
 		
 		@Override
@@ -96,7 +100,7 @@ public class ResearchTree {
 
 		@Override
 		public int getCost() {
-			return 15;
+			return cost;
 		}
 		@Override
 		public void makeChanges(ResearchState state) {
@@ -107,9 +111,11 @@ public class ResearchTree {
 	class FiremanNode implements ResearchNode {
 
 		int id=0;
+		int cost=150;
 		
-		public FiremanNode(int st){
+		public FiremanNode(int st, int cost){
 			id = st;
+			this.cost = cost;
 		}
 		
 		@Override
@@ -124,7 +130,7 @@ public class ResearchTree {
 
 		@Override
 		public int getCost() {
-			return 15;
+			return cost;
 		}
 		@Override
 		public void makeChanges(ResearchState state) {
@@ -135,9 +141,11 @@ public class ResearchTree {
 	class EnvironmentNode implements ResearchNode {
 
 		int id=0;
+		int cost=150;
 		
-		public EnvironmentNode(int st){
+		public EnvironmentNode(int st, int cost){
 			id = st;
+			this.cost = cost;
 		}
 		
 		@Override
@@ -152,7 +160,7 @@ public class ResearchTree {
 
 		@Override
 		public int getCost() {
-			return 15;
+			return cost;
 		}
 		@Override
 		public void makeChanges(ResearchState state) {

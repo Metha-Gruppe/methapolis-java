@@ -24,17 +24,20 @@ public class RemoteDistributor extends UnicastRemoteObject implements IMicropoli
     
     private String levelName;
     
+    private static int playerCount = 1;
+    
     
     protected RemoteDistributor(Micropolis micropolis) throws RemoteException {
         super();
         this.micropolis = micropolis;
         events = Collections.synchronizedMap(new HashMap<PlayerInput, Integer>());
     }
+    
+    
 
     @Override
     public synchronized MapInfo getLatestMap() throws RemoteException {
         // TODO --- Threadsafety
-        System.out.println("map requested");
         return mapInfo;
     }
     
@@ -43,8 +46,12 @@ public class RemoteDistributor extends UnicastRemoteObject implements IMicropoli
     }
 
     @Override
-    public void storeInput(int playerID, PlayerInput input) throws RemoteException {
+    public synchronized void storeInput(int playerID, PlayerInput input) throws RemoteException {
         events.put(input, playerID);
+    }
+    
+    public synchronized Map<PlayerInput, Integer> getInput() {
+        return events;
     }
 
     @Override
@@ -60,6 +67,13 @@ public class RemoteDistributor extends UnicastRemoteObject implements IMicropoli
     public byte[] getLevel() throws RemoteException {
         return null;
         //send .cty-file 
+    }
+
+
+
+    @Override
+    public int getNewID() throws RemoteException {
+        return playerCount++;
     }
 
 }

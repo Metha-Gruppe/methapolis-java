@@ -11,11 +11,13 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import sun.net.www.content.audio.x_aiff;
 import micropolisj.network.ServerMicropolis;
 
 /**
@@ -51,21 +53,21 @@ public class SplashScreen extends JFrame implements ActionListener{
                 g.drawImage(img, 0, 0, null);
             }
         };
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         add(imgPanel);
         //TODO replace Strings with Resourcebundle-Strings 
         newGameBtn = new JButton("New Game");
         loadGameBtn = new JButton("Load Game");
         createServerBtn = new JButton("Create Server");
         loginBtn = new JButton("Login");
-        add(newGameBtn);
-        add(loadGameBtn);
-        add(createServerBtn);
-        add(loginBtn);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(newGameBtn);
+        buttonPanel.add(loadGameBtn);
+        buttonPanel.add(createServerBtn);
+        buttonPanel.add(loginBtn);
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        add(buttonPanel);
         
-        setLayout(new FlowLayout());
+        getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         
         newGameBtn.addActionListener(this);
         newGameBtn.setActionCommand(NEW_GAME_COMMAND);
@@ -75,11 +77,13 @@ public class SplashScreen extends JFrame implements ActionListener{
         createServerBtn.setActionCommand(START_NEW_SERVER_COMMAND);
         loginBtn.addActionListener(this);
         loginBtn.setActionCommand(JOIN_COMMAND);
-        pack();
+        setSize(img.getWidth(), img.getHeight() + buttonPanel.getHeight());
         //center window
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        setLocationRelativeTo(null);
         setVisible(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     //TODO add other button functionalities
