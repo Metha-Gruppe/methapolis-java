@@ -123,6 +123,7 @@ public class RocketSprite extends Sprite {
 
 		// play sound
 		if(secondsTilBoom <= soundDuration && !soundPlaying) {
+			System.out.println("dubstep!");
 			city.makeSound(x, y, Sound.DUBSPLOSION);
 			soundPlaying = true;
 		}

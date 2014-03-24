@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import micropolisj.research.ResearchState;
-
 public class TileSpec {
 	int tileNumber;
 	TileSpec animNext;
@@ -169,7 +167,6 @@ public class TileSpec {
 				in.eatChar(')');
 
 				if(!attributes.containsKey(k)) {
-					
 					attributes.put(k, v);
 					String sup = tilesRc.getProperty(k);
 					if(sup != null) {

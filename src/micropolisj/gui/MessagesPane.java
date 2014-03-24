@@ -8,7 +8,6 @@
 
 package micropolisj.gui;
 
-import java.util.Enumeration;
 import java.util.ResourceBundle;
 
 import javax.swing.JTextPane;

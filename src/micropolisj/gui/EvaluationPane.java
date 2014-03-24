@@ -17,15 +17,13 @@ import javax.swing.*;
 import micropolisj.engine.*;
 import static micropolisj.gui.MainWindow.formatFunds;
 
-public class EvaluationPane extends JPanel
-	implements Micropolis.Listener
-{
+public class EvaluationPane extends JPanel implements Micropolis.Listener {
 	Micropolis engine;
 
 	JLabel yesLbl;
 	JLabel noLbl;
-	JLabel [] voterProblemLbl;
-	JLabel [] voterCountLbl;
+	JLabel[] voterProblemLbl;
+	JLabel[] voterCountLbl;
 	JLabel popLbl;
 	JLabel deltaLbl;
 	JLabel assessLbl;
@@ -37,15 +35,15 @@ public class EvaluationPane extends JPanel
 	static ResourceBundle cstrings = ResourceBundle.getBundle("micropolisj.CityStrings");
 	static ResourceBundle gstrings = MainWindow.strings;
 
-	public EvaluationPane(Micropolis _engine)
-	{
+	public EvaluationPane(Micropolis _engine) {
 		super(new BorderLayout());
 
 		JButton dismissBtn = new JButton(gstrings.getString("dismiss-evaluation"));
 		dismissBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				onDismissClicked();
-			}});
+			}
+		});
 		add(dismissBtn, BorderLayout.SOUTH);
 
 		Box b1 = new Box(BoxLayout.X_AXIS);
@@ -59,25 +57,22 @@ public class EvaluationPane extends JPanel
 		setEngine(_engine);
 	}
 
-	public void setEngine(Micropolis newEngine)
-	{
-		if (engine != null) { //old engine
+	public void setEngine(Micropolis newEngine) {
+		if(engine != null) { // old engine
 			engine.removeListener(this);
 		}
 		engine = newEngine;
-		if (engine != null) { //new engine
+		if(engine != null) { // new engine
 			engine.addListener(this);
 			loadEvaluation();
 		}
 	}
 
-	private void onDismissClicked()
-	{
+	private void onDismissClicked() {
 		setVisible(false);
 	}
 
-	private JComponent makePublicOpinionPane()
-	{
+	private JComponent makePublicOpinionPane() {
 		JPanel me = new JPanel(new GridBagLayout());
 		GridBagConstraints c1 = new GridBagConstraints();
 		GridBagConstraints c2 = new GridBagConstraints();
@@ -93,9 +88,7 @@ public class EvaluationPane extends JPanel
 
 		JLabel headerLbl = new JLabel(gstrings.getString("public-opinion"));
 		Font curFont = headerLbl.getFont();
-		headerLbl.setFont(
-			curFont.deriveFont(curFont.getStyle() | Font.BOLD, (float)(curFont.getSize() * 1.2))
-			);
+		headerLbl.setFont(curFont.deriveFont(curFont.getStyle() | Font.BOLD, (float) (curFont.getSize() * 1.2)));
 		me.add(headerLbl, c1);
 
 		c1.gridy = 1;
@@ -136,7 +129,7 @@ public class EvaluationPane extends JPanel
 		final int NUM_PROBS = 4;
 		voterProblemLbl = new JLabel[NUM_PROBS];
 		voterCountLbl = new JLabel[NUM_PROBS];
-		for (int i = 0; i < NUM_PROBS; i++) {
+		for(int i = 0; i < NUM_PROBS; i++) {
 			voterProblemLbl[i] = new JLabel();
 			me.add(voterProblemLbl[i], c2);
 
@@ -154,8 +147,7 @@ public class EvaluationPane extends JPanel
 		return me;
 	}
 
-	private JComponent makeStatisticsPane()
-	{
+	private JComponent makeStatisticsPane() {
 		JPanel me = new JPanel(new GridBagLayout());
 		GridBagConstraints c1 = new GridBagConstraints();
 		GridBagConstraints c2 = new GridBagConstraints();
@@ -167,13 +159,11 @@ public class EvaluationPane extends JPanel
 		c1.weightx = 1.0;
 		c1.fill = GridBagConstraints.NONE;
 		c1.anchor = GridBagConstraints.NORTH;
-		c1.insets = new Insets(0,0,3,0);
+		c1.insets = new Insets(0, 0, 3, 0);
 
 		JLabel headerLbl = new JLabel(gstrings.getString("statistics-head"));
 		Font curFont = headerLbl.getFont();
-		headerLbl.setFont(
-			curFont.deriveFont(curFont.getStyle() | Font.BOLD, (float)(curFont.getSize() * 1.2))
-			);
+		headerLbl.setFont(curFont.deriveFont(curFont.getStyle() | Font.BOLD, (float) (curFont.getSize() * 1.2)));
 		me.add(headerLbl, c1);
 
 		c1.gridy = 20;
@@ -235,28 +225,37 @@ public class EvaluationPane extends JPanel
 		// add glue so that everything will align towards the top
 		c1.gridy = 999;
 		c1.weighty = 1.0;
-		c1.insets = new Insets(0,0,0,0);
+		c1.insets = new Insets(0, 0, 0, 0);
 		me.add(new JLabel(), c1);
 
 		return me;
 	}
 
-	//implements Micropolis.Listener
-	public void cityMessage(MicropolisMessage message, CityLocation loc) {}
-	public void citySound(Sound sound, CityLocation loc) {}
-	public void censusChanged() {}
-	public void demandChanged() {}
-	public void fundsChanged() {}
-	public void optionsChanged() {}
+	// implements Micropolis.Listener
+	public void cityMessage(MicropolisMessage message, CityLocation loc) {
+	}
 
-	//implements Micropolis.Listener
-	public void evaluationChanged()
-	{
+	public void citySound(Sound sound, CityLocation loc) {
+	}
+
+	public void censusChanged() {
+	}
+
+	public void demandChanged() {
+	}
+
+	public void fundsChanged() {
+	}
+
+	public void optionsChanged() {
+	}
+
+	// implements Micropolis.Listener
+	public void evaluationChanged() {
 		loadEvaluation();
 	}
 
-	private void loadEvaluation()
-	{
+	private void loadEvaluation() {
 		NumberFormat pctFmt = NumberFormat.getPercentInstance();
 		yesLbl.setText(pctFmt.format(0.01 * engine.playerInfo.evaluation.cityYes));
 		noLbl.setText(pctFmt.format(0.01 * engine.playerInfo.evaluation.cityNo));
@@ -265,12 +264,13 @@ public class EvaluationPane extends JPanel
 			CityProblem p = i < engine.playerInfo.evaluation.problemOrder.length ? engine.playerInfo.evaluation.problemOrder[i] : null;
 			int numVotes = p != null ? engine.playerInfo.evaluation.problemVotes.get(p) : 0;
 
-			if (numVotes != 0) {
-				voterProblemLbl[i].setText(cstrings.getString("problem."+p.name()));
+			if(numVotes != 0) {
+				voterProblemLbl[i].setText(cstrings.getString("problem." + p.name()));
 				voterCountLbl[i].setText(pctFmt.format(0.01 * numVotes));
 				voterProblemLbl[i].setVisible(true);
 				voterCountLbl[i].setVisible(true);
-			} else {
+			}
+			else {
 				voterProblemLbl[i].setVisible(false);
 				voterCountLbl[i].setVisible(false);
 			}
@@ -286,13 +286,11 @@ public class EvaluationPane extends JPanel
 		scoreDeltaLbl.setText(nf.format(engine.playerInfo.evaluation.deltaCityScore));
 	}
 
-	static String getCityClassName(int cityClass)
-	{
-		return cstrings.getString("class."+cityClass);
+	static String getCityClassName(int cityClass) {
+		return cstrings.getString("class." + cityClass);
 	}
 
-	static String getGameLevelName(int gameLevel)
-	{
-		return cstrings.getString("level."+gameLevel);
+	static String getGameLevelName(int gameLevel) {
+		return cstrings.getString("level." + gameLevel);
 	}
 }
