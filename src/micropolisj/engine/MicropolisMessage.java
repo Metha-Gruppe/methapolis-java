@@ -64,7 +64,8 @@ public enum MicropolisMessage
 	NO_NUCLEAR_PLANTS,
 	
 	// custom messages
-	ROCKETCRASH_REPORT;
+	ROCKETCRASH_REPORT,
+	INSUFFICIENT_RESEARCH;
 
 	/** Whether the message should be displayed in the notification pane. */
 	public boolean useNotificationPane = false;

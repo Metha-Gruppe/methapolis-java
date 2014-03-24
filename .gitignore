@@ -8,3 +8,7 @@ graphics/generated
 # Eclipse Files #
 # .classpath
 .project
+
+
+*~
+.directory

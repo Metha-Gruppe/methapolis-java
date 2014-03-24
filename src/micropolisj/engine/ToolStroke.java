@@ -105,7 +105,7 @@ public class ToolStroke {
 					city.generateRocket(0, 0, xpos, ypos);
 					city.spend(MicropolisTool.ROCKET.getToolCost());
 				}else{
-					JOptionPane.showMessageDialog(ResearchState.getInstance(), "You need some research before you can use rockets.");
+					city.sendMessage(MicropolisMessage.INSUFFICIENT_RESEARCH);
 				}
 				return false;
 
