@@ -120,8 +120,8 @@ public class Micropolis {
     
     
     //TODO: make it a List/array to hold every players information individually
-//    Map<Integer, PlayerInfo> playerInfos;
-    public PlayerInfo playerInfo;
+    public Map<Integer, PlayerInfo> playerInfos;
+//    public PlayerInfo playerInfo;
     
 
     public boolean autoBulldoze = true;

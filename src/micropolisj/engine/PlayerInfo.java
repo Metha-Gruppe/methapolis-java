@@ -8,8 +8,6 @@ import micropolisj.research.ResearchState;
  *
  */
 public class PlayerInfo {
-    
-    
     //TODO: decide which variables are playerrelated and which ones are maprelated!!!
     // playerrelated --> PlayerInfo
     // maprelated --> Micropolis
@@ -106,7 +104,7 @@ public class PlayerInfo {
     public ResearchState researchState;
     public CityEval evaluation;
     
-    
+    // CONSTRUCTOR
     public PlayerInfo(Micropolis city) {
         budget = new CityBudget(city);
     }
