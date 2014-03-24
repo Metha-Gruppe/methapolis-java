@@ -83,9 +83,6 @@ public class PlayerInfo {
     public int crimeRamp;
     public int polluteRamp;
 
-    public int comPopAverage;
-    public int indPopAverage;
-    public int resPopAverage;
     
     //
     // budget stuff

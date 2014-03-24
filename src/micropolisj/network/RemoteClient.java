@@ -17,11 +17,11 @@ public class RemoteClient extends UnicastRemoteObject implements Serializable{
     
     public RemoteClient(String ip) throws RemoteException{
         try {
-            IP = ip;
             // TODO: make constants for address
             if(ip.equalsIgnoreCase("local") || ip.equalsIgnoreCase("localhost"))	{
             	ip = "127.0.0.1";
             }
+            IP = ip;
             server = (IMicropolisServer) Naming.lookup("rmi://" + IP + "/" + NetworkServer.NAMING_BIND);
 //            server.setRemoteClient(this);
             System.out.println(">>> connected to server...");
