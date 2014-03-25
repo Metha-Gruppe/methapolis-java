@@ -2,6 +2,8 @@ package micropolisj.research;
 
 import java.util.HashSet;
 
+import micropolisj.engine.MicropolisTool;
+
 public class ResearchTree {
 
 	static ResearchNode[] possible_nodes;
@@ -75,6 +77,7 @@ public class ResearchTree {
 		@Override
 		public void makeChanges(ResearchState state) {
 			state.rocketResearch = id;
+			state.toolBtns.get(MicropolisTool.ROCKET).setVisible(true);
 		}
 	}
 	// INNER CLASSES FOR UPGRADE FEATURES
