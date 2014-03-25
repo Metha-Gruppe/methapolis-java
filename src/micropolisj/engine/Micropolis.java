@@ -108,6 +108,9 @@ public class Micropolis {
     int researchDelayCharger = 0; // changing variable - should stay at 0
     int researchDelay = 5; // amount of skipped ticks - higher number = fewer
                            // research points
+    
+    int factorIncome = 4;	//factor - higher numbers increase income
+    int factorRoadFund = 5;	//divisor - higher numbers decrease funding costs
 
     /**
      * For each 8x8 section of city, this is an integer between 0 and 64, with
@@ -1617,12 +1620,13 @@ public class Micropolis {
         b.firePercent = Math.max(0.0, playerInfo.firePercent);
         b.policePercent = Math.max(0.0, playerInfo.policePercent);
         b.researchPercent = Math.max(0.0, playerInfo.researchPercent);
+        
 
         b.previousBalance = playerInfo.budget.totalFunds;
-        b.taxIncome = (int) Math.round(playerInfo.lastTotalPop * playerInfo.landValueAverage / 120 * b.taxRate * FLevels[gameLevel]);
+        b.taxIncome = (int) Math.round(playerInfo.lastTotalPop * factorIncome * playerInfo.landValueAverage / 120 * b.taxRate * FLevels[gameLevel]); //changeswp
         assert b.taxIncome >= 0;
 
-        b.roadRequest = (int) Math.round((playerInfo.lastRoadTotal + playerInfo.lastRailTotal * 2) * RLevels[gameLevel]);
+        b.roadRequest = (int) Math.round(((playerInfo.lastRoadTotal + playerInfo.lastRailTotal * 2) * RLevels[gameLevel])/factorRoadFund); //changeswp
         b.fireRequest = FIRE_STATION_MAINTENANCE * playerInfo.lastFireStationCount;
         b.policeRequest = POLICE_STATION_MAINTENANCE * playerInfo.lastPoliceCount;
         b.researchRequest = RESEARCH_STATION_MAINTENANCE * playerInfo.lastResearchCount;
