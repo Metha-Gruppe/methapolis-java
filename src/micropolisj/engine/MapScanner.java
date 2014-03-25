@@ -72,6 +72,7 @@ class MapScanner extends TileBehavior {
 				return;
 			case UNIVERSITY:
 				doUniversity();
+				return;
 			case TEMPEL:
 				doTempel();
 				return;
@@ -382,7 +383,7 @@ class MapScanner extends TileBehavior {
 
 					if(!isIndestructible(thCh)) { // not rubble, radiactive, on
 													// fire or flooded
-
+//						System.out.println(zoneBase);
 						city.setTile(xx, yy, (char) zoneBase);
 					}
 				}
