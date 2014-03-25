@@ -44,7 +44,8 @@ public class MP3 extends PlaybackListener {
 	}
 
 	public MP3(URL url, boolean loop) {
-		this(url.toString().substring(5), loop);
+		//this(url.toString().substring(5), loop);
+		this(url.toString(), loop);
 	}
 
 	public MP3(String filename, boolean loop) {
@@ -57,9 +58,11 @@ public class MP3 extends PlaybackListener {
 	// METHODS
 
 	public void close() {
-		if(player != null)
+		if(player != null) {
 			player.close();
-		if(thread != null)	{
+		}
+
+		if(thread != null) {
 			thread.interrupt();
 			thread = null;
 		}
@@ -74,7 +77,7 @@ public class MP3 extends PlaybackListener {
 			if(loop) {
 				p.setPlayBackListener(new LoopListener());
 			}
-			else	{
+			else {
 				p.setPlayBackListener(new NonLoopListener());
 			}
 			return p;
@@ -101,7 +104,6 @@ public class MP3 extends PlaybackListener {
 			}
 		};
 		thread.start();
-		
 	}
 
 	private class LoopListener extends PlaybackListener {
@@ -110,8 +112,8 @@ public class MP3 extends PlaybackListener {
 			play();
 		}
 	}
-	
-	private class NonLoopListener extends PlaybackListener	{
+
+	private class NonLoopListener extends PlaybackListener {
 		@Override
 		public void playbackFinished(PlaybackEvent evt) {
 			thread.interrupt();

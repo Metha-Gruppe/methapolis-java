@@ -34,7 +34,7 @@ public class ToolStroke implements Serializable {
         this.xdest = xpos;
         this.ydest = ypos;
         playerID = city.getPlayerID();
-        System.out.println(playerID);
+        // System.out.println(playerID);
     }
 
     public void setCity(Micropolis engine) {

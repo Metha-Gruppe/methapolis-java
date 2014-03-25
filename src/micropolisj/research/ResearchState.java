@@ -11,6 +11,10 @@ import java.util.*;
 
 import javax.swing.*;
 
+import micropolisj.engine.Micropolis;
+import micropolisj.engine.MicropolisTool;
+import micropolisj.gui.MainWindow;
+
 public class ResearchState extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
@@ -50,6 +54,14 @@ public class ResearchState extends JFrame implements ActionListener {
 	int maxWidth = 0;
 	int maxHeight = 0;
 
+
+	public Map<MicropolisTool, JToggleButton> toolBtns;
+	public void setToolBtns(Map<MicropolisTool, JToggleButton> toolBtns){
+		if(toolBtns == null)
+			System.out.println("no but");
+		this.toolBtns = toolBtns;
+	}
+	
 	JScrollPane scrollPane;
 	JPanel insidePane;
 	JPanel subMenu;
