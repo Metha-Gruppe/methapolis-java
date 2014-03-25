@@ -44,7 +44,8 @@ public class MP3 extends PlaybackListener {
 	}
 
 	public MP3(URL url, boolean loop) {
-		this(url.toString().substring(5), loop);
+		//this(url.toString().substring(5), loop);
+		this(url.toString(), loop);
 	}
 
 	public MP3(String filename, boolean loop) {

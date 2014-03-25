@@ -40,6 +40,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
+import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.AbstractAction;
@@ -135,8 +136,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 	public MainWindow(Micropolis engine) {
 		setIconImage(appIcon.getImage());
 
-		// System.out.println("/sounds/" + Sound.BG_MUSIC.getWavName() +
-		// ".mp3");
+		System.out.println(MainWindow.class.getResource("/sounds/" + Sound.BG_MUSIC.getWavName() + ".mp3"));
 		backgroundMusic = new MP3(MainWindow.class.getResource("/sounds/" + Sound.BG_MUSIC.getWavName() + ".mp3"), true);
 		backgroundMusic.play();
 
@@ -1575,6 +1575,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		URL afile = sound.getAudioFile();
 		if(afile == null)
 			return;
+		System.out.println(afile);
 
 		boolean isOnScreen = drawingAreaScroll.getViewport().getViewRect().contains(drawingArea.getTileBounds(loc.x, loc.y));
 		if(sound == Sound.HONKHONK_LOW && !isOnScreen)
@@ -1582,7 +1583,9 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 
 		try {
 			Clip clip = AudioSystem.getClip();
-			clip.open(AudioSystem.getAudioInputStream(afile));
+			AudioInputStream audioStream = AudioSystem.getAudioInputStream(afile);
+			System.out.println(audioStream.getFormat());
+			clip.open(audioStream);
 			clip.start();
 		}
 		catch(Exception e) {
