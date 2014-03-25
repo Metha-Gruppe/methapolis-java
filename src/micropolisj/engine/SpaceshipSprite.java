@@ -22,28 +22,21 @@ public class SpaceshipSprite extends Sprite {
 	private double speedFactor;
 	private boolean soundPlaying;
 	private MP3 sound;
-
-	// NOTE: used for movement
-	static int[] CDx = {
-			0, 10
-	};
-	static int[] CDy = {
-			0, 0
-	};
+	private int prevDist;
 
 	// CONSTRUCTORS
 	public SpaceshipSprite(Micropolis engine, int xpos, int ypos) {
-		this(engine, xpos, ypos, 2000, ypos, 2.5);
+		this(engine, xpos, ypos, 1.0);
 	}
 
-	public SpaceshipSprite(Micropolis engine, int xpos, int ypos, int xDest, int yDest, double speedFactor) {
+	public SpaceshipSprite(Micropolis engine, int xpos, int ypos, double speedFactor) {
 		super(engine, SpriteKind.SPACESHIP);
-
-		setStart(xpos, ypos);
-		setDestination(xDest, yDest);
 
 		this.speedFactor = speedFactor;
 		this.soundPlaying = false;
+		this.prevDist = Integer.MAX_VALUE;
+		x = xpos;
+		y = ypos;
 
 		// size of the sprite image in pixels
 		this.width = 96;
@@ -52,36 +45,37 @@ public class SpaceshipSprite extends Sprite {
 		this.offx = -48;
 		this.offy = -48;
 
+		MainWindow window = engine.mainWindow;
+
+		// the 2 is indeed a magic number: it makes the spaceship vanish ~1sec
+		// after flying off the map
+		int diff = Math.max(window.getWidth() - xpos, window.getHeight() - ypos) * 2;
+
+		destX = x + diff;
+		destY = y + diff;
+
 		frame = 1;
 	}
 
-	private void setStart(int x, int y) {
-		this.x = tilePosToPixel(x);
-		this.y = tilePosToPixel(y);
-	}
-
-	private void setDestination(int x, int y) {
-		this.destX = tilePosToPixel(x);
-		this.destY = tilePosToPixel(y);
-	}
-
 	public void moveImpl() {
-//		double secondsTilBoom = stepsTilBoom() / city.simSpeed.getAnimationsPerSecond();
-//		double soundDuration = 3.25;
-
 		// play sound
-		if(!soundPlaying) {
+		if(!soundPlaying && speedFactor > 1.05) {
 			sound = new MP3(MainWindow.class.getResource("/sounds/" + Sound.SPACESHIP_LAUNCH.getWavName() + ".mp3"));
 			sound.play();
 			soundPlaying = true;
 		}
 
-		if(getDis(x, y, destX, destY) <= 10 * speedFactor) {
-			this.explodeSprite();
-			this.city.sprites.remove(this);
+		int dist = getDis(x, y, destX, destY);
+
+		if(dist > prevDist) {
+			System.out.println("exploding spaceship");
+			remove();
 		}
 
-		this.x += CDx[frame] * speedFactor;
-		this.y += CDy[frame] * speedFactor;
+		prevDist = dist;
+
+		this.x += 10 * speedFactor;
+		this.y += 10 * speedFactor;
+		speedFactor *= 1.03;
 	}
 }

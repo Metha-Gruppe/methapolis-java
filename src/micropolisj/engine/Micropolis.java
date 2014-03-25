@@ -8,6 +8,42 @@
 
 package micropolisj.engine;
 
+import static micropolisj.engine.TileConstants.ALLBITS;
+import static micropolisj.engine.TileConstants.CHANNEL;
+import static micropolisj.engine.TileConstants.COMBASE;
+import static micropolisj.engine.TileConstants.DIRT;
+import static micropolisj.engine.TileConstants.FIRE;
+import static micropolisj.engine.TileConstants.FLOOD;
+import static micropolisj.engine.TileConstants.HHTHR;
+import static micropolisj.engine.TileConstants.INDBASE;
+import static micropolisj.engine.TileConstants.LASTZONE;
+import static micropolisj.engine.TileConstants.LHTHR;
+import static micropolisj.engine.TileConstants.LOMASK;
+import static micropolisj.engine.TileConstants.NUCLEAR;
+import static micropolisj.engine.TileConstants.PORTBASE;
+import static micropolisj.engine.TileConstants.POWERPLANT;
+import static micropolisj.engine.TileConstants.PWRBIT;
+import static micropolisj.engine.TileConstants.RADTILE;
+import static micropolisj.engine.TileConstants.RESCLR;
+import static micropolisj.engine.TileConstants.RIVER;
+import static micropolisj.engine.TileConstants.RUBBLE;
+import static micropolisj.engine.TileConstants.commercialZonePop;
+import static micropolisj.engine.TileConstants.getDescriptionNumber;
+import static micropolisj.engine.TileConstants.getPollutionValue;
+import static micropolisj.engine.TileConstants.getTileBehavior;
+import static micropolisj.engine.TileConstants.getZoneSizeFor;
+import static micropolisj.engine.TileConstants.industrialZonePop;
+import static micropolisj.engine.TileConstants.isAnimated;
+import static micropolisj.engine.TileConstants.isArsonable;
+import static micropolisj.engine.TileConstants.isCombustible;
+import static micropolisj.engine.TileConstants.isConductive;
+import static micropolisj.engine.TileConstants.isConstructed;
+import static micropolisj.engine.TileConstants.isFloodable;
+import static micropolisj.engine.TileConstants.isRiverEdge;
+import static micropolisj.engine.TileConstants.isVulnerable;
+import static micropolisj.engine.TileConstants.isZoneCenter;
+import static micropolisj.engine.TileConstants.residentialZonePop;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -24,7 +60,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Stack;
 
-import static micropolisj.engine.TileConstants.*;
+import micropolisj.gui.MainWindow;
 import micropolisj.research.ResearchState;
 
 /**
@@ -141,6 +177,8 @@ public class Micropolis {
 	int fcycle; // counts simulation steps (mod 1024)
 	int acycle; // animation cycle (mod 960)
 
+	public MainWindow mainWindow;
+	
 	protected List<Sprite> sprites = new ArrayList<Sprite>();
 
 	static final int VALVERATE = 2;

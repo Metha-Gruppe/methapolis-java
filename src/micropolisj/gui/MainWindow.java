@@ -137,16 +137,16 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 	public MainWindow(Micropolis engine) {
 		setIconImage(appIcon.getImage());
 
-//		System.out.println(MainWindow.class.getResource("/sounds/" + Sound.BG_MUSIC.getWavName() + ".mp3"));
 		backgroundMusic = new MP3(MainWindow.class.getResource("/sounds/" + Sound.BG_MUSIC.getWavName() + ".mp3"), true);
 		backgroundMusic.play();
-		
-		engine.getSprites().add(new SpaceshipSprite(engine, 100, 100));
+
+		// TODO custom: necessary so sprites can access window size
+		engine.mainWindow = this;
 
 		this.engine = engine;
 
 		engine.playerInfo.researchState.setLocationRelativeTo(this);
-		
+
 		JPanel mainArea = new JPanel(new BorderLayout());
 		add(mainArea, BorderLayout.CENTER);
 
@@ -157,7 +157,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		makeMenu();
 		JToolBar tb = makeToolbar();
 		mainArea.add(tb, BorderLayout.WEST);
-		
+
 		toolBtns.get(MicropolisTool.ROCKET).setVisible(false);
 		engine.playerInfo.researchState.setToolBtns(toolBtns);
 
@@ -369,6 +369,9 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		reloadOptions();
 		startTimer();
 		makeClean();
+
+		// TODO custom: just a test
+		engine.getSprites().add(new SpaceshipSprite(engine, 350, 500));
 	}
 
 	public void setEngine(Micropolis newEngine) {
