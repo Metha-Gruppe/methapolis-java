@@ -104,7 +104,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 	JLabel popLbl;
 	JLabel currentToolLbl;
 	JLabel currentToolCostLbl;
-	Map<MicropolisTool, JToggleButton> toolBtns;
+	public Map<MicropolisTool, JToggleButton> toolBtns;
 	EnumMap<MapState, JMenuItem> mapStateMenuItems = new EnumMap<MapState, JMenuItem>(MapState.class);
 	// CUSTOM
 	MP3 backgroundMusic;
@@ -144,7 +144,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		this.engine = engine;
 		
 		engine.playerInfo.researchState.setLocationRelativeTo(this);
-
+		
 		JPanel mainArea = new JPanel(new BorderLayout());
 		add(mainArea, BorderLayout.CENTER);
 
@@ -155,6 +155,9 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		makeMenu();
 		JToolBar tb = makeToolbar();
 		mainArea.add(tb, BorderLayout.WEST);
+		
+		toolBtns.get(MicropolisTool.ROCKET).setVisible(false);
+		engine.playerInfo.researchState.setToolBtns(toolBtns);
 
 		Box evalGraphsBox = new Box(BoxLayout.Y_AXIS);
 		mainArea.add(evalGraphsBox, BorderLayout.SOUTH);

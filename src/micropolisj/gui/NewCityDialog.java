@@ -50,6 +50,8 @@ public class NewCityDialog extends JDialog
 
 		this.engine = engine;
 		this.engine.playerInfo.researchState = new ResearchState();
+		this.engine.playerInfo.researchState.toolBtns = owner.toolBtns;
+		
 		new MapGenerator(engine).generateNewCity();
 
 		mapPane = new OverlayMapView(engine);
