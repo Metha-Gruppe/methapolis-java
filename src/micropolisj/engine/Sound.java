@@ -36,6 +36,7 @@ public enum Sound
 	MONSTER       ("zombie-roar-5"),
 	// CUSTOM
 	DUBSPLOSION   ("dubsplosion"),
+	SPACESHIP_START   ("dubsplosion"),
 	BG_MUSIC      ("methapolis");
 
 	String wavName;

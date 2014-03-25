@@ -23,7 +23,8 @@ public enum SpriteKind implements Serializable
 	TOR(6,3),
 	EXP(7,6),
 	BUS(8,4),
-	ROC(9,11);
+	ROC(9,11),
+	SPACESHIP(10, 1);
 
 	public final int objectId;
 	public final int numFrames;
