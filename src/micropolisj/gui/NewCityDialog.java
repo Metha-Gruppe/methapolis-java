@@ -135,6 +135,7 @@ public class NewCityDialog extends JDialog
 
 		pack();
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		
 		setLocationRelativeTo(owner);
 		getRootPane().registerKeyboardAction(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {

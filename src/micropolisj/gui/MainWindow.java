@@ -117,8 +117,8 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 							// save
 	long lastSavedTime = 0; // real-time clock of when file was last saved
 	boolean autoBudgetPending;
-	
-    private static final int SCROLLING_SPEED = 100;
+
+	private static final int SCROLLING_SPEED = 100;
 
 	static ImageIcon appIcon;
 	static {
@@ -134,15 +134,14 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 
 	public MainWindow(Micropolis engine) {
 		setIconImage(appIcon.getImage());
-		
-//		System.out.println("/sounds/" + Sound.BG_MUSIC.getWavName() + ".mp3");
-		if(doSounds)	{
-			MP3 mp3 = new MP3(MainWindow.class.getResource("/sounds/" + Sound.BG_MUSIC.getWavName() + ".mp3"), true);
-			mp3.play();			
-		}
-		
+
+		// System.out.println("/sounds/" + Sound.BG_MUSIC.getWavName() +
+		// ".mp3");
+		backgroundMusic = new MP3(MainWindow.class.getResource("/sounds/" + Sound.BG_MUSIC.getWavName() + ".mp3"), true);
+		backgroundMusic.play();
+
 		this.engine = engine;
-		
+
 		engine.playerInfo.researchState.setLocationRelativeTo(this);
 		
 		JPanel mainArea = new JPanel(new BorderLayout());
@@ -356,7 +355,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		Preferences prefs = Preferences.userNodeForPackage(MainWindow.class);
 		doSounds = prefs.getBoolean(SOUNDS_PREF, true);
 
-		//CUSTOM: add cheat listener
+		// CUSTOM: add cheat listener
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(this);
 		// start things up
@@ -447,7 +446,9 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 	}
 
 	void closeWindow() {
+		// TODO CUSTOM
 		if(maybeSaveCity()) {
+			backgroundMusic.close();
 			dispose();
 		}
 	}
@@ -837,10 +838,18 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 
 	static final String SOUNDS_PREF = "enable_sounds";
 
-	// TODO
-	// CUSTOM: toggle background music
+	// TODO CUSTOM: toggle background music
 	private void onSoundClicked() {
 		doSounds = !doSounds;
+		// sounds are now enabled => play background music
+		if(doSounds) {
+			backgroundMusic.play();
+		}
+		// sounds are now disabled => stop background music
+		else {
+			backgroundMusic.close();
+		}
+
 		Preferences prefs = Preferences.userNodeForPackage(MainWindow.class);
 		prefs.putBoolean(SOUNDS_PREF, doSounds);
 		reloadOptions();
@@ -1053,7 +1062,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		gridBox.add(b6, c);
 
 		b6.add(makeToolBtn(MicropolisTool.AIRPORT));
-		
+
 		c.gridy++;
 		Box b7 = new Box(BoxLayout.X_AXIS);
 		b5.add(makeToolBtn(MicropolisTool.ROCKET));
@@ -1189,34 +1198,34 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 
 	private void onToolUp(MouseEvent ev) {
 		if(toolStroke != null) {
-			
+
 			// prevent toolStroke.apply() being done 2x (same with onToolDrag())
-			if(currentTool == MicropolisTool.ROCKET)	{
+			if(currentTool == MicropolisTool.ROCKET) {
 				return;
 			}
-			
+
 			drawingArea.setToolPreview(null);
-			
+
 			CityLocation loc = toolStroke.getLocation();
-			//Custom: for client-send
+			// Custom: for client-send
 			if(engine instanceof ClientMicropolis) {
-			    ((ClientMicropolis)engine).toolUsed(toolStroke);
-			    toolStroke = null;
-			    return;
+				((ClientMicropolis) engine).toolUsed(toolStroke);
+				toolStroke = null;
+				return;
 			}
 			ToolResult tr = toolStroke.apply();
 			showToolResult(loc, tr);
 			toolStroke = null;
 		}
-		
+
 		onToolHover(ev);
-		
+
 		if(autoBudgetPending) {
 			autoBudgetPending = false;
 			showBudgetWindow(true);
 		}
 	}
-	
+
 	private void onEscapePressed() {
 		// if currently dragging a tool...
 		if(toolStroke != null) {
@@ -1231,7 +1240,6 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		}
 	}
 
-
 	void previewTool() {
 		assert this.toolStroke != null;
 		assert this.currentTool != null;
@@ -1242,10 +1250,10 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 
 	private void onToolDrag(MouseEvent ev) {
 		// prevent toolStroke.apply() being done 2x (same with onToolUp())
-		if(currentTool == null || currentTool == MicropolisTool.ROCKET)	{
-			return;			
+		if(currentTool == null || currentTool == MicropolisTool.ROCKET) {
+			return;
 		}
-		
+
 		if((ev.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK) == 0)
 			return;
 
@@ -1603,8 +1611,8 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 
 	void onViewResearchClicked() {
 		engine.playerInfo.researchState.showResearchPanel();
-		//dirty1 = true;
-		//showBudgetWindow(false);
+		// dirty1 = true;
+		// showBudgetWindow(false);
 	}
 
 	void onViewGraphClicked() {
@@ -1692,35 +1700,38 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		JOptionPane.showMessageDialog(this, inputs, strings.getString("main.about_caption"), JOptionPane.PLAIN_MESSAGE, appIcon);
 	}
 
-	
 	/**
 	 * called whenever a key is pressed in mainwindow
 	 */
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent e) {
-        if(e.getID() == KeyEvent.KEY_PRESSED) {
-            //ENTER --> cheatWindow
-            if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-                if(this.isFocused()) {
-                    new CheatWindow(engine);
-                    return true;
-                }
-                //USE SCROLLING_SPEED pixels in the given direction
-            } if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-                drawingArea.scrollRectToVisible(Utilities.moveRectangle(drawingArea.getVisibleRect(), -SCROLLING_SPEED, 0));
-                return true;
-            } if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                drawingArea.scrollRectToVisible(Utilities.moveRectangle(drawingArea.getVisibleRect(), SCROLLING_SPEED, 0));
-                return true;
-            } if(e.getKeyCode() == KeyEvent.VK_UP) {
-                drawingArea.scrollRectToVisible(Utilities.moveRectangle(drawingArea.getVisibleRect(), 0, -SCROLLING_SPEED));
-                return true;
-            } if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-                drawingArea.scrollRectToVisible(Utilities.moveRectangle(drawingArea.getVisibleRect(), 0, SCROLLING_SPEED));
-                return true;
-            }
-        }
-        return false;
-    }
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent e) {
+		if(e.getID() == KeyEvent.KEY_PRESSED) {
+			// ENTER --> cheatWindow
+			if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+				if(this.isFocused()) {
+					new CheatWindow(engine);
+					return true;
+				}
+				// USE SCROLLING_SPEED pixels in the given direction
+			}
+			if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+				drawingArea.scrollRectToVisible(Utilities.moveRectangle(drawingArea.getVisibleRect(), -SCROLLING_SPEED, 0));
+				return true;
+			}
+			if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				drawingArea.scrollRectToVisible(Utilities.moveRectangle(drawingArea.getVisibleRect(), SCROLLING_SPEED, 0));
+				return true;
+			}
+			if(e.getKeyCode() == KeyEvent.VK_UP) {
+				drawingArea.scrollRectToVisible(Utilities.moveRectangle(drawingArea.getVisibleRect(), 0, -SCROLLING_SPEED));
+				return true;
+			}
+			if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+				drawingArea.scrollRectToVisible(Utilities.moveRectangle(drawingArea.getVisibleRect(), 0, SCROLLING_SPEED));
+				return true;
+			}
+		}
+		return false;
+	}
 
 }
