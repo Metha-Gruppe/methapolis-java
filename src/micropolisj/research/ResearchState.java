@@ -35,7 +35,7 @@ public class ResearchState extends JFrame implements ActionListener {
 		return rocketResearch > 0;
 	}
 	public int getRocketRadius(){
-		return Math.max(rocketResearch - 1, 0);
+		return rocketResearch*rocketResearch;
 	}
 
 	ResearchTree tree;// = new ResearchTree();
