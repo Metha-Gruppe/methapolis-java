@@ -16,11 +16,13 @@ import static micropolisj.engine.TileConstants.*;
  */
 public class ExplosionSprite extends Sprite {
 	protected boolean sendReport;
-	
+	protected boolean playSound;
+
 	public ExplosionSprite(Micropolis engine, int x, int y) {
-		this(engine, x, y, true);
+		this(engine, x, y, true, false);
 	}
-	public ExplosionSprite(Micropolis engine, int x, int y, boolean sendReport) {
+
+	public ExplosionSprite(Micropolis engine, int x, int y, boolean sendReport, boolean playSound) {
 		super(engine, SpriteKind.EXP);
 		this.x = x;
 		this.y = y;
@@ -31,15 +33,18 @@ public class ExplosionSprite extends Sprite {
 		this.frame = 1;
 		// custom
 		this.sendReport = sendReport;
+		this.playSound = playSound;
 	}
 
 	@Override
 	public void moveImpl() {
 		if(city.acycle % 2 == 0) {
 			if(this.frame == 1) {
-				city.makeSound(x / 16, y / 16, Sound.EXPLOSION_HIGH);
-				if(sendReport)	{
-					city.sendMessageAt(MicropolisMessage.EXPLOSION_REPORT, x / 16, y / 16);					
+				if(playSound) {
+					city.makeSound(x / 16, y / 16, Sound.EXPLOSION_HIGH);
+				}
+				if(sendReport) {
+					city.sendMessageAt(MicropolisMessage.EXPLOSION_REPORT, x / 16, y / 16);
 				}
 			}
 			this.frame++;

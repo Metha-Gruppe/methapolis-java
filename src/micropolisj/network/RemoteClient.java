@@ -26,7 +26,7 @@ public class RemoteClient extends UnicastRemoteObject implements Serializable{
 //            server.setRemoteClient(this);
             System.out.println(">>> connected to server...");
             playerID = server.getNewID();
-            System.out.println(playerID);
+            // System.out.println(playerID);
         } catch (MalformedURLException | NotBoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
