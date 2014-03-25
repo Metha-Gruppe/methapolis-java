@@ -123,15 +123,12 @@ public class RocketSprite extends Sprite {
 
 		// play sound
 		if(secondsTilBoom <= soundDuration && !soundPlaying) {
-			System.out.println("dubstep!");
 			city.makeSound(x, y, Sound.DUBSPLOSION);
 			soundPlaying = true;
 		}
 
 		if(getDis(x, y, destX, destY) <= 6 * speedFactor) {
-			// this.destroyTile(pixelToTilePos(x), pixelToTilePos(y));
 			this.explodeSprite();
-			this.city.sprites.remove(this);
 		}
 
 		int d = getDir(x, y, destX, destY);

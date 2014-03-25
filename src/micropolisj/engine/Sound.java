@@ -70,7 +70,7 @@ public enum Sound
 			return;			
 		}
 		
-		System.out.println(afile);
+		// System.out.println(afile);
 
 		try {
 			Clip clip = AudioSystem.getClip();

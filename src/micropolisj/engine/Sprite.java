@@ -184,6 +184,8 @@ public abstract class Sprite implements Serializable {
 		}
 
 		city.makeSound(xpos, ypos, Sound.EXPLOSION_HIGH);
+		// TODO CUSTOM
+		city.sprites.remove(this);
 	}
 
 	/**
