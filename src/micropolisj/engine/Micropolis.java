@@ -1528,9 +1528,13 @@ public class Micropolis {
         // playerInfo.researchEffect needs a divison as it is 1000 base.
         // div 100 => you need at least 1 research station at 10% fund to get a
         // point
+
+    	System.out.print("number of university : ");
+    	System.out.println(playerInfo.researchCount);
+    	
         System.out.println(researchDelayCharger);
         if (researchDelayCharger >= researchDelay) {
-            playerInfo.researchState.researchPoints += (playerInfo.researchEffect * this.getCityPopulation()) / (100 * 3000);
+            playerInfo.researchState.researchPoints += (playerInfo.researchEffect * Math.min(this.getCityPopulation() / playerInfo.researchCount, 4000)) / (100 * 3000);
             playerInfo.researchState.refreshPanel();
             researchDelayCharger = 0;
         } else {
