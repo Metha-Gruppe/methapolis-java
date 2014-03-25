@@ -26,6 +26,7 @@ public class ResearchTree implements Serializable{
 		  , 0, 100, 200
 	};
 
+	//Set costs here
 	public ResearchTree() {
 		possible_nodes = new ResearchNode[] {
 				new RocketNode(1, 150), new RocketNode(2, 200), new RocketNode(3, 250)

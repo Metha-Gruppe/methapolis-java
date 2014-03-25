@@ -1288,7 +1288,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		drawingArea.setToolCursor(null);
 	}
 
-	private void showToolResult(CityLocation loc, ToolResult result) {
+	public void showToolResult(CityLocation loc, ToolResult result) {
 		switch(result) {
 			case SUCCESS:
 				citySound(currentTool == MicropolisTool.BULLDOZER ? Sound.BULLDOZE : Sound.BUILD, loc);

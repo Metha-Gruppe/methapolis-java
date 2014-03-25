@@ -2,6 +2,7 @@ package micropolisj.engine;
 
 import java.io.Serializable;
 
+import micropolisj.research.ResearchData;
 import micropolisj.research.ResearchState;
 
 /**
@@ -104,17 +105,25 @@ public class PlayerInfo implements Serializable{
 
     public boolean newPower;
     
-    public ResearchState researchState;
+    public transient ResearchState researchState;
+    
+    public ResearchData researchData;
     public CityEval evaluation;
     
     // CONSTRUCTOR
     public PlayerInfo(Micropolis city) {
-        this(new ResearchState(), new CityEval(city), new CityBudget(city));
+        this(new ResearchState(city), new CityEval(city), new CityBudget(city));
     }
     
     public PlayerInfo(ResearchState researchState, CityEval cityEval, CityBudget budget) {
         this.researchState = researchState;
+        this.researchData = researchState.getResearchData();
         this.evaluation = cityEval;
         this.budget = budget;
     }
+
+    public void setResearchState(ResearchState state) {
+        this.researchState = state;
+    }
+    
 }

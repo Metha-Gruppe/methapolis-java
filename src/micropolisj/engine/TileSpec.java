@@ -126,7 +126,7 @@ public class TileSpec {
 	//custom: apply research value to TilePollution
 	//TODO Pollution dependent on owner of tile
 	private int usePollutionResearch(int pollutionValue, Micropolis city){
-		return Math.max(0, pollutionValue - city.playerInfo.researchState.getEnvironmentResearchState() * POLLUTION_FACTOR);
+		return Math.max(0, pollutionValue - city.playerInfo.researchData.environmentResearch * POLLUTION_FACTOR);
 	}
 	
 	public int getPollutionValue(Micropolis city) {

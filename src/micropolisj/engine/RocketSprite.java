@@ -124,7 +124,7 @@ public class RocketSprite extends Sprite {
 	@Override
     protected void explodeSprite() {
         this.frame = 0;
-        city.makeGiantExplosionAt(x, y, city.getPlayerInfo(ownerID).researchState.getRocketRadius());
+        city.makeGiantExplosionAt(x, y, city.getPlayerInfo(ownerID).researchData.getRocketRadius());
         int xpos = x / 16;
         int ypos = y / 16;
         city.crashLocation = new CityLocation(xpos, ypos);
