@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Stack;
 
+import micropolisj.util.Utilities;
 import static micropolisj.engine.TileConstants.*;
 
 /**

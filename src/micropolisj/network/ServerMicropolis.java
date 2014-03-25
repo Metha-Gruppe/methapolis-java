@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import micropolisj.engine.GameLevel;
 import micropolisj.engine.Micropolis;
 import micropolisj.engine.PlayerInfo;
 import micropolisj.engine.ToolStroke;
@@ -76,6 +77,8 @@ public class ServerMicropolis extends Micropolis{
     }
 
     public void addNewPlayer(int playerID) {
-        playerInfos.put(playerID, new PlayerInfo(this));
+        PlayerInfo newPlayerInfo = new PlayerInfo(this);
+        newPlayerInfo.budget.totalFunds = GameLevel.getStartingFunds(this.gameLevel);
+        playerInfos.put(playerID, newPlayerInfo);
     }
 }

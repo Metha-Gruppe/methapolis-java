@@ -7,10 +7,10 @@ import micropolisj.engine.TileConstants;
 public class Utilities {
     
     
-    //first 4 bits contain playerID (1st is always 0), last 8 bits tileValue
+    //bits 14, 13, 12 contain playerID (16 is always 0), 15 is power, first 8 bits tileValue
     //allows 8 players (including neutral)
     public static short codePlayerID(int tileValue, int playerID) {
-        int id = playerID << 12;
+        int id = playerID << 11;
         id = (tileValue & TileConstants.LOMASK) | id;
         return (short) id;
     }
@@ -20,7 +20,7 @@ public class Utilities {
     }
 
     public static int getPlayerID(short encodedTile) {
-        return encodedTile >> 12;
+        return encodedTile >> 11;
     }
     
     

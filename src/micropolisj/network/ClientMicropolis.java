@@ -20,11 +20,11 @@ public class ClientMicropolis extends Micropolis{
     public void animate() {
         MapInfo info = remote.getMap();
         PlayerInfo playerInfo = remote.getPlayerInfo();
-        this.playerInfo = playerInfo;
+        applyPlayerInfo(playerInfo);
         applyMapInfo(info);
         super.animate();
-//        animateTiles();
-//        moveObjects();
+        animateTiles();
+        moveObjects();
     }
     
     private void applyMapInfo(MapInfo info) {
@@ -39,7 +39,8 @@ public class ClientMicropolis extends Micropolis{
         }
     }
     private void applyPlayerInfo(PlayerInfo playerInfo) {
-        
+        this.playerInfo = playerInfo;
+        this.playerInfo.evaluation.setEngine(this);
     }
     
     public void toolUsed(ToolStroke tool) {

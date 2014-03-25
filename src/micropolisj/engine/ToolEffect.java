@@ -15,6 +15,7 @@ class ToolEffect implements ToolEffectIfc {
 	final ToolPreview preview;
 	final int originX;
 	final int originY;
+	int playerID;
 
 	public ToolEffect(Micropolis city) {
 		this(city, 0);
@@ -29,6 +30,7 @@ class ToolEffect implements ToolEffectIfc {
 		this.preview = new ToolPreview(playerID);
 		this.originX = xpos;
 		this.originY = ypos;
+		this.playerID = playerID;
 	}
 
 	// implements ToolEffectIfc
@@ -98,12 +100,15 @@ class ToolEffect implements ToolEffectIfc {
 		}
 
 		if(anyFound && preview.cost != 0) {
-			city.spend(preview.cost, city.getPlayerInfo());
+			city.spend(preview.cost, city.getPlayerInfo(playerID));
 			return ToolResult.SUCCESS;
 		}
 		else {
 			return preview.toolResult;
 		}
+	}
+	public int getPlayerID() {
+	    return playerID;
 	}
 
 }
