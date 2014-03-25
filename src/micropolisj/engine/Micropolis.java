@@ -129,7 +129,7 @@ public class Micropolis {
     public boolean autoBulldoze = true;
     public boolean autoBudget = false;
     public Speed simSpeed = Speed.NORMAL;
-    public boolean noDisasters = false;
+    public boolean noDisasters = true; //changeswp
 
     public int gameLevel;
 
