@@ -199,6 +199,10 @@ public class Micropolis {
 		playerInfo.centerMassX = hX;
 		playerInfo.centerMassY = hY;
 	}
+	
+	public List<Sprite> getSprites()	{
+		return sprites;
+	}
 
 	void fireCensusChanged() {
 		for(Listener l : listeners) {

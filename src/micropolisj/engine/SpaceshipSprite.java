@@ -8,6 +8,9 @@
 
 package micropolisj.engine;
 
+import micropolisj.gui.MainWindow;
+import micropolisj.util.MP3;
+
 /**
  * Implements the airplane. The airplane appears if the city contains an
  * airport. It first takes off, then flies around randomly, occassionally
@@ -18,6 +21,7 @@ public class SpaceshipSprite extends Sprite {
 	private int destY;
 	private double speedFactor;
 	private boolean soundPlaying;
+	private MP3 sound;
 
 	// NOTE: used for movement
 	static int[] CDx = {
@@ -28,8 +32,8 @@ public class SpaceshipSprite extends Sprite {
 	};
 
 	// CONSTRUCTORS
-	public SpaceshipSprite(Micropolis engine, int xpos, int ypos, int xDest, int yDest) {
-		this(engine, xpos, ypos, xDest, yDest, 2);
+	public SpaceshipSprite(Micropolis engine, int xpos, int ypos) {
+		this(engine, xpos, ypos, 2000, ypos, 2.5);
 	}
 
 	public SpaceshipSprite(Micropolis engine, int xpos, int ypos, int xDest, int yDest, double speedFactor) {
@@ -61,24 +65,18 @@ public class SpaceshipSprite extends Sprite {
 		this.destY = tilePosToPixel(y);
 	}
 
-	// custom: override to make it move more smooth
-//	public static int getDir(int orgX, int orgY, int desX, int desY) {
-//		return 1;
-//	}
-
 	public void moveImpl() {
 //		double secondsTilBoom = stepsTilBoom() / city.simSpeed.getAnimationsPerSecond();
 //		double soundDuration = 3.25;
 
 		// play sound
 		if(!soundPlaying) {
-			System.out.println("dubstep!");
-			city.makeSound(x, y, Sound.DUBSPLOSION);
+			sound = new MP3(MainWindow.class.getResource("/sounds/" + Sound.SPACESHIP_LAUNCH.getWavName() + ".mp3"));
+			sound.play();
 			soundPlaying = true;
 		}
 
-		if(getDis(x, y, destX, destY) <= 6 * speedFactor) {
-			// this.destroyTile(pixelToTilePos(x), pixelToTilePos(y));
+		if(getDis(x, y, destX, destY) <= 10 * speedFactor) {
 			this.explodeSprite();
 			this.city.sprites.remove(this);
 		}

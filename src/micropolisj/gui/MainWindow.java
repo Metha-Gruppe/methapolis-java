@@ -80,6 +80,7 @@ import micropolisj.engine.Micropolis;
 import micropolisj.engine.MicropolisMessage;
 import micropolisj.engine.MicropolisTool;
 import micropolisj.engine.Sound;
+import micropolisj.engine.SpaceshipSprite;
 import micropolisj.engine.Speed;
 import micropolisj.engine.ToolResult;
 import micropolisj.engine.ToolStroke;
@@ -136,9 +137,11 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 	public MainWindow(Micropolis engine) {
 		setIconImage(appIcon.getImage());
 
-		System.out.println(MainWindow.class.getResource("/sounds/" + Sound.BG_MUSIC.getWavName() + ".mp3"));
+//		System.out.println(MainWindow.class.getResource("/sounds/" + Sound.BG_MUSIC.getWavName() + ".mp3"));
 		backgroundMusic = new MP3(MainWindow.class.getResource("/sounds/" + Sound.BG_MUSIC.getWavName() + ".mp3"), true);
 		backgroundMusic.play();
+		
+		engine.getSprites().add(new SpaceshipSprite(engine, 100, 100));
 
 		this.engine = engine;
 
