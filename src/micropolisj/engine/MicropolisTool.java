@@ -33,9 +33,9 @@ public enum MicropolisTool implements Serializable
 	NUCLEAR(4, 5000),
 	AIRPORT(6, 10000),
 	QUERY(1, 0),
-	UNIVERSITY(3,5000), // TODO: adjust cost
-	ROCKET(3, 2), // TODO: adjust cost
-	TEMPEL (6,10); // TODO: adjust cost
+	UNIVERSITY(3, 5000), // TODO: adjust cost
+	ROCKET(3, 10000), // TODO: adjust cost
+	TEMPEL (6, 50000); // TODO: adjust cost
 
 	int size;
 	int cost;
