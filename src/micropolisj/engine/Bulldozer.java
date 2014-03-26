@@ -36,10 +36,10 @@ class Bulldozer extends ToolStroke {
         // scan selection area for zones...
         for (int y = 0; y < b.height; y++) {
             for (int x = 0; x < b.width; x++) {
-                if (city.isTileDozeable(eff)) {
+//                if (city.isTileDozeable(eff)) {
                     if (isZoneCenter(eff.getTile(b.x + x, b.y + y))) {
                         dozeZone(new TranslatedToolEffect(eff, b.x + x, b.y + y));
-                    }
+//                    }
                 }
             }
         }
@@ -80,8 +80,8 @@ class Bulldozer extends ToolStroke {
     void dozeField(ToolEffectIfc eff) {
         int tile = eff.getTile(0, 0);
 
-        System.out.println("Bulldozing field");
-        System.out.println(Utilities.getPlayerID((char) tile));
+//        System.out.println("Bulldozing field");
+//        System.out.println(Utilities.getPlayerID((char) tile));
 
         if (isOverWater(tile)) {
             // dozing over water, replace with water.

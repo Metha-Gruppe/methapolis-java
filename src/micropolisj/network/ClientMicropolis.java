@@ -29,7 +29,16 @@ public class ClientMicropolis extends Micropolis{
     
     private void applyMapInfo(MapInfo info) {
         if(info != null)    {
-            map = info.map;
+//            map = info.map;
+            for(int x = 0; x < info.map.length; x++) {
+                for(int y = 0; y < info.map[0].length; y++) {
+                    if(map[x][y] != info.map[x][y]) {
+                        map[x][y] = info.map[x][y];
+//                        System.out.println(x + ", " + y);
+                        fireTileChanged(y, x);
+                    }
+                }
+            }
             sprites = info.sprites;
             for(Sprite sprite : sprites) {
                 sprite.setMicropolis(this);
