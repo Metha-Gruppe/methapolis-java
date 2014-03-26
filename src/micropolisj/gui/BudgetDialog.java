@@ -355,17 +355,21 @@ public class BudgetDialog extends JDialog
 		thLbl.setFont(headFont);
 		thLbl.setForeground(Color.MAGENTA);
 		balancePane.add(thLbl, c0);
-
-		c0.gridy++;
-		balancePane.add(new JLabel(strings.getString("budgetdlg.cash_begin")), c0);
+		//changeswp extra
+		//c0.gridy++;
+		//balancePane.add(new JLabel(strings.getString("budgetdlg.cash_begin")), c0);
 		c0.gridy++;
 		balancePane.add(new JLabel(strings.getString("budgetdlg.taxes_collected")), c0);
 		c0.gridy++;
 		balancePane.add(new JLabel(strings.getString("budgetdlg.capital_expenses")), c0);
 		c0.gridy++;
 		balancePane.add(new JLabel(strings.getString("budgetdlg.operating_expenses")), c0);
+		//c0.gridy++;
+		//balancePane.add(new JLabel(strings.getString("budgetdlg.cash_end")), c0);
 		c0.gridy++;
-		balancePane.add(new JLabel(strings.getString("budgetdlg.cash_end")), c0);
+		balancePane.add(new JLabel(strings.getString("budgetdlg.cash_income")), c0);
+		c0.gridy++;
+		balancePane.add(new JLabel(strings.getString("budgetdlg.cash_income_w/o")), c0);
 
 		c1.anchor = GridBagConstraints.EAST;
 		c1.weightx = 0.25;
@@ -381,6 +385,11 @@ public class BudgetDialog extends JDialog
 			Micropolis.FinancialHistory fPrior = engine.financialHistory.get(i+1);
 			int cashFlow = f.totalFunds - fPrior.totalFunds;
 			int capExpenses = -(cashFlow - f.taxIncome + f.operatingExpenses);
+			//int cashIncome = f.taxIncome - f.operatingExpenses - capExpenses;
+			int cashIncome = cashFlow;
+			int cashIncomeWO = f.taxIncome - f.operatingExpenses;
+			
+			
 
 			c1.gridx++;
 			c1.gridy = 0;
@@ -389,12 +398,12 @@ public class BudgetDialog extends JDialog
 			thLbl.setFont(headFont);
 			thLbl.setForeground(Color.MAGENTA);
 			balancePane.add(thLbl, c1);
-
+/*
 			c1.gridy++;
 			JLabel previousBalanceLbl = new JLabel();
 			previousBalanceLbl.setText(formatFunds(fPrior.totalFunds));
 			balancePane.add(previousBalanceLbl, c1);
-
+*/
 			c1.gridy++;
 			JLabel taxIncomeLbl = new JLabel();
 			taxIncomeLbl.setText(formatFunds(f.taxIncome));
@@ -410,10 +419,20 @@ public class BudgetDialog extends JDialog
 			opExpensesLbl.setText(formatFunds(f.operatingExpenses));
 			balancePane.add(opExpensesLbl, c1);
 
-			c1.gridy++;
+			/*c1.gridy++;
 			JLabel newBalanceLbl = new JLabel();
 			newBalanceLbl.setText(formatFunds(f.totalFunds));
 			balancePane.add(newBalanceLbl, c1);
+*/
+			c1.gridy++;
+			JLabel newCashIncomeLbl = new JLabel();
+			newCashIncomeLbl.setText(formatFunds(cashIncome));
+			balancePane.add(newCashIncomeLbl, c1);
+			
+			c1.gridy++;
+			JLabel newCashIncomeWOLbl = new JLabel();
+			newCashIncomeWOLbl.setText(formatFunds(cashIncomeWO));
+			balancePane.add(newCashIncomeWOLbl, c1);
 		}
 
 		return balancePane;

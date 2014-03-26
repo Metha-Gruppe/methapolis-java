@@ -144,6 +144,9 @@ public class Micropolis {
 	int researchDelay = 5; // amount of skipped ticks - higher number = fewer
 							// research points
 
+	int factorIncome = 4;	//factor - higher numbers increase income
+    int factorRoadFund = 5;	//divisor - higher numbers decrease funding costs
+
 	/**
 	 * For each 8x8 section of city, this is an integer between 0 and 64, with
 	 * higher numbers being closer to the center of the city.
@@ -159,7 +162,7 @@ public class Micropolis {
 	public boolean autoBulldoze = true;
 	public boolean autoBudget = false;
 	public Speed simSpeed = Speed.NORMAL;
-	public boolean noDisasters = false;
+	public boolean noDisasters = true; // custom
 
 	public int gameLevel;
 
@@ -1698,11 +1701,10 @@ public class Micropolis {
 		b.researchPercent = Math.max(0.0, playerInfo.researchPercent);
 
 		b.previousBalance = playerInfo.budget.totalFunds;
-		b.taxIncome = (int) Math.round(playerInfo.lastTotalPop * playerInfo.landValueAverage / 120 * b.taxRate
-				* FLevels[gameLevel]);
+		b.taxIncome = (int) Math.round(playerInfo.lastTotalPop * factorIncome * playerInfo.landValueAverage / 120 * b.taxRate * FLevels[gameLevel]); // custom
 		assert b.taxIncome >= 0;
 
-		b.roadRequest = (int) Math.round((playerInfo.lastRoadTotal + playerInfo.lastRailTotal * 2) * RLevels[gameLevel]);
+		b.roadRequest = (int) Math.round(((playerInfo.lastRoadTotal + playerInfo.lastRailTotal * 2) * RLevels[gameLevel])/factorRoadFund); // custom
 		b.fireRequest = FIRE_STATION_MAINTENANCE * playerInfo.lastFireStationCount;
 		b.policeRequest = POLICE_STATION_MAINTENANCE * playerInfo.lastPoliceCount;
 		b.researchRequest = RESEARCH_STATION_MAINTENANCE * playerInfo.lastResearchCount;
@@ -1715,7 +1717,7 @@ public class Micropolis {
 		int yumDuckets = playerInfo.budget.totalFunds + b.taxIncome;
 		assert yumDuckets >= 0;
 
-		// changeswp IF Inserted HEAVY CHANGES
+		// custom: 'IF' Inserted HEAVY CHANGES
 		if(yumDuckets >= b.roadFunded) {
 			yumDuckets -= b.roadFunded;
 			if(yumDuckets >= b.fireFunded) {
@@ -1871,7 +1873,7 @@ public class Micropolis {
 		//
 		long n = dis.readInt(); // 58,59... police percent
 		playerInfo.policePercent = (double) n / 65536.0;
-		n = dis.readInt(); // changeswp 49... research percent
+		n = dis.readInt(); // custom 49... research percent
 		playerInfo.researchPercent = (double) n / 65536.0;
 		n = dis.readInt(); // 60,61... fire percent
 		playerInfo.firePercent = (double) n / 65536.0;
@@ -1942,11 +1944,9 @@ public class Micropolis {
 		out.writeInt((int) (playerInfo.policePercent * 65536));
 		out.writeInt((int) (playerInfo.firePercent * 65536));
 		out.writeInt((int) (playerInfo.roadPercent * 65536));
-		out.writeInt((int) (playerInfo.researchPercent * 65536));// changeswp
-																	// ACHTUNG
-																	// HEAVY
-		// -1 in Schleife
-		// veraendert
+		out.writeInt((int) (playerInfo.researchPercent * 65536));// custom: ACHTUNG HEAVY
+
+		// -1 in Schleife veraendert
 
 		// 64
 		for(int i = 64; i < 120; i++) {

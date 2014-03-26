@@ -308,6 +308,9 @@ budgetdlg.operating_expenses = Charges d'exploitation
 budgetdlg.cash_end = Argent, à la fin de l'année
 budgetdlg.auto_budget = Budget automatique
 budgetdlg.pause_game = Jeu en pause
+budgetdlg.cash_income = FRENCHPLS: Balance this year
+budgetdlg.cash_income_w/o = FRENCHPLS: Balance excluding Expenditures
+
 
 !
 ! Notification pane
