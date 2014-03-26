@@ -10,9 +10,9 @@ package micropolisj.engine;
 
 class TranslatedToolEffect implements ToolEffectIfc
 {
-	final ToolEffectIfc base;
-	final int dx;
-	final int dy;
+	public final ToolEffectIfc base;
+	public final int dx;
+	public final int dy;
 
 	TranslatedToolEffect(ToolEffectIfc base, int dx, int dy)
 	{

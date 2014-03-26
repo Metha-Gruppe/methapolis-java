@@ -46,8 +46,14 @@ class Bulldozer extends ToolStroke {
     }
 
     void dozeZone(ToolEffectIfc eff) {
-        int currTile = eff.getTile(0, 0);
+//        int currTile = eff.getTile(0, 0);
+        int x = ((TranslatedToolEffect) eff).dx;
+        int y = ((TranslatedToolEffect) eff).dy;
+//        System.out.println(x + " - " + y);
+        int currTile = this.city.getTileRaw(x, y);
+
         
+//        System.out.println("dozing Zone");
 //        System.out.println(eff.getPlayerID());
 //        System.out.println(Utilities.getPlayerID(currTile));
 //        System.out.println(currTile);
@@ -57,6 +63,7 @@ class Bulldozer extends ToolStroke {
 
         // zone center bit is set
         assert isZoneCenter(currTile);
+        currTile &= TileConstants.LOMASK;
 
         CityDimension dim = getZoneSizeFor(currTile);
         assert dim != null;

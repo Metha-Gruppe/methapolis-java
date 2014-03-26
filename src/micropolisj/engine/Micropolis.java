@@ -461,11 +461,6 @@ public class Micropolis {
 	}
 
 	void step() {
-	    if(fcycle % 20 == 0) { 
-    	    System.out.println("tile 0,0: " + ((int)map[0][0]));
-    	    System.out.println(Utilities.getPlayerID(map[0][0]));
-	    }
-	    
 		fcycle = (fcycle + 1) % 1024;
 		simulate(fcycle % 16);
 	}
@@ -2653,7 +2648,6 @@ public class Micropolis {
 	    }
 
 	    public PlayerInfo getPlayerInfo(int playerID) {
-	        System.out.println(playerID);
 	        if(playerID == getPlayerID()) {
 	            return playerInfo;
 	        } else return null;
