@@ -24,6 +24,8 @@ public class Utilities {
     }
 
     public static int getPlayerID(short encodedTile) {
+        // set powerbit to 0
+        encodedTile &= (TileConstants.PWRBIT - 1);
         return encodedTile >> 11;
     }
     

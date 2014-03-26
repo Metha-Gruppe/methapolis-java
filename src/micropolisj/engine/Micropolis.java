@@ -61,6 +61,7 @@ import java.util.Random;
 import java.util.Stack;
 
 import micropolisj.gui.MainWindow;
+import micropolisj.util.Utilities;
 
 /**
  * The main simulation engine for Micropolis. The front-end should call
@@ -431,9 +432,16 @@ public class Micropolis {
 
 	public void setTile(int xpos, int ypos, char newTile) {
 		if(map[ypos][xpos] != newTile) {
+//		    System.out.println("setting tile");
+//		    System.out.println((int)newTile);
+//		    System.out.println(Utilities.getPlayerID(newTile));
 			map[ypos][xpos] = newTile;
 			fireTileChanged(xpos, ypos);
 		}
+	}
+	
+	public void setTile(int xpos, int ypos, char newTile, int playerID) {
+	    setTile(xpos, ypos, (char)Utilities.codePlayerID(newTile, playerID));
 	}
 
 	final public boolean testBounds(int xpos, int ypos) {
@@ -453,6 +461,11 @@ public class Micropolis {
 	}
 
 	void step() {
+	    if(fcycle % 20 == 0) { 
+    	    System.out.println("tile 0,0: " + ((int)map[0][0]));
+    	    System.out.println(Utilities.getPlayerID(map[0][0]));
+	    }
+	    
 		fcycle = (fcycle + 1) % 1024;
 		simulate(fcycle % 16);
 	}
@@ -2640,6 +2653,7 @@ public class Micropolis {
 	    }
 
 	    public PlayerInfo getPlayerInfo(int playerID) {
+	        System.out.println(playerID);
 	        if(playerID == getPlayerID()) {
 	            return playerInfo;
 	        } else return null;

@@ -26,6 +26,7 @@ class MapScanner extends TileBehavior {
 		super(city);
 		this.behavior = behavior;
 		this.traffic = new TrafficGen(city);
+		tile = 5;
 	}
 
 	public static enum B {
@@ -104,7 +105,7 @@ class MapScanner extends TileBehavior {
 			city.powerZone(xpos, ypos, getZoneSizeFor(tile));
 		}
 		else if(!newPower && oldPower) {
-			city.setTile(xpos, ypos, (char) (rawTile & (~PWRBIT)));
+			city.setTile(xpos, ypos, (char) (rawTile & (~PWRBIT)), Utilities.getPlayerID(rawTile));
 			city.shutdownZone(xpos, ypos, getZoneSizeFor(tile));
 		}
 
@@ -144,7 +145,7 @@ class MapScanner extends TileBehavior {
 		int i = 0;
 		for(int y = ypos - 1; y < ypos - 1 + bi.height; y++) {
 			for(int x = xpos - 1; x < xpos - 1 + bi.width; x++) {
-				city.setTile(x, y, (char) bi.members[i]);
+				city.setTile(x, y, (char) bi.members[i], Utilities.getPlayerID(rawTile));
 				i++;
 			}
 		}
@@ -159,7 +160,8 @@ class MapScanner extends TileBehavior {
 
 	void doCoalPower() {
 		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(tile);
+		int tilePlayerID = Utilities.getPlayerID(rawTile);
+		System.out.println(rawTile + "rawTile");
 		city.getPlayerInfo(tilePlayerID).coalCount++;
 		if((city.cityTime % 8) == 0) {
 			repairZone(POWERPLANT, 4);
@@ -170,7 +172,7 @@ class MapScanner extends TileBehavior {
 
 	void doNuclearPower() {
 		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(tile);
+		int tilePlayerID = Utilities.getPlayerID(rawTile);
 		if(!city.noDisasters && PRNG.nextInt(city.MltdwnTab[city.gameLevel] + 1) == 0) {
 			city.doMeltdown(xpos, ypos);
 			return;
@@ -186,7 +188,7 @@ class MapScanner extends TileBehavior {
 
 	void doFireStation() {
 		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(tile);
+		int tilePlayerID = Utilities.getPlayerID(rawTile);
 		city.getPlayerInfo(tilePlayerID).fireStationCount++;
 		if((city.cityTime % 8) == 0) {
 			repairZone(FIRESTATION, 3);
@@ -211,7 +213,7 @@ class MapScanner extends TileBehavior {
 
 	void doPoliceStation() {
 		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(tile);
+		int tilePlayerID = Utilities.getPlayerID(rawTile);
 		city.getPlayerInfo(tilePlayerID).policeCount++;
 		if((city.cityTime % 8) == 0) {
 			repairZone(POLICESTATION, 3);
@@ -235,7 +237,7 @@ class MapScanner extends TileBehavior {
 	}
 
 	void doUniversity() {
-	    int tilePlayerID = Utilities.getPlayerID(tile);
+	    int tilePlayerID = Utilities.getPlayerID(rawTile);
 		city.getPlayerInfo(tilePlayerID).researchCount++;
 		if((city.cityTime % 8) == 0) {
 			repairZone(UNIVERSITY, 3);
@@ -247,7 +249,7 @@ class MapScanner extends TileBehavior {
 
 	void doStadiumEmpty() {
 		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(tile);
+		int tilePlayerID = Utilities.getPlayerID(rawTile);
 		city.getPlayerInfo(tilePlayerID).stadiumCount++;
 		if((city.cityTime % 16) == 0) {
 			repairZone(STADIUM, 4);
@@ -255,25 +257,25 @@ class MapScanner extends TileBehavior {
 
 		if(powerOn) {
 			if(((city.cityTime + xpos + ypos) % 32) == 0) {
-				drawStadium(FULLSTADIUM);
-				city.setTile(xpos + 1, ypos, (char) (FOOTBALLGAME1));
-				city.setTile(xpos + 1, ypos + 1, (char) (FOOTBALLGAME2));
+				drawStadium(FULLSTADIUM, tilePlayerID);
+				city.setTile(xpos + 1, ypos, (char) (FOOTBALLGAME1), tilePlayerID);
+				city.setTile(xpos + 1, ypos + 1, (char) (FOOTBALLGAME2), tilePlayerID);
 			}
 		}
 	}
 
 	void doStadiumFull() {
 		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(tile);
+		int tilePlayerID = Utilities.getPlayerID(rawTile);
 		city.getPlayerInfo(tilePlayerID).stadiumCount++;
 		if(((city.cityTime + xpos + ypos) % 8) == 0) {
-			drawStadium(STADIUM);
+			drawStadium(STADIUM, tilePlayerID);
 		}
 	}
 
 	void doAirport() {
 		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(tile);
+		int tilePlayerID = Utilities.getPlayerID(rawTile);
 		city.getPlayerInfo(tilePlayerID).airportCount++;
 		if((city.cityTime % 8) == 0) {
 			repairZone(AIRPORT, 6);
@@ -294,7 +296,7 @@ class MapScanner extends TileBehavior {
 	//Tempel Methode 
 	void doTempel() {
 		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(tile);
+		int tilePlayerID = Utilities.getPlayerID(rawTile);
 		city.getPlayerInfo(tilePlayerID).tempelCount++;
 		if((city.cityTime % 8) == 0) {
 			repairZone(TEMPEL, 6);
@@ -303,7 +305,7 @@ class MapScanner extends TileBehavior {
 
 	void doSeaport() {
 		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(tile);
+		int tilePlayerID = Utilities.getPlayerID(rawTile);
 		city.getPlayerInfo(tilePlayerID).seaportCount++;
 		if((city.cityTime % 16) == 0) {
 			repairZone(PORT, 4);
@@ -335,7 +337,7 @@ class MapScanner extends TileBehavior {
 	 */
 	void doHospitalChurch() {
 		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(tile);
+		int tilePlayerID = Utilities.getPlayerID(rawTile);
 		if(tile == HOSPITAL) {
 			city.getPlayerInfo(tilePlayerID).hospitalCount++;
 
@@ -370,7 +372,7 @@ class MapScanner extends TileBehavior {
 	 * regenerated.
 	 * 
 	 * @param zoneCenter
-	 *            the tile value for the "center" tile of the zone
+	 *            the tile value for the "center" tile of the zone - don't LOMASK zoneCenter
 	 * @param zoneSize
 	 *            integer (3-6) indicating the width/height of the zone.
 	 */
@@ -378,6 +380,8 @@ class MapScanner extends TileBehavior {
 		// from the given center tile, figure out what the
 		// northwest tile should be
 		int zoneBase = zoneCenter - 1 - zoneSize;
+		System.out.println("repairing");
+		System.out.println((int)zoneCenter);
 //		int tilePlayerId = Utilities.getPlayerID(zoneBase);
 
 		for(int y = 0; y < zoneSize; y++) {
@@ -409,7 +413,7 @@ class MapScanner extends TileBehavior {
 	 */
 	void doCommercial() {
 		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(tile);
+		int tilePlayerID = Utilities.getPlayerID(rawTile);
 		city.getPlayerInfo(tilePlayerID).comZoneCount++;
 
 		int tpop = commercialZonePop(tile);
@@ -454,7 +458,7 @@ class MapScanner extends TileBehavior {
 	 */
 	void doIndustrial() {
 		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(tile);
+		int tilePlayerID = Utilities.getPlayerID(rawTile);
 		city.getPlayerInfo(tilePlayerID).indZoneCount++;
 
 		int tpop = industrialZonePop(tile);
@@ -498,7 +502,7 @@ class MapScanner extends TileBehavior {
 	 */
 	void doResidential() {
 		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(tile);
+		int tilePlayerID = Utilities.getPlayerID(rawTile);
 		city.getPlayerInfo(tilePlayerID).resZoneCount++;
 
 		int tpop; // population of this zone
@@ -630,7 +634,7 @@ class MapScanner extends TileBehavior {
 			assert houseNumber >= 0 && houseNumber < 12;
 
 			assert city.testBounds(xx, yy);
-			city.setTile(xx, yy, (char) (HOUSE + houseNumber));
+			city.setTile(xx, yy, (char) (HOUSE + houseNumber), Utilities.getPlayerID(rawTile));
 		}
 	}
 
@@ -720,6 +724,8 @@ class MapScanner extends TileBehavior {
 
 	private void doResidentialOut(int pop, int value) {
 		assert value >= 0 && value < 4;
+		
+		int tilePlayerID = Utilities.getPlayerID(rawTile);
 
 		final char[] Brdr = {
 				0, 3, 6, 1, 4, 7, 2, 5, 8
@@ -739,14 +745,14 @@ class MapScanner extends TileBehavior {
 			// downgrade from full-size zone to 8 little houses
 
 			int pwrBit = (rawTile & PWRBIT);
-			city.setTile(xpos, ypos, (char) (RESCLR | pwrBit));
+			city.setTile(xpos, ypos, (char) (RESCLR | pwrBit), tilePlayerID);
 			for(int x = xpos - 1; x <= xpos + 1; x++) {
 				for(int y = ypos - 1; y <= ypos + 1; y++) {
 					if(city.testBounds(x, y)) {
 						if(!(x == xpos && y == ypos)) {
 							// pick a random small house
 							int houseNumber = value * 3 + PRNG.nextInt(3);
-							city.setTile(x, y, (char) (HOUSE + houseNumber));
+							city.setTile(x, y, (char) (HOUSE + houseNumber), tilePlayerID);
 						}
 					}
 				}
@@ -766,7 +772,7 @@ class MapScanner extends TileBehavior {
 					if(city.testBounds(x, y)) {
 						int loc = city.map[y][x] & LOMASK;
 						if(loc >= LHTHR && loc <= HHTHR) { // little house
-							city.setTile(x, y, (char) (Brdr[z] + RESCLR - 4));
+							city.setTile(x, y, (char) (Brdr[z] + RESCLR - 4), tilePlayerID);
 							return;
 						}
 					}
@@ -868,12 +874,12 @@ class MapScanner extends TileBehavior {
 	 * @param zoneCenter
 	 *            either STADIUM or FULLSTADIUM
 	 */
-	void drawStadium(int zoneCenter) {
+	void drawStadium(int zoneCenter, int playerID) {
 		int zoneBase = zoneCenter - 1 - 4;
 
 		for(int y = 0; y < 4; y++) {
 			for(int x = 0; x < 4; x++, zoneBase++) {
-				city.setTile(xpos - 1 + x, ypos - 1 + y, (char) (zoneBase | (x == 1 && y == 1 ? (PWRBIT) : 0)));
+				city.setTile(xpos - 1 + x, ypos - 1 + y, (char) (zoneBase | (x == 1 && y == 1 ? (PWRBIT) : 0)), playerID);
 			}
 		}
 	}
