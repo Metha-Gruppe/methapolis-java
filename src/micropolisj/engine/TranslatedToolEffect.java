@@ -50,4 +50,8 @@ class TranslatedToolEffect implements ToolEffectIfc
 	{
 		base.toolResult(tr);
 	}
+	
+	public int getPlayerID() {
+	    return base.getPlayerID();
+	}
 }

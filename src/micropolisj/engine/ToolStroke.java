@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 
 import static micropolisj.engine.TileConstants.*;
 import micropolisj.research.ResearchState;
+import micropolisj.util.Utilities;
 
 public class ToolStroke implements Serializable {
     transient Micropolis city;
@@ -112,10 +113,17 @@ public class ToolStroke implements Serializable {
             return applyZone(eff, TEMPEL);
 
         case ROCKET:
-            if (city.playerInfo.researchState.isRocketPossible()) {
+            //TODO: fireMessage insufficient funds
+            if (city.getPlayerInfo(playerID).researchData.isRocketPossible()) {
                 // shoot rocket (aka monster) to location
-                city.generateRocket(0, 0, xpos, ypos);
-                city.spend(MicropolisTool.ROCKET.getToolCost());
+                if(city.getPlayerInfo(playerID).budget.totalFunds <= MicropolisTool.ROCKET.getToolCost()) {
+                    eff.toolResult(ToolResult.INSUFFICIENT_FUNDS);
+                } else {
+                    city.generateRocket(0, 0, xpos, ypos, playerID);
+                    city.spend(MicropolisTool.ROCKET.getToolCost(), city.getPlayerInfo(playerID));
+                    eff.toolResult(ToolResult.SUCCESS);
+                    return true;
+                }
             } else {
                 //JOptionPane.showMessageDialog(ResearchState.getInstance(), "You need some research before you can use rockets.");
             	city.sendMessage(MicropolisMessage.INSUFFICIENT_RESEARCH);
@@ -200,7 +208,7 @@ public class ToolStroke implements Serializable {
         int i = 0;
         for (int rowNum = 0; rowNum < bi.height; rowNum++) {
             for (int columnNum = 0; columnNum < bi.width; columnNum++) {
-                eff.setTile(columnNum, rowNum, (char) bi.members[i]);
+                eff.setTile(columnNum, rowNum, bi.members[i]);
                 i++;
             }
         }

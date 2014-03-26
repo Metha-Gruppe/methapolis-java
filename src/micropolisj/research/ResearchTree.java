@@ -1,10 +1,11 @@
 package micropolisj.research;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 import micropolisj.engine.MicropolisTool;
 
-public class ResearchTree {
+public class ResearchTree implements Serializable {
 
 	static ResearchNode[] possible_nodes;
 	static int[][] needed = {
@@ -27,6 +28,7 @@ public class ResearchTree {
 		  , 0, 100, 200
 	};
 
+	//Set costs here
 	public ResearchTree() {
 		possible_nodes = new ResearchNode[] {
 				new RocketNode(1, 150), new RocketNode(2, 200), new RocketNode(3, 250)

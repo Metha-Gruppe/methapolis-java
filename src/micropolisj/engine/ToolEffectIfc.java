@@ -31,4 +31,6 @@ public interface ToolEffectIfc extends Serializable
 	void spend(int amount);
 
 	void toolResult(ToolResult tr);
+
+    int getPlayerID();
 }

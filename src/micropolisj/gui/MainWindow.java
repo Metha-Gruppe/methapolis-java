@@ -144,8 +144,8 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		engine.mainWindow = this;
 
 		this.engine = engine;
-
-		engine.playerInfo.researchState.setLocationRelativeTo(this);
+		
+		engine.getPlayerInfo().researchState.setLocationRelativeTo(this);
 
 		JPanel mainArea = new JPanel(new BorderLayout());
 		add(mainArea, BorderLayout.CENTER);
@@ -1312,7 +1312,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		drawingArea.setToolCursor(null);
 	}
 
-	private void showToolResult(CityLocation loc, ToolResult result) {
+	public void showToolResult(CityLocation loc, ToolResult result) {
 		switch(result) {
 			case SUCCESS:
 				citySound(currentTool == MicropolisTool.BULLDOZER ? Sound.BULLDOZE : Sound.BUILD, loc);
@@ -1351,7 +1351,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		dateLbl.setText(formatGameDate(engine.cityTime));
 
 		NumberFormat nf = NumberFormat.getInstance();
-		popLbl.setText(nf.format(getEngine().getCityPopulation()));
+		popLbl.setText(nf.format(getEngine().getCityPopulation(engine.getPlayerID())));
 	}
 
 	Timer simTimer;
@@ -1544,7 +1544,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 	}
 
 	private void reloadFunds() {
-		fundsLbl.setText(formatFunds(getEngine().playerInfo.budget.totalFunds));
+		fundsLbl.setText(formatFunds(getEngine().getPlayerInfo().budget.totalFunds));
 	}
 
 	// implements Micropolis.Listener
@@ -1627,9 +1627,9 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 	}
 
 	void onViewResearchClicked() {
-		engine.playerInfo.researchState.showResearchPanel();
-		// dirty1 = true;
-		// showBudgetWindow(false);
+		engine.getPlayerInfo().researchState.showResearchPanel();
+		//dirty1 = true;
+		//showBudgetWindow(false);
 	}
 
 	void onViewGraphClicked() {

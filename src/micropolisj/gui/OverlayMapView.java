@@ -515,8 +515,8 @@ public class OverlayMapView extends JComponent
 
 	public void dragViewToCityCenter()
 	{
-		dragViewTo(new Point(TILE_WIDTH * engine.playerInfo.centerMassX + 1,
-			TILE_HEIGHT * engine.playerInfo.centerMassY + 1));
+		dragViewTo(new Point(TILE_WIDTH * engine.getPlayerInfo().centerMassX + 1,
+			TILE_HEIGHT * engine.getPlayerInfo().centerMassY + 1));
 	}
 
 	class ConnectedView implements ChangeListener

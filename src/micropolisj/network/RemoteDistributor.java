@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import micropolisj.engine.Micropolis;
+import micropolisj.engine.PlayerInfo;
 
 /**
  * zentrale zugriffsklasse auf serverseite. bekommt von aussen mapobjekt reingereicht.
@@ -18,7 +19,7 @@ import micropolisj.engine.Micropolis;
 public class RemoteDistributor extends UnicastRemoteObject implements IMicropolisServer{
     
     
-    private transient Micropolis micropolis;
+    private transient ServerMicropolis micropolis;
     private MapInfo mapInfo;
     private Map<PlayerInput, Integer> events;
     
@@ -27,7 +28,7 @@ public class RemoteDistributor extends UnicastRemoteObject implements IMicropoli
     private static int playerCount = 1;
     
     
-    protected RemoteDistributor(Micropolis micropolis) throws RemoteException {
+    protected RemoteDistributor(ServerMicropolis micropolis) throws RemoteException {
         super();
         this.micropolis = micropolis;
         events = Collections.synchronizedMap(new HashMap<PlayerInput, Integer>());
@@ -73,7 +74,15 @@ public class RemoteDistributor extends UnicastRemoteObject implements IMicropoli
 
     @Override
     public int getNewID() throws RemoteException {
+        micropolis.addNewPlayer(playerCount);
         return playerCount++;
+    }
+
+
+
+    @Override
+    public synchronized PlayerInfo getPlayerInfo(int ID) throws RemoteException{
+        return micropolis.getPlayerInfo(ID);
     }
 
 }
