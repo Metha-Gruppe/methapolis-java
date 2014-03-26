@@ -371,7 +371,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		makeClean();
 
 		// TODO custom: just a test
-		engine.getSprites().add(new SpaceshipSprite(engine, 350, 500));
+//		engine.getSprites().add(new SpaceshipSprite(engine, 350, 500));
 	}
 
 	public void setEngine(Micropolis newEngine) {
