@@ -22,7 +22,7 @@ public class ClientMicropolis extends Micropolis{
         PlayerInfo playerInfo = remote.getPlayerInfo();
         applyPlayerInfo(playerInfo);
         applyMapInfo(info);
-        super.animate();
+//        super.animate();
         animateTiles();
         moveObjects();
     }

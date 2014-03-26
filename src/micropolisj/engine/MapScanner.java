@@ -161,13 +161,12 @@ class MapScanner extends TileBehavior {
 	void doCoalPower() {
 		boolean powerOn = checkZonePower();
 		int tilePlayerID = Utilities.getPlayerID(rawTile);
-		System.out.println(rawTile + "rawTile");
 		city.getPlayerInfo(tilePlayerID).coalCount++;
 		if((city.cityTime % 8) == 0) {
 			repairZone(POWERPLANT, 4);
 		}
 
-		city.powerPlants.add(new CityLocation(xpos, ypos));
+		city.playerInfo.powerPlants.add(new CityLocation(xpos, ypos));
 	}
 
 	void doNuclearPower() {
@@ -183,7 +182,7 @@ class MapScanner extends TileBehavior {
 			repairZone(NUCLEAR, 4);
 		}
 
-		city.powerPlants.add(new CityLocation(xpos, ypos));
+		city.playerInfo.powerPlants.add(new CityLocation(xpos, ypos));
 	}
 
 	void doFireStation() {
@@ -380,8 +379,8 @@ class MapScanner extends TileBehavior {
 		// from the given center tile, figure out what the
 		// northwest tile should be
 		int zoneBase = zoneCenter - 1 - zoneSize;
-		System.out.println("repairing");
-		System.out.println((int)zoneCenter);
+//		System.out.println("repairing");
+//		System.out.println((int)zoneCenter);
 //		int tilePlayerId = Utilities.getPlayerID(zoneBase);
 
 		for(int y = 0; y < zoneSize; y++) {

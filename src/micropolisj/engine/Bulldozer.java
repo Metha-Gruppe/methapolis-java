@@ -59,7 +59,6 @@ class Bulldozer extends ToolStroke {
 //        System.out.println(Utilities.getPlayerID(currTile));
 //        System.out.println(currTile);
         
-        System.out.println("dozing");
         
         
         if(eff.getPlayerID() != Utilities.getPlayerID((char)currTile)) {
