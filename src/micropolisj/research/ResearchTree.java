@@ -1,11 +1,25 @@
 package micropolisj.research;
 
 import java.util.HashSet;
+import java.util.ResourceBundle;
 
+import micropolisj.engine.MapState;
 import micropolisj.engine.MicropolisTool;
 
 public class ResearchTree {
+	
 
+	int rocketNameDecider = 0;
+	int policeNameDecider = 0;
+	int fireNameDecider = 0;
+	int pollNameDecider = 0;
+	int rocketDescDecider = 0;
+	int policeDescDecider = 0;
+	int fireDescDecider = 0;
+	int pollDescDecider = 0;
+	
+	static ResourceBundle strings = ResourceBundle.getBundle("micropolisj.GuiStrings");
+	
 	static ResearchNode[] possible_nodes;
 	static int[][] needed = {
 			{}, {0}, {1}, 
@@ -15,16 +29,17 @@ public class ResearchTree {
 	};
 	int height = 2, width = 2;
 	static int[] positionsX = {
-			0, 0, 0
-		  , 200, 200, 200
-		  , 400, 400, 400
-		  , 600, 600, 600
+			25, 25, 25
+		  , 290, 290, 290
+		  , 555, 555, 555
+		  , 820, 820, 820
 	};
+
 	static int[] positionsY = {
-			0, 100, 200
-		  , 0, 100, 200
-		  , 0, 100, 200
-		  , 0, 100, 200
+			25, 130, 235
+		  , 25, 130, 235
+		  , 25, 130, 235
+		  , 25, 130, 235
 	};
 
 	public ResearchTree() {
@@ -57,8 +72,45 @@ public class ResearchTree {
 		}
 		
 		@Override
+		public String getName() {
+			
+			switch(rocketNameDecider) {
+				case 0:
+					rocketNameDecider ++;
+					return strings.getString("research.ROCKET_T1_NAME");
+	
+				case 1:
+					rocketNameDecider ++;
+					return strings.getString("research.ROCKET_T2_NAME");
+	
+				case 2:
+					rocketNameDecider = 0;
+					return strings.getString("research.ROCKET_T3_NAME");
+
+				default:
+					throw new Error("unreachable Research String");
+			}
+		}
+		
+		@Override
 		public String getDesc() {
-			return "rocket research";
+			
+			switch(rocketDescDecider) {
+				case 0:
+					rocketDescDecider ++;
+					return strings.getString("research.ROCKET_T1_DESCRIPTION");
+	
+				case 1:
+					rocketDescDecider ++;
+					return strings.getString("research.ROCKET_T2_DESCRIPTION");
+	
+				case 2:
+					rocketDescDecider = 0;
+					return strings.getString("research.ROCKET_T3_DESCRIPTION");
+
+				default:
+					throw new Error("unreachable Research String");
+			}
 		}
 
 		@Override
@@ -92,8 +144,45 @@ public class ResearchTree {
 		}
 		
 		@Override
+		public String getName() {
+			
+			switch(policeNameDecider) {
+				case 0:
+					policeNameDecider ++;
+					return strings.getString("research.POLICE_T1_NAME");
+	
+				case 1:
+					policeNameDecider ++;
+					return strings.getString("research.POLICE_T2_NAME");
+	
+				case 2:
+					policeNameDecider = 0;
+					return strings.getString("research.POLICE_T3_NAME");
+
+				default:
+					throw new Error("unreachable Research String");
+			}
+		}
+		
+		@Override
 		public String getDesc() {
-			return "larger police station range";
+			
+			switch(policeDescDecider) {
+				case 0:
+					policeDescDecider ++;
+					return strings.getString("research.POLICE_T1_DESCRIPTION");
+	
+				case 1:
+					policeDescDecider ++;
+					return strings.getString("research.POLICE_T2_DESCRIPTION");
+	
+				case 2:
+					policeDescDecider = 0;
+					return strings.getString("research.POLICE_T3_DESCRIPTION");
+
+				default:
+					throw new Error("unreachable Research String");
+			}
 		}
 
 		@Override
@@ -122,8 +211,45 @@ public class ResearchTree {
 		}
 		
 		@Override
+		public String getName() {
+			
+			switch(fireNameDecider) {
+				case 0:
+					fireNameDecider ++;
+					return strings.getString("research.FIRE_T1_NAME");
+	
+				case 1:
+					fireNameDecider ++;
+					return strings.getString("research.FIRE_T2_NAME");
+	
+				case 2:
+					fireNameDecider = 0;
+					return strings.getString("research.FIRE_T3_NAME");
+
+				default:
+					throw new Error("unreachable Research String");
+			}
+		}
+		
+		@Override
 		public String getDesc() {
-			return "larger firestation range";
+			
+			switch(fireDescDecider) {
+				case 0:
+					fireDescDecider ++;
+					return strings.getString("research.FIRE_T1_DESCRIPTION");
+	
+				case 1:
+					fireDescDecider ++;
+					return strings.getString("research.FIRE_T2_DESCRIPTION");
+	
+				case 2:
+					fireDescDecider = 0;
+					return strings.getString("research.FIRE_T3_DESCRIPTION");
+
+				default:
+					throw new Error("unreachable Research String");
+			}
 		}
 
 		@Override
@@ -152,8 +278,45 @@ public class ResearchTree {
 		}
 		
 		@Override
+		public String getName() {
+			
+			switch(pollNameDecider) {
+				case 0:
+					pollNameDecider ++;
+					return strings.getString("research.POLL_T1_NAME");
+	
+				case 1:
+					pollNameDecider ++;
+					return strings.getString("research.POLL_T2_NAME");
+	
+				case 2:
+					pollNameDecider = 0;
+					return strings.getString("research.POLL_T3_NAME");
+
+				default:
+					throw new Error("unreachable Research String");
+			}
+		}
+		
+		@Override
 		public String getDesc() {
-			return "smaller polution range";
+			
+			switch(pollDescDecider) {
+				case 0:
+					pollDescDecider ++;
+					return strings.getString("research.POLL_T1_DESCRIPTION");
+	
+				case 1:
+					pollDescDecider ++;
+					return strings.getString("research.POLL_T2_DESCRIPTION");
+	
+				case 2:
+					pollDescDecider = 0;
+					return strings.getString("research.POLL_T3_DESCRIPTION");
+
+				default:
+					throw new Error("unreachable Research String");
+			}
 		}
 
 		@Override

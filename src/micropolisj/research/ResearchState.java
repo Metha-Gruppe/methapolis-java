@@ -16,7 +16,8 @@ import micropolisj.engine.MicropolisTool;
 import micropolisj.gui.MainWindow;
 
 public class ResearchState extends JFrame implements ActionListener {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L; 
+	static ResourceBundle strings = ResourceBundle.getBundle("micropolisj.GuiStrings"); //changeswp
 	
 	public int policeResearch = 0;
 	public int getPoliceResearchState(){return policeResearch;}
@@ -49,8 +50,8 @@ public class ResearchState extends JFrame implements ActionListener {
 	
 	public int researchPoints = 30000;
 
-	int buttonWidth = 150;
-	int buttonHeight = 75;
+	int buttonWidth = 250;
+	int buttonHeight = 100;
 	int maxWidth = 0;
 	int maxHeight = 0;
 
@@ -99,14 +100,14 @@ public class ResearchState extends JFrame implements ActionListener {
 		subMenu.setLayout(new BorderLayout());
 		add(subMenu, BorderLayout.SOUTH);
 
-		researchPointsLabel = new JLabel(Integer.toString(researchPoints) + " research points");
+		researchPointsLabel = new JLabel(Integer.toString(researchPoints) + " " + strings.getString("research.POINTS_NAME") + " ");
 		subMenu.add(researchPointsLabel, BorderLayout.EAST);
 		
 		JPanel ppanel = new JPanel();
 		ppanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		subMenu.add(ppanel, BorderLayout.CENTER);
 
-		closeButton = new JButton("close");
+		closeButton = new JButton(strings.getString("research.CLOSE_BUTTON"));
 		closeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -121,7 +122,7 @@ public class ResearchState extends JFrame implements ActionListener {
 		for(int node_id = 0; node_id < n; node_id++) {
 			ResearchNode node = ResearchTree.possible_nodes[node_id];
 
-			buttons[node_id] = new JButton("<html>" + node.getDesc() + "</html>");
+			buttons[node_id] = new JButton("<html>"  + node.getName() +"AAAAH AENDERE MICH" + node.getDesc()+ "</html>"); //changeswp
 			buttons[node_id].setBounds(new Rectangle(ResearchTree.positionsX[node_id], ResearchTree.positionsY[node_id],
 					buttonWidth, buttonHeight));
 			
@@ -144,7 +145,7 @@ public class ResearchState extends JFrame implements ActionListener {
 	
 
 	public void showResearchPanel() {
-		setBounds(200, 200, maxWidth + 10, maxHeight + 100);
+		setBounds(200, 200, maxWidth + 40, maxHeight + 100); //changeswp
 		
 		refreshPanel();
 
@@ -153,23 +154,25 @@ public class ResearchState extends JFrame implements ActionListener {
 
 	public void refreshPanel() {
 
-		researchPointsLabel.setText(Integer.toString(researchPoints) + " research points");
+		researchPointsLabel.setText(Integer.toString(researchPoints) + " " + strings.getString("research.POINTS_NAME") + " ");
 
 		for(int node_id = 0; node_id < ResearchTree.possible_nodes.length; node_id++) {
 			ResearchNode node = ResearchTree.possible_nodes[node_id];
 
 			if(reached_nodes.contains(node_id)) {
 				buttons[node_id].setEnabled(false);
-				buttons[node_id].setText("<html>"+node.getDesc()+"</html>");
-				buttons[node_id].setBackground(Color.red);
+				buttons[node_id].setText("<html>" + node.getName() + node.getDesc() +"</html>");
+				buttons[node_id].setBackground(Color.blue);
 			}
 			else if(!tree.isReachable(reached_nodes, node_id)) {
 				buttons[node_id].setEnabled(false);
-				buttons[node_id].setText("<html>"+node.getDesc()+"</html>");
+				buttons[node_id].setText("<html>"+node.getName() + node.getDesc() + "</html>");
 			}
 			else {
+
+				//buttons[node_id].setForeground(Color.green);
 				buttons[node_id].setEnabled(true);
-				buttons[node_id].setText("<html>"+node.getDesc() + " (" + Integer.toString(node.getCost()) + "pts)</html>");
+				buttons[node_id].setText("<html>" + node.getName() + " (" + Integer.toString(node.getCost()) + "pts)" + node.getDesc() +"</html>");
 			}
 		}
 
@@ -192,7 +195,7 @@ public class ResearchState extends JFrame implements ActionListener {
 			refreshPanel();
 		}
 		else {
-			JOptionPane.showMessageDialog(this, "You don't have enough research points for this upgrade.");
+			JOptionPane.showMessageDialog(this, strings.getString("research.POINTS_MISSING"));
 		}
 	}
 }
