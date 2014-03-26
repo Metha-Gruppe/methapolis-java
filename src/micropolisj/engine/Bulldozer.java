@@ -12,6 +12,7 @@ import static micropolisj.engine.TileConstants.*;
 import micropolisj.util.Utilities;
 
 class Bulldozer extends ToolStroke {
+	
     Bulldozer(Micropolis city, int xpos, int ypos) {
         super(city, MicropolisTool.BULLDOZER, xpos, ypos);
     }
@@ -51,6 +52,10 @@ class Bulldozer extends ToolStroke {
 //        System.out.println(eff.getPlayerID());
 //        System.out.println(Utilities.getPlayerID(currTile));
 //        System.out.println(currTile);
+        
+        System.out.println("dozing");
+        
+        
         if(eff.getPlayerID() != Utilities.getPlayerID((char)currTile)) {
             return;
         }
