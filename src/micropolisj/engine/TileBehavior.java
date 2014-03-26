@@ -18,6 +18,7 @@ public abstract class TileBehavior {
 	int ypos;
 	int tile;
 	int rawTile;
+	
 
 	protected TileBehavior(Micropolis city) {
 		this.city = city;
