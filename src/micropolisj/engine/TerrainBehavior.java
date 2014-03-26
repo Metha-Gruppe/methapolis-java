@@ -321,7 +321,7 @@ class TerrainBehavior extends TileBehavior {
 			int y = ypos + Dy[z];
 			if(city.testBounds(x, y)) {
 				if((city.getTile(x, y) == fromTab[z]) || (city.getTile(x, y) == CHANNEL)) {
-					city.setTile(x, y, toTab[z]);
+					city.setTile(x, y, toTab[z]); // TODO: needs player id
 				}
 			}
 		}
