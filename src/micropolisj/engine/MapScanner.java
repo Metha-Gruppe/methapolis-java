@@ -294,7 +294,8 @@ class MapScanner extends TileBehavior {
 	//Tempel Methode 
 	void doTempel() {
 		boolean powerOn = checkZonePower();
-		city.playerInfo.tempelCount++;
+		int tilePlayerID = Utilities.getPlayerID(tile);
+		city.getPlayerInfo(tilePlayerID).tempelCount++;
 		if((city.cityTime % 8) == 0) {
 			repairZone(TEMPEL, 6);
 		}	

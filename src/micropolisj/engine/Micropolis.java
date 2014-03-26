@@ -2096,19 +2096,7 @@ public class Micropolis {
 		}
 	}
 
-	public int getNumberOfPlayers() {
-		return 1;
-	}
 
-	public PlayerInfo getPlayerInfo() {
-		return playerInfo;
-	}
-
-	public PlayerInfo getPlayerInfo(int playerID) {
-		if(playerID == getPlayerID()) {
-			return playerInfo;
-		} else return null;
-	}
 
 	public Sprite[] allSprites() {
 		return sprites.toArray(new Sprite[0]);
@@ -2642,4 +2630,18 @@ public class Micropolis {
 		getPlayerInfo().firePercent = newFirePct;
 		getPlayerInfo().researchPercent = newResearchPct;
 	}
+	
+	   public int getNumberOfPlayers() {
+	        return 1;
+	    }
+
+	    public PlayerInfo getPlayerInfo() {
+	        return playerInfo;
+	    }
+
+	    public PlayerInfo getPlayerInfo(int playerID) {
+	        if(playerID == getPlayerID()) {
+	            return playerInfo;
+	        } else return null;
+	    }
 }
