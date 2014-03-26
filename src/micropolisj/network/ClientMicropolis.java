@@ -43,6 +43,7 @@ public class ClientMicropolis extends Micropolis{
             for(Sprite sprite : sprites) {
                 sprite.setMicropolis(this);
             }
+            this.cityTime = info.cityTime;
 //            playerInfo.budget.setValues(info.cityBudget);
             fireFundsChanged();
         }
