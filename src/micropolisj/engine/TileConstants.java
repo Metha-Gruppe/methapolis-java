@@ -155,7 +155,8 @@ public class TileConstants {
 
 	//CUSTOM TILES FOR CUSTOM TOOLS
 	static final char UNIVERSITY = 964;
-	public static final char LAST_TILE = 968;
+	static final char TEMPEL = 976;
+	public static final char LAST_TILE = 1005;
 
 	// TODO COMMENT where the order in these arrays comes from
 	static final char[] RoadTable = new char[] {
@@ -190,7 +191,7 @@ public class TileConstants {
 	}
 
 	/**
-	 * Checks whether the tile can be auto-bulldozed for placement of road,
+	 * Checks whether the tile can be auto-bulldoz80,0 ed for placement of road,
 	 * rail, or wire.
 	 */
 	public static boolean canAutoBulldozeRRW(int tileValue) {

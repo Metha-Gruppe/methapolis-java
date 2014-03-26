@@ -44,6 +44,7 @@ public class PlayerInfo {
     
     // CUSTOM
     public int researchCount;
+    public int tempelCount;
 
     public int totalPop;
     public int lastCityPop;

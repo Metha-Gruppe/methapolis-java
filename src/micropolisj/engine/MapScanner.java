@@ -28,7 +28,7 @@ class MapScanner extends TileBehavior {
 	}
 
 	public static enum B {
-		RESIDENTIAL, HOSPITAL_CHURCH, COMMERCIAL, INDUSTRIAL, COAL, NUCLEAR, FIRESTATION, POLICESTATION, STADIUM_EMPTY, STADIUM_FULL, AIRPORT, SEAPORT, UNIVERSITY;
+		RESIDENTIAL, HOSPITAL_CHURCH, COMMERCIAL, INDUSTRIAL, COAL, NUCLEAR, FIRESTATION, POLICESTATION, STADIUM_EMPTY, STADIUM_FULL, AIRPORT, SEAPORT, UNIVERSITY, TEMPEL;
 	}
 
 	@Override
@@ -72,6 +72,9 @@ class MapScanner extends TileBehavior {
 				return;
 			case UNIVERSITY:
 				doUniversity();
+				return;
+			case TEMPEL:
+				doTempel();
 				return;
 			default:
 				assert false;
@@ -278,6 +281,15 @@ class MapScanner extends TileBehavior {
 			}
 		}
 	}
+	
+	//Tempel Methode 
+	void doTempel() {
+		boolean powerOn = checkZonePower();
+		city.playerInfo.tempelCount++;
+		if((city.cityTime % 8) == 0) {
+			repairZone(TEMPEL, 6);
+		}	
+	}
 
 	void doSeaport() {
 		boolean powerOn = checkZonePower();
@@ -371,7 +383,7 @@ class MapScanner extends TileBehavior {
 
 					if(!isIndestructible(thCh)) { // not rubble, radiactive, on
 													// fire or flooded
-
+//						System.out.println(zoneBase);
 						city.setTile(xx, yy, (char) zoneBase);
 					}
 				}

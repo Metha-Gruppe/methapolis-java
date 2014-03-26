@@ -1063,6 +1063,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		b5.add(makeToolBtn(MicropolisTool.STADIUM));
 		b5.add(makeToolBtn(MicropolisTool.SEAPORT));
 
+
 		c.gridy++;
 		Box b6 = new Box(BoxLayout.X_AXIS);
 		gridBox.add(b6, c);
@@ -1071,6 +1072,12 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 
 		c.gridy++;
 		Box b7 = new Box(BoxLayout.X_AXIS);
+		gridBox.add(b7, c);
+
+		b7.add(makeToolBtn(MicropolisTool.TEMPEL));
+		
+		c.gridy++;
+		Box b8 = new Box(BoxLayout.X_AXIS);
 		b5.add(makeToolBtn(MicropolisTool.ROCKET));
 		gridBox.add(b7, c);
 
@@ -1588,6 +1595,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 			return;
 
 		try {
+			System.out.println(afile);
 			Clip clip = AudioSystem.getClip();
 			AudioInputStream audioStream = AudioSystem.getAudioInputStream(afile);
 			System.out.println(audioStream.getFormat());
