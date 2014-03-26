@@ -1448,18 +1448,18 @@ public class Micropolis {
         // graph10max = Math.max(resMax, Math.max(comMax, indMax));
 
         // set newest value (front)
-        history.res[0] = playerInfo.resPop / 8;
-        history.com[0] = playerInfo.comPop;
-        history.ind[0] = playerInfo.indPop;
+        history.res[0] = getPlayerInfo().resPop / 8;
+        history.com[0] = getPlayerInfo().comPop;
+        history.ind[0] = getPlayerInfo().indPop;
 
         // apply quarter of change (-> smoothing?)
-        playerInfo.crimeRamp += (playerInfo.crimeAverage - playerInfo.crimeRamp) / 4;
-        history.crime[0] = Math.min(255, playerInfo.crimeRamp);
+        getPlayerInfo().crimeRamp += (getPlayerInfo().crimeAverage - getPlayerInfo().crimeRamp) / 4;
+        history.crime[0] = Math.min(255, getPlayerInfo().crimeRamp);
 
-        playerInfo.polluteRamp += (playerInfo.pollutionAverage - playerInfo.polluteRamp) / 4;
-        history.pollution[0] = Math.min(255, playerInfo.polluteRamp);
+        getPlayerInfo().polluteRamp += (getPlayerInfo().pollutionAverage - getPlayerInfo().polluteRamp) / 4;
+        history.pollution[0] = Math.min(255, getPlayerInfo().polluteRamp);
 
-        int moneyScaled = playerInfo.cashFlow / 20 + 128; // - 3
+        int moneyScaled = getPlayerInfo().cashFlow / 20 + 128; // - 3
 
         if (moneyScaled < 0)
             moneyScaled = 0;
@@ -1529,14 +1529,18 @@ public class Micropolis {
     static final double[] FLevels = { 1.4, 1.2, 0.8 };
 
     public void addResearchPoints() {
+        addResearchPoints(0);
+    }
+    
+    public void addResearchPoints(int playerID) {
         // used in collectTaxPartial()
         // Charger accumulates to Delay.
         // playerInfo.researchEffect needs a divison as it is 1000 base.
         // div 100 => you need at least 1 research station at 10% fund to get a
         // point
         if (researchDelayCharger >= researchDelay) {
-            playerInfo.researchState.researchPoints += (playerInfo.researchEffect * this.getCityPopulation()) / (100 * 3000);
-            playerInfo.researchState.refreshPanel();
+            getPlayerInfo(playerID).researchState.researchPoints += (getPlayerInfo(playerID).researchEffect * this.getCityPopulation(playerID)) / (100 * 3000);
+            getPlayerInfo(playerID).researchState.refreshPanel();
             researchDelayCharger = 0;
         } else {
             researchDelayCharger++;
@@ -2022,7 +2026,7 @@ public class Micropolis {
     }
     
     public PlayerInfo getPlayerInfo(int playerID) {
-        if(playerID == 0) {
+        if(playerID == getPlayerID()) {
             return playerInfo;
         } else return null;
     }
@@ -2052,9 +2056,13 @@ public class Micropolis {
             }
         }
     }
-
+    
     public int getCityPopulation() {
-        return playerInfo.lastCityPop;
+        return getCityPopulation(getPlayerID());
+    }
+
+    public int getCityPopulation(int playerID) {
+        return getPlayerInfo(playerID).lastCityPop;
     }
 
     void makeSound(int x, int y, Sound sound) {

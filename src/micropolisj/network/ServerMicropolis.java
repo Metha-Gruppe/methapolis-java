@@ -40,7 +40,6 @@ public class ServerMicropolis extends Micropolis{
         // gives remoteDistributor MapInfo
         server.setMapInfo(generateMapInfo());
         Map<PlayerInput, Integer> inputs = server.getInput();
-        
         //reacts to ClientInput
         for(Entry<PlayerInput, Integer> entry : inputs.entrySet()) {
             //TODO: react to playerID
@@ -52,6 +51,7 @@ public class ServerMicropolis extends Micropolis{
             BudgetInput budgetNum = entry.getKey().getBudgetNumbers();
             //TODO: Apply budgetNumbers to the right playerInfo
         }
+        server.clearInput();
     }
     
     @Override

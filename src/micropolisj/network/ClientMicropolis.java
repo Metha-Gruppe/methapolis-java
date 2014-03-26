@@ -69,4 +69,9 @@ public class ClientMicropolis extends Micropolis{
     public int getPlayerID() {
         return remote.getID();
     }
+    
+    @Override
+    public PlayerInfo getPlayerInfo(int playerID) {
+        return playerInfo;
+    }
 }

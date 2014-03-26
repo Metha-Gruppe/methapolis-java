@@ -1327,7 +1327,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		dateLbl.setText(formatGameDate(engine.cityTime));
 
 		NumberFormat nf = NumberFormat.getInstance();
-		popLbl.setText(nf.format(getEngine().getCityPopulation()));
+		popLbl.setText(nf.format(getEngine().getCityPopulation(engine.getPlayerID())));
 	}
 
 	Timer simTimer;

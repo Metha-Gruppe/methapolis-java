@@ -9,6 +9,7 @@
 package micropolisj.engine;
 
 import static micropolisj.engine.TileConstants.CLEAR;
+import micropolisj.util.Utilities;
 
 class ToolEffect implements ToolEffectIfc {
 	final Micropolis city;

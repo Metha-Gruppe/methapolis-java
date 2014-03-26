@@ -47,8 +47,11 @@ class Bulldozer extends ToolStroke {
 
     void dozeZone(ToolEffectIfc eff) {
         int currTile = eff.getTile(0, 0);
+        
+//        System.out.println(eff.getPlayerID());
+//        System.out.println(Utilities.getPlayerID(currTile));
+//        System.out.println(currTile);
         if(eff.getPlayerID() != Utilities.getPlayerID((char)currTile)) {
-            System.out.println("dozeZoneReturn");
             return;
         }
 

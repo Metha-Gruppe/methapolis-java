@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 
 import static micropolisj.engine.TileConstants.*;
 import micropolisj.research.ResearchState;
+import micropolisj.util.Utilities;
 
 public class ToolStroke implements Serializable {
     transient Micropolis city;
@@ -204,7 +205,7 @@ public class ToolStroke implements Serializable {
         int i = 0;
         for (int rowNum = 0; rowNum < bi.height; rowNum++) {
             for (int columnNum = 0; columnNum < bi.width; columnNum++) {
-                eff.setTile(columnNum, rowNum, (char) bi.members[i]);
+                eff.setTile(columnNum, rowNum, bi.members[i]);
                 i++;
             }
         }

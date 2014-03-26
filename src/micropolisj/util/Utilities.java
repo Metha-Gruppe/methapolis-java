@@ -18,6 +18,10 @@ public class Utilities {
     public static int getPlayerID(char encodedTile) {
         return getPlayerID((short) encodedTile);
     }
+    
+    public static int getPlayerID(int encodedTile) {
+        return getPlayerID((char)encodedTile);
+    }
 
     public static int getPlayerID(short encodedTile) {
         return encodedTile >> 11;
