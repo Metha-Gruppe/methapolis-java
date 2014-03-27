@@ -1664,8 +1664,9 @@ public class Micropolis {
 		// div 100 => you need at least 1 research station at 10% fund to get a
 		// point
 		if (researchDelayCharger >= researchDelay) {
-			getPlayerInfo(playerID).researchState.researchPoints += (getPlayerInfo(playerID).researchEffect * this.getCityPopulation(playerID)) / (100 * 3000);
-			getPlayerInfo(playerID).researchState.refreshPanel();
+			PlayerInfo info = getPlayerInfo(playerID);
+			info.researchState.researchPoints += (info.researchEffect * this.getCityPopulation(playerID)) / (100 * 3000);
+			info.researchState.refreshPanel();
 			researchDelayCharger = 0;
 		} else {
 			researchDelayCharger++;
