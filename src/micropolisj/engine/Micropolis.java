@@ -1975,9 +1975,7 @@ public class Micropolis {
 		for(int x = 0; x < DEFAULT_WIDTH; x++) {
 			for(int y = 0; y < DEFAULT_HEIGHT; y++) {
 				int z = dis.readShort();
-				z &= ~(1024 | 2048 | 4096 | 8192 | 16384); // clear
-				// ZONEBIT,ANIMBIT,BULLBIT,BURNBIT,CONDBIT
-				// on import
+//				z &= ~(1024 | 2048 | 4096 | 8192 | 16384); // clear ZONEBIT,ANIMBIT,BULLBIT,BURNBIT,CONDBIT on import
 				map[y][x] = (char) z;
 			}
 		}
