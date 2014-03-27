@@ -582,7 +582,9 @@ public class Micropolis {
 				break;
 
 			case 11:
+//			    System.out.println("starting powerscan");
 				powerScan();
+//				System.out.println("dont with powerscan");
 				fireMapOverlayDataChanged(MapState.POWER_OVERLAY);
 				playerInfo.newPower = true;
 				break;
@@ -937,11 +939,16 @@ public class Micropolis {
 		return false;
 	}
 
+	private int powerPlayer = 0;
+	
 	void powerScan() {
+	    if(powerPlayer % getNumberOfPlayers() == 0) {
+	        for(boolean[] bb : powerMap) {
+	            Arrays.fill(bb, false);
+	        }
+	    }
+	    powerPlayer++;
 		// clear powerMap
-		for(boolean[] bb : powerMap) {
-			Arrays.fill(bb, false);
-		}
 
 		//
 		// Note: brownouts are based on total number of power plants, not the number of powerplants connected to your city.
@@ -2646,7 +2653,6 @@ public class Micropolis {
 	}
 
 	public PlayerInfo getPlayerInfo(int playerID) {
-		System.out.println(playerID + " :: " + getPlayerID());
 		if(playerID == getPlayerID()) {
 			return playerInfo;
 		} else return null;

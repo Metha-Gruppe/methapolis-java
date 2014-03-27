@@ -70,7 +70,7 @@ class MapScanner extends TileBehavior {
 	@Override
 	public void apply() {
 		// TODO custom: wait for the playerInfo to be generated
-		PlayerInfo playerInfo = city.getPlayerInfo( Utilities.getPlayerID(rawTile) );
+		PlayerInfo playerInfo = city.getPlayerInfo(Utilities.getPlayerID(rawTile));
 		
 		if(playerInfo == null)	{
 			return;
