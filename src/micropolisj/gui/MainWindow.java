@@ -35,6 +35,7 @@ import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.EnumMap;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -81,6 +82,7 @@ import micropolisj.engine.MicropolisMessage;
 import micropolisj.engine.MicropolisTool;
 import micropolisj.engine.Sound;
 import micropolisj.engine.Speed;
+import micropolisj.engine.TempelListener;
 import micropolisj.engine.ToolResult;
 import micropolisj.engine.ToolStroke;
 import micropolisj.engine.ZoneStatus;
@@ -90,7 +92,7 @@ import micropolisj.util.MP3;
 import micropolisj.util.TranslationTool;
 import micropolisj.util.Utilities;
 
-public class MainWindow extends JFrame implements Micropolis.Listener, EarthquakeListener, KeyEventDispatcher {
+public class MainWindow extends JFrame implements Micropolis.Listener, EarthquakeListener, KeyEventDispatcher, TempelListener {
 	Micropolis engine;
 	MicropolisDrawingArea drawingArea;
 	JScrollPane drawingAreaScroll;
@@ -144,7 +146,8 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		engine.mainWindow = this;
 
 		engine.getPlayerInfo().researchState.setLocationRelativeTo(this);
-		
+
+		engine.addTempelListener(this);
 		this.engine = engine;
 		
 
@@ -1768,6 +1771,18 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public void onCountdown(int count) {
+		String msg = String.format(strings.getString("notification.alien_countdown"), count);
+		this.messagesPane.appendMessageText(msg);//"countdown to aliens : " + Integer.toString(count) + " weeks");
+	}
+
+	@Override
+	public void onEnd() {
+		EndGamePane endGamePane = new EndGamePane(this);
+		endGamePane.setLocationRelativeTo(this);
 	}
 
 }

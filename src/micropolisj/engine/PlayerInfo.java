@@ -122,7 +122,7 @@ public class PlayerInfo implements Serializable {
     }
     
     public PlayerInfo(ResearchState researchState, CityEval cityEval, CityBudget budget) {
-    	this.countdown = 200;
+    	this.countdown = 10;
         this.researchState = researchState;
         this.researchData = researchState.getResearchData();
         this.evaluation = cityEval;
