@@ -66,6 +66,7 @@ public class ClientMicropolis extends Micropolis{
     
     private void applyPlayerInfo(PlayerInfo playerInfo) {
         this.playerInfo = playerInfo;
+        System.out.println(playerInfo.researchData.researchPoints);
         this.playerInfo.evaluation.setEngine(this);
     }
     

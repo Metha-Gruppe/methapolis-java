@@ -367,9 +367,9 @@ public class Micropolis {
 			tempelListeners[id].onCountdown(countdown);
 		}
 	}
-	public void notifyEnd(){
+	public void notifyEnd(boolean wonGame){
 		for(int id=0;id<tempelListenerId;id++){
-			tempelListeners[id].onEnd();
+			tempelListeners[id].onEnd(wonGame);
 		}
 	}
 

@@ -348,7 +348,7 @@ class MapScanner extends TileBehavior {
 		    return;
 		}
 		if(playerInfo.countdown == 0){
-			city.notifyEnd();
+			city.notifyEnd(true);
 			playerInfo.countdown = -1;
 		}else if(playerInfo.countdown > 0){
 			city.notifyCountdown(playerInfo.countdown);

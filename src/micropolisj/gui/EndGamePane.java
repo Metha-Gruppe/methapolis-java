@@ -4,7 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,16 +20,36 @@ import micropolisj.network.ServerMicropolis;
 public class EndGamePane extends JFrame {
 	
 	MainWindow mainWindow;
+	JLabel screen;
+
+
+	public static void main(String[] args) {
+        try {
+            new EndGamePane(null, false);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 	
-	public EndGamePane(MainWindow mainWindow){
+	
+	public EndGamePane(MainWindow mainWindow, boolean gameWon) throws IOException{
 		this.mainWindow = mainWindow;
 		
-		setBounds(200, 200, 600, 600);
+		String img = gameWon ? "graphics/win.png" : "graphics/lose.png";
+		BufferedImage image = ImageIO.read(new File(img));
+        
+		screen = new JLabel(new ImageIcon(image));
+
+		screen.setSize(image.getWidth(), image.getHeight());
+        add(screen);
+        
+//		setBounds(200, 200, 600, 600);
 		
 		setLayout(new BorderLayout());
 		
-		JLabel endMessageLabel = new JLabel("big win!");
-		add(endMessageLabel, BorderLayout.CENTER);
+//		JLabel endMessageLabel = new JLabel("big win!");
+//		add(endMessageLabel, BorderLayout.CENTER);
 		
 		JPanel menu = new JPanel();
 		menu.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -70,6 +95,12 @@ public class EndGamePane extends JFrame {
 		menu.add(continueGameButton);
 		
 		add(menu, BorderLayout.SOUTH);
+		
+		setSize(image.getWidth(), image.getHeight() + 60);
+		
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		setLocationRelativeTo(null);
 		
 		setVisible(true);
 	}
