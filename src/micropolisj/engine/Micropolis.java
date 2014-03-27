@@ -147,6 +147,8 @@ public class Micropolis {
 	int factorIncome = 10;	//factor - higher numbers increase income
 	int factorRoadFund = 5;	//divisor - higher numbers decrease funding costs
 
+	//is maxValue until set to winner
+	protected int gameWonID = Integer.MAX_VALUE;
 	/**
 	 * For each 8x8 section of city, this is an integer between 0 and 64, with
 	 * higher numbers being closer to the center of the city.
@@ -362,12 +364,23 @@ public class Micropolis {
 		tempelListeners[tempelListenerId] = listener;
 		tempelListenerId++;
 	}
-	public void notifyCountdown(int countdown){
-		for(int id=0;id<tempelListenerId;id++){
-			tempelListeners[id].onCountdown(countdown);
-		}
+	public void notifyCountdown(int playerID){
+	    if(playerID == getPlayerID()) {
+    	    for(int id=0;id<tempelListenerId;id++){
+    			tempelListeners[id].onCountdown(getPlayerInfo(playerID).countdown);
+    		}
+	    }
+	    if(gameWonID != Integer.MAX_VALUE) {
+	        notifyEnd();
+	    }
 	}
-	public void notifyEnd(boolean wonGame){
+	public void notifyEnd(){
+	    boolean wonGame;
+	    if(gameWonID == getPlayerID()) {
+	        wonGame = true;
+	    } else {
+	        wonGame = false;
+	    }
 		for(int id=0;id<tempelListenerId;id++){
 			tempelListeners[id].onEnd(wonGame);
 		}

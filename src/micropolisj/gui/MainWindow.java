@@ -1782,6 +1782,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 	@Override
 	public void onEnd(boolean wonGame) {
         try {
+            onPriorityClicked(Speed.PAUSED);
             EndGamePane endGamePane = new EndGamePane(this, wonGame);
             endGamePane.setLocationRelativeTo(this);
         } catch (IOException e) {

@@ -343,17 +343,17 @@ class MapScanner extends TileBehavior {
 	void doTempel(PlayerInfo playerInfo) {
 		boolean zonePower = checkZonePower();
 		playerInfo.tempelCount++;
+		int playerID = Utilities.getPlayerID(rawTile);
 		
 		if(!zonePower) {
 		    return;
 		}
-		if(playerInfo.countdown == 0){
-			city.notifyEnd(true);
-			playerInfo.countdown = -1;
-		}else if(playerInfo.countdown > 0){
-			city.notifyCountdown(playerInfo.countdown);
-			playerInfo.countdown--;
+		if(playerInfo.countdown == 0) {
+		    city.gameWonID = playerID;
 		}
+		city.notifyCountdown(playerID);
+		playerInfo.countdown--;
+		
 		if((city.cityTime % 8) == 0) {
 			repairZone(TEMPEL, 6);
 		}
