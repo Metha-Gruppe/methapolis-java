@@ -565,6 +565,7 @@ public class TileConstants {
 		if(tile >= ROADBASE && tile <= LASTROAD) {
 			tile = ((tile - ROADBASE) & 0xf) + ROADBASE;
 		}
+		tile &= LOMASK;
 		return (char) tile;
 	}
 

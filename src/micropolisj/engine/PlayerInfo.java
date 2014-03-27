@@ -42,8 +42,8 @@ public class PlayerInfo implements Serializable {
     public int policeCount;
     public int fireStationCount;
     public int stadiumCount;
-    public int coalCount;
-    public int nuclearCount;
+//    public int coalCount;
+//    public int nuclearCount;
     public int seaportCount;
     public int airportCount;
     
@@ -109,7 +109,7 @@ public class PlayerInfo implements Serializable {
 
     public boolean newPower;
     
-    public Stack<CityLocation> powerPlants = new Stack<CityLocation>();
+//    public Stack<CityLocation> powerPlants = new Stack<CityLocation>();
     
     public transient ResearchState researchState;
     
@@ -122,7 +122,7 @@ public class PlayerInfo implements Serializable {
     }
     
     public PlayerInfo(ResearchState researchState, CityEval cityEval, CityBudget budget) {
-    	this.countdown = 200;
+    	this.countdown = 10;
         this.researchState = researchState;
         this.researchData = researchState.getResearchData();
         this.evaluation = cityEval;

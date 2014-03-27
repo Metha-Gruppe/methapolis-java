@@ -70,7 +70,7 @@ class MapScanner extends TileBehavior {
 	@Override
 	public void apply() {
 		// TODO custom: wait for the playerInfo to be generated
-		PlayerInfo playerInfo = city.getPlayerInfo( Utilities.getPlayerID(rawTile) );
+		PlayerInfo playerInfo = city.getPlayerInfo(Utilities.getPlayerID(rawTile));
 		
 		if(playerInfo == null)	{
 			return;
@@ -206,13 +206,13 @@ class MapScanner extends TileBehavior {
 	void doCoalPower(PlayerInfo playerInfo) {
 		checkZonePower();
 
-		playerInfo.coalCount++;
+		city.coalCount++;
 		
 		if((city.cityTime % 8) == 0) {
 			repairZone(POWERPLANT, 4);
 		}
 
-		playerInfo.powerPlants.add(new CityLocation(xpos, ypos));
+		city.powerPlants.add(new CityLocation(xpos, ypos));
 	}
 
 	void doNuclearPower(PlayerInfo playerInfo) {
@@ -223,12 +223,12 @@ class MapScanner extends TileBehavior {
 			return;
 		}
 
-		playerInfo.nuclearCount++;
+		city.nuclearCount++;
 		if((city.cityTime % 8) == 0) {
 			repairZone(NUCLEAR, 4);
 		}
 
-		playerInfo.powerPlants.add(new CityLocation(xpos, ypos));
+		city.powerPlants.add(new CityLocation(xpos, ypos));
 	}
 	
 	void doFireStation(PlayerInfo playerInfo) {
@@ -341,14 +341,19 @@ class MapScanner extends TileBehavior {
 	
 	//Tempel Methode 
 	void doTempel(PlayerInfo playerInfo) {
-		checkZonePower();
-		
+		boolean zonePower = checkZonePower();
 		playerInfo.tempelCount++;
-		playerInfo.countdown--;
-		if(playerInfo.countdown <= 0){
-			System.out.println("end");
-			System.exit(0);
+		int playerID = Utilities.getPlayerID(rawTile);
+		
+		if(!zonePower) {
+		    return;
 		}
+		if(playerInfo.countdown == 0) {
+		    city.gameWonID = playerID;
+		}
+		city.notifyCountdown(playerID);
+		playerInfo.countdown--;
+		
 		if((city.cityTime % 8) == 0) {
 			repairZone(TEMPEL, 6);
 		}

@@ -34,6 +34,9 @@ public class ClientMicropolis extends Micropolis{
     
     private void applyMapInfo(MapInfo info) {
         if(info != null)    {
+            if(info.gameWonID != Integer.MAX_VALUE) {
+                notifyEnd();
+            }
 //            map = info.map;
             for(int x = 0; x < info.map.length; x++) {
                 for(int y = 0; y < info.map[0].length; y++) {
@@ -93,7 +96,6 @@ public class ClientMicropolis extends Micropolis{
     
     @Override
     public PlayerInfo getPlayerInfo(int playerID) {
-//    	System.out.println(playerID + " :: " + playerInfo);
         return playerInfo;
     }
 }

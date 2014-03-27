@@ -93,12 +93,11 @@ public class ServerMicropolis extends Micropolis {
 
 	@Override
 	public PlayerInfo getPlayerInfo(int playerID) {
-//		System.out.println(playerID + " :: " + playerInfos.get(playerID));
 		return playerInfos.get(playerID);
 	}
 
 	private MapInfo generateMapInfo() {
-		MapInfo mapInfo = new MapInfo(map, sprites, cityTime);
+		MapInfo mapInfo = new MapInfo(map, sprites, cityTime, gameWonID);
 		// mapInfo.cityBudget = playerInfo.budget;
 		return mapInfo;
 	}
