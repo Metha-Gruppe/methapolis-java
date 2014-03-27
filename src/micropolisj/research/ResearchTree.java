@@ -45,10 +45,10 @@ public class ResearchTree implements Serializable {
 	//Set costs here
 	public ResearchTree() {
 		possible_nodes = new ResearchNode[] {
-				new RocketNode(1, 200), new RocketNode(2, 350), new RocketNode(3, 500)
-			  , new PoliceNode(1, 50), new PoliceNode(2, 100), new PoliceNode(3, 150)
-			  , new FiremanNode(1, 50), new FiremanNode(2, 100), new FiremanNode(3, 150)
-			  , new EnvironmentNode(1, 50), new EnvironmentNode(2, 100), new EnvironmentNode(3, 150)
+				new RocketNode(1, 1000), new RocketNode(2, 2500), new RocketNode(3, 5000)
+			  , new PoliceNode(1, 150), new PoliceNode(2, 350), new PoliceNode(3, 650)
+			  , new FiremanNode(1, 150), new FiremanNode(2, 350), new FiremanNode(3, 650)
+			  , new EnvironmentNode(1, 150), new EnvironmentNode(2, 350), new EnvironmentNode(3, 650)
 		};
 	}
 

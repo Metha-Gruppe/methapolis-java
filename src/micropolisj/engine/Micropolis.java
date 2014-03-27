@@ -144,7 +144,7 @@ public class Micropolis {
 	int researchDelay = 5; // amount of skipped ticks - higher number = fewer
 							// research points
 
-	int factorIncome = 4;	//factor - higher numbers increase income
+	int factorIncome = 10;	//factor - higher numbers increase income
 	int factorRoadFund = 5;	//divisor - higher numbers decrease funding costs
 
 	/**
