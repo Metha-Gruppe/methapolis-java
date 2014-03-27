@@ -281,7 +281,7 @@ class MapScanner extends TileBehavior {
 
 	void doUniversity(PlayerInfo playerInfo) {
 	    int tilePlayerID = Utilities.getPlayerID(rawTile);
-		city.getPlayerInfo(tilePlayerID).researchCount++;
+		playerInfo.researchCount++;
 		
 		if((city.cityTime % 8) == 0) {
 			repairZone(UNIVERSITY, 3);

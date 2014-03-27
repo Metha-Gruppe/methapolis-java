@@ -114,6 +114,29 @@ public class ServerMicropolis extends Micropolis {
 	public PlayerInfo getPlayerInfo(int playerID) {
 		return playerInfos.get(playerID);
 	}
+	
+	@Override
+	public void addResearchPoints(int playerID) {
+		// used in collectTaxPartial()
+		// Charger accumulates to Delay.
+		// playerInfo.researchEffect needs a divison as it is 1000 base.
+		// div 100 => you need at least 1 research station at 10% fund to get a
+		// point
+		if (researchDelayCharger >= researchDelay) {
+			System.out.println(playerID);
+			PlayerInfo info = getPlayerInfo(playerID);
+			System.out.println(">>>>>> " + info);
+			System.out.println(">>>>>> " + info.researchState);
+			info.researchData.researchPoints += (info.researchEffect * this.getCityPopulation(playerID)) / (100 * 3000);
+
+			if(info.researchState != null) {
+				info.researchState.refreshPanel();				
+			}
+			researchDelayCharger = 0;
+		} else {
+			researchDelayCharger++;
+		}
+	}
 
 	private MapInfo generateMapInfo() {
 		MapInfo mapInfo = new MapInfo(map, sprites, cityTime, gameWonID);

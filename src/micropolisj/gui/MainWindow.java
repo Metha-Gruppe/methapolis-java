@@ -1613,17 +1613,14 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		URL afile = sound.getAudioFile();
 		if(afile == null)
 			return;
-		System.out.println(afile);
 
 		boolean isOnScreen = drawingAreaScroll.getViewport().getViewRect().contains(drawingArea.getTileBounds(loc.x, loc.y));
 		if(sound == Sound.HONKHONK_LOW && !isOnScreen)
 			return;
 
 		try {
-			System.out.println(afile);
 			Clip clip = AudioSystem.getClip();
 			AudioInputStream audioStream = AudioSystem.getAudioInputStream(afile);
-			System.out.println(audioStream.getFormat());
 			clip.open(audioStream);
 			clip.start();
 		}

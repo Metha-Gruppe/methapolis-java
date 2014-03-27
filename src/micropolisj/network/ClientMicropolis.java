@@ -89,6 +89,32 @@ public class ClientMicropolis extends Micropolis{
     public int getPlayerID() {
         return remote.getID();
     }
+    @Override
+    public void addResearchPoints(int playerID) {
+		// used in collectTaxPartial()
+		// Charger accumulates to Delay.
+		// playerInfo.researchEffect needs a divison as it is 1000 base.
+		// div 100 => you need at least 1 research station at 10% fund to get a
+		// point
+		if (researchDelayCharger >= researchDelay) {
+			System.out.println(playerID);
+			PlayerInfo info = getPlayerInfo(playerID);
+			System.out.println(">>>>>> " + info);
+			System.out.println(">>>>>> " + info.researchState);
+			info.researchData.researchPoints += (info.researchEffect * this.getCityPopulation(playerID)) / (100 * 3000);
+			
+			PlayerInput input = new PlayerInput(null);
+			input.setResearchData(info.researchData);
+			this.getRemote().sendInput(input);
+
+			if(info.researchState != null) {
+				info.researchState.refreshPanel();				
+			}
+			researchDelayCharger = 0;
+		} else {
+			researchDelayCharger++;
+		}
+	}
     
     public String getPlayerIP() {
     	return remote.getIP();

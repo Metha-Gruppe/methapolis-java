@@ -65,13 +65,10 @@ public enum Sound
 	}
 	
 	public static void playSound(Sound sound, String fileEnding) {
-		System.out.println("playing a sound");
 		URL afile = sound.getAudioFile(fileEnding);
 		if(afile == null)	{
 			return;			
 		}
-		
-		// System.out.println(afile);
 
 		try {
 			Clip clip = AudioSystem.getClip();
