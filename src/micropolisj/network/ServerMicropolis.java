@@ -93,7 +93,6 @@ public class ServerMicropolis extends Micropolis {
 
 	@Override
 	public PlayerInfo getPlayerInfo(int playerID) {
-		System.out.println(playerID + " :: " + playerInfos.get(playerID));
 		return playerInfos.get(playerID);
 	}
 

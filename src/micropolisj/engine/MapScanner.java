@@ -70,7 +70,7 @@ class MapScanner extends TileBehavior {
 	@Override
 	public void apply() {
 		// TODO custom: wait for the playerInfo to be generated
-		PlayerInfo playerInfo = city.getPlayerInfo( Utilities.getPlayerID(rawTile) );
+		PlayerInfo playerInfo = city.getPlayerInfo(Utilities.getPlayerID(rawTile));
 		
 		if(playerInfo == null)	{
 			return;
@@ -212,7 +212,7 @@ class MapScanner extends TileBehavior {
 			repairZone(POWERPLANT, 4);
 		}
 
-		playerInfo.powerPlants.add(new CityLocation(xpos, ypos));
+		city.powerPlants.add(new CityLocation(xpos, ypos));
 	}
 
 	void doNuclearPower(PlayerInfo playerInfo) {
@@ -228,7 +228,7 @@ class MapScanner extends TileBehavior {
 			repairZone(NUCLEAR, 4);
 		}
 
-		playerInfo.powerPlants.add(new CityLocation(xpos, ypos));
+		city.powerPlants.add(new CityLocation(xpos, ypos));
 	}
 	
 	void doFireStation(PlayerInfo playerInfo) {

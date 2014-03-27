@@ -158,6 +158,9 @@ public class Micropolis {
 
 	// TODO: make it a List/array to hold every players information individually
 	public PlayerInfo playerInfo;
+	
+	public Stack<CityLocation> powerPlants = new Stack<CityLocation>();
+
 
 	public boolean autoBulldoze = true;
 	public boolean autoBudget = false;
@@ -507,7 +510,7 @@ public class Micropolis {
 		playerInfo.nuclearCount = 0;
 		playerInfo.seaportCount = 0;
 		playerInfo.airportCount = 0;
-		playerInfo.powerPlants.clear();
+		powerPlants.clear();
 
 		for(int y = 0; y < fireStMap.length; y++) {
 			for(int x = 0; x < fireStMap[y].length; x++) {
@@ -602,7 +605,9 @@ public class Micropolis {
 				break;
 
 			case 11:
+//			    System.out.println("starting powerscan");
 				powerScan();
+//				System.out.println("dont with powerscan");
 				fireMapOverlayDataChanged(MapState.POWER_OVERLAY);
 				playerInfo.newPower = true;
 				break;
@@ -957,11 +962,16 @@ public class Micropolis {
 		return false;
 	}
 
+	private int powerPlayer = 0;
+	
 	void powerScan() {
+	    if(powerPlayer % getNumberOfPlayers() == 0) {
+	        for(boolean[] bb : powerMap) {
+	            Arrays.fill(bb, false);
+	        }
+	    }
+	    powerPlayer++;
 		// clear powerMap
-		for(boolean[] bb : powerMap) {
-			Arrays.fill(bb, false);
-		}
 
 		//
 		// Note: brownouts are based on total number of power plants, not the number of powerplants connected to your city.
@@ -974,8 +984,8 @@ public class Micropolis {
 		// at
 		// this time.
 
-		while(!playerInfo.powerPlants.isEmpty()) {
-			CityLocation loc = playerInfo.powerPlants.pop();
+		while(!powerPlants.isEmpty()) {
+			CityLocation loc = powerPlants.pop();
 
 			int aDir = 4;
 			int conNum;
@@ -1000,7 +1010,7 @@ public class Micropolis {
 					dir++;
 				}
 				if(conNum > 1) {
-					playerInfo.powerPlants.add(new CityLocation(loc.x, loc.y));
+					powerPlants.add(new CityLocation(loc.x, loc.y));
 				}
 			}
 			while(conNum != 0);
@@ -2047,17 +2057,17 @@ public class Micropolis {
 		playerInfo.coalCount = 0;
 		playerInfo.nuclearCount = 0;
 
-		playerInfo.powerPlants.clear();
+		powerPlants.clear();
 		for(int y = 0; y < map.length; y++) {
 			for(int x = 0; x < map[y].length; x++) {
 				int tile = getTile(x, y);
 				if(tile == NUCLEAR) {
 					playerInfo.nuclearCount++;
-					playerInfo.powerPlants.add(new CityLocation(x, y));
+					powerPlants.add(new CityLocation(x, y));
 				}
 				else if(tile == POWERPLANT) {
 					playerInfo.coalCount++;
-					playerInfo.powerPlants.add(new CityLocation(x, y));
+					powerPlants.add(new CityLocation(x, y));
 				}
 			}
 		}
@@ -2670,7 +2680,6 @@ public class Micropolis {
 	}
 
 	public PlayerInfo getPlayerInfo(int playerID) {
-		System.out.println(playerID + " :: " + getPlayerID());
 		if(playerID == getPlayerID()) {
 			return playerInfo;
 		} else return null;
