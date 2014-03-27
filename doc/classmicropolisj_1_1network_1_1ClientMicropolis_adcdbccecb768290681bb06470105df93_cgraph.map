@@ -1,0 +1,6 @@
+<map id="micropolisj.network.ClientMicropolis.fireEvents" name="micropolisj.network.ClientMicropolis.fireEvents">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a36535134f3f591e3f9e9cf21fe22a7d1" title="micropolisj.engine.Micropolis.fire\lCensusChanged" alt="" coords="227,5,437,51"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1Micropolis.html#af16d75ef6a0d96af884158238659d353" title="micropolisj.engine.Micropolis.fire\lDemandChanged" alt="" coords="227,74,437,121"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1Micropolis.html#acea206906d2fec3e866f953fcd570c4a" title="micropolisj.engine.Micropolis.fire\lEvaluationChanged" alt="" coords="227,143,437,190"/>
+<area shape="rect" id="node9" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a76c3c964a59d4d8cfd5e5c560b4f886a" title="micropolisj.engine.Micropolis.fire\lFundsChanged" alt="" coords="227,213,437,259"/>
+</map>

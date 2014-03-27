@@ -1,0 +1,6 @@
+<map id="micropolisj.gui.MainWindow.onToolHover" name="micropolisj.gui.MainWindow.onToolHover">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1gui_1_1MicropolisDrawingArea.html#aaf5e2144b27e17d4eeda2f56df09ad22" title="micropolisj.gui.Micropolis\lDrawingArea.getCityLocation" alt="" coords="256,5,448,51"/>
+<area shape="rect" id="node5" href="$enummicropolisj_1_1engine_1_1MicropolisTool.html#a4df2e558f892bf7332dfb44515e4039e" title="micropolisj.engine.Micropolis\lTool.getHeight" alt="" coords="257,74,447,121"/>
+<area shape="rect" id="node7" href="$enummicropolisj_1_1engine_1_1MicropolisTool.html#afb3d3c538a20f4cd57f6c8c237fc9ba5" title="micropolisj.engine.Micropolis\lTool.getWidth" alt="" coords="257,143,447,190"/>
+<area shape="rect" id="node9" href="$classmicropolisj_1_1gui_1_1MicropolisDrawingArea.html#a10443a501f73ab6508e5e6e305c71f19" title="micropolisj.gui.Micropolis\lDrawingArea.setToolCursor" alt="" coords="261,213,443,259"/>
+</map>

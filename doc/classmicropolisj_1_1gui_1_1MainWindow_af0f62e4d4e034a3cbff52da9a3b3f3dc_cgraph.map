@@ -1,0 +1,4 @@
+<map id="micropolisj.gui.MainWindow.cityMessage" name="micropolisj.gui.MainWindow.cityMessage">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1gui_1_1MessagesPane.html#aaaee50fd7a7fa6dc81d9e37f57aee54b" title="micropolisj.gui.Messages\lPane.appendCityMessage" alt="" coords="265,5,439,51"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1gui_1_1NotificationPane.html#aceba381c738c57237b63baab834a01d5" title="micropolisj.gui.Notification\lPane.showMessage" alt="" coords="265,74,439,121"/>
+</map>

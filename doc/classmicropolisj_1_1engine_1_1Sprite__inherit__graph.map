@@ -1,0 +1,11 @@
+<map id="micropolisj.engine.Sprite" name="micropolisj.engine.Sprite">
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1AirplaneSprite.html" title="micropolisj.engine.Airplane\lSprite" alt="" coords="365,5,541,51"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1ExplosionSprite.html" title="micropolisj.engine.Explosion\lSprite" alt="" coords="360,74,547,121"/>
+<area shape="rect" id="node9" href="$classmicropolisj_1_1engine_1_1HelicopterSprite.html" title="micropolisj.engine.Helicopter\lSprite" alt="" coords="359,143,548,190"/>
+<area shape="rect" id="node11" href="$classmicropolisj_1_1engine_1_1MonsterSprite.html" title="micropolisj.engine.Monster\lSprite" alt="" coords="365,213,541,259"/>
+<area shape="rect" id="node13" href="$classmicropolisj_1_1engine_1_1RocketSprite.html" title="micropolisj.engine.Rocket\lSprite" alt="" coords="368,282,539,329"/>
+<area shape="rect" id="node15" href="$classmicropolisj_1_1engine_1_1ShipSprite.html" title="micropolisj.engine.ShipSprite" alt="" coords="359,352,548,381"/>
+<area shape="rect" id="node17" href="$classmicropolisj_1_1engine_1_1SpaceshipSprite.html" title="micropolisj.engine.Spaceship\lSprite" alt="" coords="359,405,548,451"/>
+<area shape="rect" id="node19" href="$classmicropolisj_1_1engine_1_1TornadoSprite.html" title="micropolisj.engine.Tornado\lSprite" alt="" coords="365,474,541,521"/>
+<area shape="rect" id="node21" href="$classmicropolisj_1_1engine_1_1TrainSprite.html" title="micropolisj.engine.Train\lSprite" alt="" coords="375,543,532,590"/>
+</map>

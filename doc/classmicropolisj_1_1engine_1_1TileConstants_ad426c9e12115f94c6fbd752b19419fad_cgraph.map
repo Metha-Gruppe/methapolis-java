@@ -1,0 +1,5 @@
+<map id="micropolisj.engine.TileConstants.getZoneSizeFor" name="micropolisj.engine.TileConstants.getZoneSizeFor">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1Tiles.html#a01cf537ad399a5cd4e8d120f2ffa8d0d" title="micropolisj.engine.Tiles.get" alt="" coords="564,40,743,69"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1TileSpec.html#ae1f80a93e2d571dd80be18974b278ec5" title="micropolisj.engine.TileSpec.get\lBuildingSize" alt="" coords="300,26,503,73"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1TileConstants.html#ac53933b377ce7a909d07c6e4f1bc3018" title="micropolisj.engine.TileConstants.is\lZoneCenter" alt="" coords="289,95,513,142"/>
+</map>

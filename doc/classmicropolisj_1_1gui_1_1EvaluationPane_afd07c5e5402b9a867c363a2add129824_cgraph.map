@@ -1,0 +1,10 @@
+<map id="micropolisj.gui.EvaluationPane.EvaluationPane" name="micropolisj.gui.EvaluationPane.EvaluationPane">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1gui_1_1EvaluationPane.html#a171dff7b5be618cb1f648e47773dda9a" title="micropolisj.gui.Evaluation\lPane.makePublicOpinionPane" alt="" coords="225,5,423,51"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1gui_1_1EvaluationPane.html#a7fae77652576aced1683b09c12a5a344" title="micropolisj.gui.Evaluation\lPane.makeStatisticsPane" alt="" coords="237,74,411,121"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1gui_1_1EvaluationPane.html#a928490b240d8ab5126d93481c5deda64" title="micropolisj.gui.Evaluation\lPane.onDismissClicked" alt="" coords="239,143,409,190"/>
+<area shape="rect" id="node9" href="$classmicropolisj_1_1gui_1_1EvaluationPane.html#ad82222780f33ce341c92a3fd81e5d90a" title="micropolisj.gui.Evaluation\lPane.setEngine" alt="" coords="239,213,409,259"/>
+<area shape="rect" id="node11" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a7ef20d34a55dba67a6b6d99719fe7538" title="micropolisj.engine.Micropolis.remove\lListener" alt="" coords="473,143,708,190"/>
+<area shape="rect" id="node13" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a1366a2ae9e3d566407a1343e75067fc9" title="micropolisj.engine.Micropolis.add\lListener" alt="" coords="484,213,697,259"/>
+<area shape="rect" id="node15" href="$classmicropolisj_1_1gui_1_1EvaluationPane.html#adec3e51dd879ce744959615fc6fa3b50" title="micropolisj.gui.Evaluation\lPane.loadEvaluation" alt="" coords="505,282,676,329"/>
+<area shape="rect" id="node17" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a9b384f78413fa4f716a90a7095dd3043" title="micropolisj.engine.Micropolis.get\lPlayerInfo" alt="" coords="757,282,968,329"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="micropolisj.research.ResearchState.showResearchPanel" name="micropolisj.research.ResearchState.showResearchPanel">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1research_1_1ResearchState.html#a0f022c7b13145f576dfc6033cc7b31e4" title="micropolisj.research.Research\lState.refreshPanel" alt="" coords="255,74,452,121"/>
+<area shape="rect" id="node5" href="$interfacemicropolisj_1_1research_1_1ResearchNode.html#a5d9dd9b25d11bf1118b318d27950ec8c" title="micropolisj.research.Research\lNode.getCost" alt="" coords="503,5,700,51"/>
+<area shape="rect" id="node7" href="$interfacemicropolisj_1_1research_1_1ResearchNode.html#ae87b18f1946e31b191fc6e7f610e4f96" title="micropolisj.research.Research\lNode.getDesc" alt="" coords="503,74,700,121"/>
+<area shape="rect" id="node9" href="$interfacemicropolisj_1_1research_1_1ResearchNode.html#a50bababce28d72b3371acd5772e246f2" title="micropolisj.research.Research\lNode.getName" alt="" coords="503,143,700,190"/>
+</map>

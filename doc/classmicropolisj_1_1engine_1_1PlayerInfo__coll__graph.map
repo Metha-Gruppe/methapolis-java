@@ -1,0 +1,24 @@
+<map id="micropolisj.engine.PlayerInfo" name="micropolisj.engine.PlayerInfo">
+<area shape="rect" id="node15" href="$classmicropolisj_1_1engine_1_1Micropolis.html" title="micropolisj.engine.Micropolis" alt="" coords="1119,567,1308,596"/>
+<area shape="rect" id="node4" href="$classmicropolisj_1_1research_1_1ResearchData.html" title="micropolisj.research.ResearchData" alt="" coords="147,957,373,987"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1CityEval.html" title="micropolisj.engine.CityEval" alt="" coords="1519,193,1697,223"/>
+<area shape="rect" id="node12" href="$enummicropolisj_1_1engine_1_1CityProblem.html" title="micropolisj.engine.CityProblem" alt="" coords="397,52,600,81"/>
+<area shape="rect" id="node31" href="$classmicropolisj_1_1engine_1_1CityLocation.html" title="micropolisj.engine.CityLocation" alt="" coords="397,687,600,716"/>
+<area shape="rect" id="node77" href="$enummicropolisj_1_1engine_1_1MicropolisTool.html" title="micropolisj.engine.MicropolisTool" alt="" coords="860,2221,1073,2251"/>
+<area shape="rect" id="node115" href="$classmicropolisj_1_1engine_1_1CityBudget.html" title="micropolisj.engine.CityBudget" alt="" coords="1511,881,1705,911"/>
+<area shape="rect" id="node119" href="$classmicropolisj_1_1research_1_1ResearchState.html" title="micropolisj.research.Research\lState" alt="" coords="1981,1809,2179,1855"/>
+<area shape="rect" id="node129" href="$classmicropolisj_1_1research_1_1ResearchTree.html" title="micropolisj.research.ResearchTree" alt="" coords="1496,1868,1720,1897"/>
+<area shape="rect" id="node43" href="$classmicropolisj_1_1gui_1_1MainWindow.html" title="micropolisj.gui.MainWindow" alt="" coords="2365,1012,2549,1041"/>
+<area shape="rect" id="node58" href="$classmicropolisj_1_1gui_1_1DemandIndicator.html" title="micropolisj.gui.DemandIndicator" alt="" coords="1976,512,2184,541"/>
+<area shape="rect" id="node66" href="$classmicropolisj_1_1gui_1_1EvaluationPane.html" title="micropolisj.gui.EvaluationPane" alt="" coords="1980,1012,2180,1041"/>
+<area shape="rect" id="node84" href="$classmicropolisj_1_1gui_1_1MicropolisDrawingArea.html" title="micropolisj.gui.Micropolis\lDrawingArea" alt="" coords="1524,999,1692,1046"/>
+<area shape="rect" id="node96" href="$classmicropolisj_1_1gui_1_1OverlayMapView.html" title="micropolisj.gui.OverlayMapView" alt="" coords="1744,448,1952,477"/>
+<area shape="rect" id="node101" href="$classmicropolisj_1_1gui_1_1GraphsPane.html" title="micropolisj.gui.GraphsPane" alt="" coords="1989,893,2171,923"/>
+<area shape="rect" id="node17" href="$interfacemicropolisj_1_1engine_1_1TempelListener.html" title="micropolisj.engine.Tempel\lListener" alt="" coords="643,253,816,299"/>
+<area shape="rect" id="node34" href="$enummicropolisj_1_1engine_1_1Speed.html" title="micropolisj.engine.Speed" alt="" coords="647,693,812,723"/>
+<area shape="rect" id="node47" href="$interfacemicropolisj_1_1engine_1_1Micropolis_1_1Listener.html" title="micropolisj.engine.Micropolis.\lListener" alt="" coords="1512,681,1704,727"/>
+<area shape="rect" id="node49" href="$interfacemicropolisj_1_1engine_1_1EarthquakeListener.html" title="micropolisj.engine.Earthquake\lListener" alt="" coords="1983,615,2177,662"/>
+<area shape="rect" id="node80" href="$classmicropolisj_1_1gui_1_1NotificationPane.html" title="micropolisj.gui.NotificationPane" alt="" coords="1977,1219,2183,1248"/>
+<area shape="rect" id="node92" href="$classmicropolisj_1_1gui_1_1MessagesPane.html" title="micropolisj.gui.MessagesPane" alt="" coords="1749,1635,1947,1664"/>
+<area shape="rect" id="node133" href="$interfacemicropolisj_1_1research_1_1ResearchNode.html" title="micropolisj.research.ResearchNode" alt="" coords="1099,1841,1328,1871"/>
+</map>

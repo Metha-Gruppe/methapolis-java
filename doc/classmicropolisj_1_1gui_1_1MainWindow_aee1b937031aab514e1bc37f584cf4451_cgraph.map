@@ -1,0 +1,5 @@
+<map id="micropolisj.gui.MainWindow.makeToolBtn" name="micropolisj.gui.MainWindow.makeToolBtn">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1gui_1_1MainWindow.html#a3fd8e1d2642aacaf0341f10c48ba8bb0" title="micropolisj.gui.MainWindow.selectTool" alt="" coords="275,48,523,77"/>
+<area shape="rect" id="node5" href="$enummicropolisj_1_1engine_1_1MicropolisTool.html#a364ee1563fd951874a0a6206a9bf856b" title="micropolisj.engine.Micropolis\lTool.getToolCost" alt="" coords="589,5,779,51"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1gui_1_1MainWindow.html#a58b0b9907fda7362e58f90ff12187919" title="micropolisj.gui.MainWindow.format\lFunds" alt="" coords="572,74,796,121"/>
+</map>

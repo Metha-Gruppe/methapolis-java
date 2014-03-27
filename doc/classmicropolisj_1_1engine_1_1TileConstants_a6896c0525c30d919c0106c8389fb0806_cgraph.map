@@ -1,0 +1,5 @@
+<map id="micropolisj.engine.TileConstants.isResidentialZoneAny" name="micropolisj.engine.TileConstants.isResidentialZoneAny">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1Tiles.html#a01cf537ad399a5cd4e8d120f2ffa8d0d" title="micropolisj.engine.Tiles.get" alt="" coords="292,5,471,35"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1TileSpec.html#abb2373c7052ca46faf68d52c90006017" title="micropolisj.engine.TileSpec.get\lBooleanAttribute" alt="" coords="280,58,483,105"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1TileSpec.html#ae667088251f7964b19f55cd95266fc45" title="micropolisj.engine.TileSpec.get\lAttribute" alt="" coords="531,58,733,105"/>
+</map>

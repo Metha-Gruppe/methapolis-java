@@ -1,0 +1,5 @@
+<map id="micropolisj.gui.BudgetDialog.onResetClicked" name="micropolisj.gui.BudgetDialog.onResetClicked">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a9b384f78413fa4f716a90a7095dd3043" title="micropolisj.engine.Micropolis.get\lPlayerInfo" alt="" coords="539,5,749,51"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1gui_1_1BudgetDialog.html#ab5b344494c422374856160f25170a6d9" title="micropolisj.gui.BudgetDialog.load\lBudgetNumbers" alt="" coords="260,65,473,111"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a888b1968fc13bab64a69a1b15d43ad8c" title="micropolisj.engine.Micropolis.generate\lBudget" alt="" coords="523,74,765,121"/>
+</map>

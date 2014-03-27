@@ -1,0 +1,6 @@
+<map id="micropolisj.gui.OverlayMapView.checkLandValueOverlay" name="micropolisj.gui.OverlayMapView.checkLandValueOverlay">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1gui_1_1OverlayMapView.html#a4d14552040c41245e51122626d4c336e" title="micropolisj.gui.OverlayMap\lView.getCI" alt="" coords="267,5,445,51"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a6afff3c19bd0d422b6d7de5cd26604bf" title="micropolisj.engine.Micropolis.get\lLandValue" alt="" coords="251,74,461,121"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a89da54cc75717ed9b05602ad5e3f55b3" title="micropolisj.engine.Micropolis.test\lBounds" alt="" coords="511,74,724,121"/>
+<area shape="rect" id="node9" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a3f21dfacf630d11cd0f7aca77f358f13" title="micropolisj.engine.Micropolis.get\lHeight" alt="" coords="773,74,984,121"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="micropolisj.gui.DemandIndicator.paintComponent" name="micropolisj.gui.DemandIndicator.paintComponent">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a35ea84f8f283245447685338fe4ef4a0" title="micropolisj.engine.Micropolis.get\lComValve" alt="" coords="293,5,504,51"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1Micropolis.html#ac2ce79dd25136ae10bb86909cd76f380" title="micropolisj.engine.Micropolis.get\lIndValve" alt="" coords="293,74,504,121"/>
+<area shape="rect" id="node10" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a3759f0208bc2af4400fe9339cb85fcd5" title="micropolisj.engine.Micropolis.get\lResValve" alt="" coords="293,143,504,190"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a9b384f78413fa4f716a90a7095dd3043" title="micropolisj.engine.Micropolis.get\lPlayerInfo" alt="" coords="552,74,763,121"/>
+</map>

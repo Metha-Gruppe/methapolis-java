@@ -1,0 +1,14 @@
+<map id="micropolisj.network.ServerMicropolis.animate" name="micropolisj.network.ServerMicropolis.animate">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1ToolStroke.html#aafcfeecd973225263e721af4058b639c" title="micropolisj.engine.ToolStroke.apply" alt="" coords="236,60,463,89"/>
+<area shape="rect" id="node15" href="$classmicropolisj_1_1network_1_1RemoteDistributor.html#a2467c710e49fe10b0e6244a8640c7170" title="micropolisj.network.Remote\lDistributor.clearInput" alt="" coords="257,113,441,159"/>
+<area shape="rect" id="node17" href="$classmicropolisj_1_1network_1_1ServerMicropolis.html#a633cceff7b40db098f5509c2e758c7d8" title="micropolisj.network.Server\lMicropolis.doBudgetInput" alt="" coords="261,182,437,229"/>
+<area shape="rect" id="node19" href="$classmicropolisj_1_1network_1_1ServerMicropolis.html#ab2e55ba531be6faa71c8c308f071563a" title="micropolisj.network.Server\lMicropolis.generateMapInfo" alt="" coords="259,251,440,298"/>
+<area shape="rect" id="node21" href="$classmicropolisj_1_1network_1_1RemoteDistributor.html#ad9f751eb18cdaed7c662725c4d096ca3" title="micropolisj.network.Remote\lDistributor.getInput" alt="" coords="257,321,441,367"/>
+<area shape="rect" id="node23" href="$classmicropolisj_1_1network_1_1ServerMicropolis.html#a6a8c511bb785450ce67a0ce0b9a9f433" title="micropolisj.network.Server\lMicropolis.getPlayerInfo" alt="" coords="261,390,437,437"/>
+<area shape="rect" id="node25" href="$classmicropolisj_1_1engine_1_1ToolStroke.html#a7ff423692576d0ed1ada6c81a9ad8d0e" title="micropolisj.engine.ToolStroke.setCity" alt="" coords="231,460,468,489"/>
+<area shape="rect" id="node27" href="$classmicropolisj_1_1network_1_1RemoteDistributor.html#a367826cd61084438f9fae747b03b58fb" title="micropolisj.network.Remote\lDistributor.setMapInfo" alt="" coords="257,513,441,559"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1ToolStroke.html#a2eb3441a9a19848d8a76336ac6163d14" title="micropolisj.engine.ToolStroke.applyArea" alt="" coords="519,60,772,89"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1ToolStroke.html#ae3673e554e181a3c55a10d9b8fbe8af1" title="micropolisj.engine.ToolStroke.get\lBounds" alt="" coords="823,51,1036,98"/>
+<area shape="rect" id="node9" href="$enummicropolisj_1_1engine_1_1MicropolisTool.html#a4df2e558f892bf7332dfb44515e4039e" title="micropolisj.engine.Micropolis\lTool.getHeight" alt="" coords="1085,5,1275,51"/>
+<area shape="rect" id="node11" href="$enummicropolisj_1_1engine_1_1MicropolisTool.html#afb3d3c538a20f4cd57f6c8c237fc9ba5" title="micropolisj.engine.Micropolis\lTool.getWidth" alt="" coords="1085,86,1275,133"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="micropolisj.gui.MainWindow.onDifficultyClicked" name="micropolisj.gui.MainWindow.onDifficultyClicked">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1gui_1_1MainWindow.html#ac1f77654437d73d0ae41ad5c10093ad5" title="micropolisj.gui.MainWindow.get\lEngine" alt="" coords="259,5,464,51"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a607e470de3ea4f4b222539b2f6492d52" title="micropolisj.engine.Micropolis.set\lGameLevel" alt="" coords="256,74,467,121"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1GameLevel.html#ade164b066f5b90a9ae3c2dc39f345460" title="micropolisj.engine.GameLevel.is\lValid" alt="" coords="515,74,725,121"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="micropolisj.engine.Micropolis.load" name="micropolisj.engine.Micropolis.load">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1Micropolis.html#af16d75ef6a0d96af884158238659d353" title="micropolisj.engine.Micropolis.fire\lDemandChanged" alt="" coords="272,5,483,51"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a76c3c964a59d4d8cfd5e5c560b4f886a" title="micropolisj.engine.Micropolis.fire\lFundsChanged" alt="" coords="272,74,483,121"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a4fc815f88ddaf14ead26f0ea262469c9" title="micropolisj.engine.Micropolis.fire\lWholeMapChanged" alt="" coords="272,143,483,190"/>
+</map>

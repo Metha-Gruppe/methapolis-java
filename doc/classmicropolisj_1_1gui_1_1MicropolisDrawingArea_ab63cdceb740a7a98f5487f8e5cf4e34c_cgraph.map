@@ -1,0 +1,9 @@
+<map id="micropolisj.gui.MicropolisDrawingArea.paintComponent" name="micropolisj.gui.MicropolisDrawingArea.paintComponent">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1Micropolis.html#aa384a9e6b3aede067bc79e15c19fed0f" title="micropolisj.engine.Micropolis.all\lSprites" alt="" coords="264,5,469,51"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a3f21dfacf630d11cd0f7aca77f358f13" title="micropolisj.engine.Micropolis.get\lHeight" alt="" coords="261,74,472,121"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a5fd56b0292b7b30c5d6a8808b593692d" title="micropolisj.engine.Micropolis.getTile" alt="" coords="251,144,483,173"/>
+<area shape="rect" id="node9" href="$classmicropolisj_1_1gui_1_1TileImages.html#a9de91bd5b59e00af02af4fd51ca55aaa" title="micropolisj.gui.TileImages.get\lTileImage" alt="" coords="269,197,464,243"/>
+<area shape="rect" id="node11" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a7626a1780d1141bc8c99e4cf1f22abb9" title="micropolisj.engine.Micropolis.get\lWidth" alt="" coords="261,266,472,313"/>
+<area shape="rect" id="node13" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a286a814037603f88eff65313fce6d640" title="micropolisj.engine.Micropolis.is\lTilePowered" alt="" coords="265,335,468,382"/>
+<area shape="rect" id="node15" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a26dd186f06261b5d8dacffc3467559ee" title="micropolisj.engine.Micropolis.get\lTileRaw" alt="" coords="531,335,741,382"/>
+</map>

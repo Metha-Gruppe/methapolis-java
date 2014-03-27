@@ -1,0 +1,10 @@
+<map id="micropolisj.engine.MapGenerator.doRivers" name="micropolisj.engine.MapGenerator.doRivers">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1MapGenerator.html#a12612523186ad875e22555f94e3354fd" title="micropolisj.engine.MapGenerator.doBRiv" alt="" coords="285,69,544,98"/>
+<area shape="rect" id="node16" href="$classmicropolisj_1_1engine_1_1MapGenerator.html#adcc0fde74e16cb863a475f5fe9312a4b" title="micropolisj.engine.MapGenerator.doSRiv" alt="" coords="285,142,544,172"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1MapGenerator.html#aa8d70699db9060cb0c71c6737e1f8d06" title="micropolisj.engine.MapGenerator.\lBRivPlop" alt="" coords="621,30,837,76"/>
+<area shape="rect" id="node9" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a89da54cc75717ed9b05602ad5e3f55b3" title="micropolisj.engine.Micropolis.test\lBounds" alt="" coords="1199,91,1412,138"/>
+<area shape="rect" id="node13" href="$classmicropolisj_1_1engine_1_1MapGenerator.html#ab56db78fd7874d3d8804040afb334588" title="micropolisj.engine.MapGenerator.moveMap" alt="" coords="593,100,865,129"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1MapGenerator.html#aa1a2a468658dec5a0d14d3f900ae6675" title="micropolisj.engine.MapGenerator.put\lOnMap" alt="" coords="915,91,1149,138"/>
+<area shape="rect" id="node11" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a3f21dfacf630d11cd0f7aca77f358f13" title="micropolisj.engine.Micropolis.get\lHeight" alt="" coords="1461,91,1672,138"/>
+<area shape="rect" id="node19" href="$classmicropolisj_1_1engine_1_1MapGenerator.html#a9ea5ce416aea5508825821130d46236c" title="micropolisj.engine.MapGenerator.\lSRivPlop" alt="" coords="621,152,837,199"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="micropolisj.gui.MainWindow.updateDateLabel" name="micropolisj.gui.MainWindow.updateDateLabel">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1gui_1_1MainWindow.html#a8af375137c7826b23e69dcfef42a053d" title="micropolisj.gui.MainWindow.format\lGameDate" alt="" coords="281,5,505,51"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1gui_1_1MainWindow.html#ac1f77654437d73d0ae41ad5c10093ad5" title="micropolisj.gui.MainWindow.get\lEngine" alt="" coords="291,74,496,121"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1Micropolis.html#aa8738c432f8b233862dc99ce9a34fb11" title="micropolisj.engine.Micropolis.get\lPlayerID" alt="" coords="288,143,499,190"/>
+</map>

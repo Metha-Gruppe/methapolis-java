@@ -1,0 +1,5 @@
+<map id="micropolisj.engine.ToolStroke.fixZone" name="micropolisj.engine.ToolStroke.fixZone">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1ToolStroke.html#ac4d22707af26866b9ad6ca17ef508975" title="micropolisj.engine.ToolStroke.fix\lSingle" alt="" coords="293,39,504,86"/>
+<area shape="rect" id="node5" href="$interfacemicropolisj_1_1engine_1_1ToolEffectIfc.html#a67843f5812160de03ec21aaf56c5a96f" title="micropolisj.engine.ToolEffect\lIfc.getTile" alt="" coords="553,5,743,51"/>
+<area shape="rect" id="node7" href="$interfacemicropolisj_1_1engine_1_1ToolEffectIfc.html#a415b41eac67169dd4eb09ff854453bc7" title="micropolisj.engine.ToolEffect\lIfc.setTile" alt="" coords="553,74,743,121"/>
+</map>

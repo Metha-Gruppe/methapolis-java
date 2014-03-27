@@ -1,0 +1,9 @@
+<map id="micropolisj.engine.Micropolis.addResearchPoints" name="micropolisj.engine.Micropolis.addResearchPoints">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a3a69ee4aef4211cff0e6b4530ff666c1" title="micropolisj.engine.Micropolis.get\lCityPopulation" alt="" coords="269,5,480,51"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a9b384f78413fa4f716a90a7095dd3043" title="micropolisj.engine.Micropolis.get\lPlayerInfo" alt="" coords="269,74,480,121"/>
+<area shape="rect" id="node9" href="$classmicropolisj_1_1research_1_1ResearchState.html#a0f022c7b13145f576dfc6033cc7b31e4" title="micropolisj.research.Research\lState.refreshPanel" alt="" coords="276,143,473,190"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1Micropolis.html#aa8738c432f8b233862dc99ce9a34fb11" title="micropolisj.engine.Micropolis.get\lPlayerID" alt="" coords="528,5,739,51"/>
+<area shape="rect" id="node11" href="$interfacemicropolisj_1_1research_1_1ResearchNode.html#a50bababce28d72b3371acd5772e246f2" title="micropolisj.research.Research\lNode.getName" alt="" coords="535,74,732,121"/>
+<area shape="rect" id="node13" href="$interfacemicropolisj_1_1research_1_1ResearchNode.html#ae87b18f1946e31b191fc6e7f610e4f96" title="micropolisj.research.Research\lNode.getDesc" alt="" coords="535,143,732,190"/>
+<area shape="rect" id="node15" href="$interfacemicropolisj_1_1research_1_1ResearchNode.html#a5d9dd9b25d11bf1118b318d27950ec8c" title="micropolisj.research.Research\lNode.getCost" alt="" coords="535,213,732,259"/>
+</map>

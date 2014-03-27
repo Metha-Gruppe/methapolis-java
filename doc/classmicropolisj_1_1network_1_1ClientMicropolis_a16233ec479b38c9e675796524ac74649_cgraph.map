@@ -1,0 +1,20 @@
+<map id="micropolisj.network.ClientMicropolis.animate" name="micropolisj.network.ClientMicropolis.animate">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a37814f5e1e88fe9cf5fcb792767018d1" title="micropolisj.engine.Micropolis.animate\lTiles" alt="" coords="228,50,465,97"/>
+<area shape="rect" id="node11" href="$classmicropolisj_1_1network_1_1ClientMicropolis.html#ad43f877f7456fc11847ff3554f185085" title="micropolisj.network.Client\lMicropolis.applyMapInfo" alt="" coords="261,147,432,194"/>
+<area shape="rect" id="node14" href="$classmicropolisj_1_1network_1_1ClientMicropolis.html#a03ba4d29ae42ff5dbd9c800fe86f3c65" title="micropolisj.network.Client\lMicropolis.applyPlayerInfo" alt="" coords="260,273,433,319"/>
+<area shape="rect" id="node18" href="$classmicropolisj_1_1network_1_1ClientMicropolis.html#adcdbccecb768290681bb06470105df93" title="micropolisj.network.Client\lMicropolis.fireEvents" alt="" coords="261,357,432,403"/>
+<area shape="rect" id="node28" href="$classmicropolisj_1_1network_1_1RemoteClient.html#ad16a7c5c893c99f66f117d52cd554616" title="micropolisj.network.Remote\lClient.getMap" alt="" coords="255,434,439,481"/>
+<area shape="rect" id="node32" href="$classmicropolisj_1_1network_1_1RemoteClient.html#a568c4d1fa5f87bc20f30a1b8ce290d93" title="micropolisj.network.Remote\lClient.getPlayerInfo" alt="" coords="255,521,439,567"/>
+<area shape="rect" id="node36" href="$classmicropolisj_1_1engine_1_1Micropolis.html#af34d4d6999be46f63fc0ee14d02a955a" title="micropolisj.engine.Micropolis.move\lObjects" alt="" coords="235,625,459,671"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1Tiles.html#a01cf537ad399a5cd4e8d120f2ffa8d0d" title="micropolisj.engine.Tiles.get" alt="" coords="541,5,720,35"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1Micropolis.html#ab663032871d65caceda7067c3dd2bac4" title="micropolisj.engine.Micropolis.setTile" alt="" coords="515,59,747,88"/>
+<area shape="rect" id="node9" href="$classmicropolisj_1_1engine_1_1Micropolis.html#ab4ed99f75abb46de68fe157cb3cf2b64" title="micropolisj.engine.Micropolis.fire\lTileChanged" alt="" coords="795,77,1005,123"/>
+<area shape="rect" id="node16" href="$classmicropolisj_1_1engine_1_1CityEval.html#a110199bb4fbba8536f14e2746eee3517" title="micropolisj.engine.CityEval.set\lEngine" alt="" coords="529,162,732,209"/>
+<area shape="rect" id="node20" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a36535134f3f591e3f9e9cf21fe22a7d1" title="micropolisj.engine.Micropolis.fire\lCensusChanged" alt="" coords="525,231,736,278"/>
+<area shape="rect" id="node22" href="$classmicropolisj_1_1engine_1_1Micropolis.html#acea206906d2fec3e866f953fcd570c4a" title="micropolisj.engine.Micropolis.fire\lEvaluationChanged" alt="" coords="525,301,736,347"/>
+<area shape="rect" id="node24" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a76c3c964a59d4d8cfd5e5c560b4f886a" title="micropolisj.engine.Micropolis.fire\lFundsChanged" alt="" coords="525,370,736,417"/>
+<area shape="rect" id="node26" href="$classmicropolisj_1_1engine_1_1Micropolis.html#af16d75ef6a0d96af884158238659d353" title="micropolisj.engine.Micropolis.fire\lDemandChanged" alt="" coords="525,439,736,486"/>
+<area shape="rect" id="node30" href="$interfacemicropolisj_1_1network_1_1IMicropolisServer.html#a947af9e725ef6bb9a021da247e884bc6" title="micropolisj.network.IMicropolis\lServer.getLatestMap" alt="" coords="531,509,731,555"/>
+<area shape="rect" id="node34" href="$interfacemicropolisj_1_1network_1_1IMicropolisServer.html#afd469dd2de4487d02c6e4f66f4d8e34c" title="micropolisj.network.IMicropolis\lServer.getPlayerInfo" alt="" coords="531,578,731,625"/>
+<area shape="rect" id="node38" href="$classmicropolisj_1_1engine_1_1Micropolis.html#aa384a9e6b3aede067bc79e15c19fed0f" title="micropolisj.engine.Micropolis.all\lSprites" alt="" coords="528,647,733,694"/>
+</map>

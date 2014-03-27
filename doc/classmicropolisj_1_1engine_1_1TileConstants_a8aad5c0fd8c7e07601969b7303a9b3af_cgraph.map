@@ -1,0 +1,5 @@
+<map id="micropolisj.engine.TileConstants.residentialZonePop" name="micropolisj.engine.TileConstants.residentialZonePop">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1Tiles.html#a01cf537ad399a5cd4e8d120f2ffa8d0d" title="micropolisj.engine.Tiles.get" alt="" coords="340,5,519,35"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1TileSpec.html#a29e3df7780868393a9b0332aed9e8362" title="micropolisj.engine.TileSpec.get\lPopulation" alt="" coords="328,58,531,105"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1TileSpec.html#ae667088251f7964b19f55cd95266fc45" title="micropolisj.engine.TileSpec.get\lAttribute" alt="" coords="579,58,781,105"/>
+</map>

@@ -1,0 +1,34 @@
+<map id="micropolisj.gui.MainWindow.onToolUp" name="micropolisj.gui.MainWindow.onToolUp">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1ToolStroke.html#aafcfeecd973225263e721af4058b639c" title="micropolisj.engine.ToolStroke.apply" alt="" coords="257,85,484,115"/>
+<area shape="rect" id="node15" href="$classmicropolisj_1_1engine_1_1ToolStroke.html#a8605d10b690eab01b5d165ae07de6975" title="micropolisj.engine.ToolStroke.get\lLocation" alt="" coords="264,207,477,254"/>
+<area shape="rect" id="node17" href="$classmicropolisj_1_1gui_1_1MainWindow.html#aee7142ebffaa61bea2fbe3e8da71bb5e" title="micropolisj.gui.MainWindow.on\lToolHover" alt="" coords="856,147,1059,194"/>
+<area shape="rect" id="node25" href="$classmicropolisj_1_1gui_1_1MicropolisDrawingArea.html#ab29519063ea4c3157d59ba7278a35ee2" title="micropolisj.gui.Micropolis\lDrawingArea.setToolPreview" alt="" coords="276,277,465,323"/>
+<area shape="rect" id="node27" href="$classmicropolisj_1_1gui_1_1MainWindow.html#a3b05852eb3128ddd594642716d9adc1a" title="micropolisj.gui.MainWindow.show\lBudgetWindow" alt="" coords="261,346,480,393"/>
+<area shape="rect" id="node65" href="$classmicropolisj_1_1gui_1_1MainWindow.html#acfd4cb2680b1f6ad0de8d87f7b90b91a" title="micropolisj.gui.MainWindow.show\lToolResult" alt="" coords="261,649,480,695"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1ToolStroke.html#a2eb3441a9a19848d8a76336ac6163d14" title="micropolisj.engine.ToolStroke.applyArea" alt="" coords="535,67,788,96"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1ToolStroke.html#ae3673e554e181a3c55a10d9b8fbe8af1" title="micropolisj.engine.ToolStroke.get\lBounds" alt="" coords="851,27,1064,74"/>
+<area shape="rect" id="node9" href="$enummicropolisj_1_1engine_1_1MicropolisTool.html#a4df2e558f892bf7332dfb44515e4039e" title="micropolisj.engine.Micropolis\lTool.getHeight" alt="" coords="1151,14,1340,61"/>
+<area shape="rect" id="node11" href="$enummicropolisj_1_1engine_1_1MicropolisTool.html#afb3d3c538a20f4cd57f6c8c237fc9ba5" title="micropolisj.engine.Micropolis\lTool.getWidth" alt="" coords="1151,83,1340,130"/>
+<area shape="rect" id="node19" href="$classmicropolisj_1_1gui_1_1MicropolisDrawingArea.html#aaf5e2144b27e17d4eeda2f56df09ad22" title="micropolisj.gui.Micropolis\lDrawingArea.getCityLocation" alt="" coords="1149,153,1341,199"/>
+<area shape="rect" id="node23" href="$classmicropolisj_1_1gui_1_1MicropolisDrawingArea.html#a10443a501f73ab6508e5e6e305c71f19" title="micropolisj.gui.Micropolis\lDrawingArea.setToolCursor" alt="" coords="1155,222,1336,269"/>
+<area shape="rect" id="node29" href="$classmicropolisj_1_1gui_1_1MainWindow.html#a79d7a2636122f6ac3f8880fe054134ed" title="micropolisj.gui.MainWindow.stop\lTimer" alt="" coords="851,267,1064,314"/>
+<area shape="rect" id="node31" href="$classmicropolisj_1_1gui_1_1MainWindow.html#ac1f77654437d73d0ae41ad5c10093ad5" title="micropolisj.gui.MainWindow.get\lEngine" alt="" coords="1143,314,1348,361"/>
+<area shape="rect" id="node33" href="$classmicropolisj_1_1gui_1_1MainWindow.html#a4673ea46385a536902afb8ab993a905d" title="micropolisj.gui.MainWindow.start\lTimer" alt="" coords="555,397,768,443"/>
+<area shape="rect" id="node37" href="$classmicropolisj_1_1engine_1_1Micropolis.html#ae85851a04c5b4c4277a9c869db14f4c2" title="micropolisj.engine.Micropolis.animate" alt="" coords="839,527,1076,556"/>
+<area shape="rect" id="node53" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a3ef934ad63bfcd84f14ba3a2503c8a65" title="micropolisj.engine.Micropolis.is\lBudgetTime" alt="" coords="856,337,1059,383"/>
+<area shape="rect" id="node55" href="$classmicropolisj_1_1gui_1_1MainWindow.html#a033a5df0abeb281d27551b89fefd0a9c" title="micropolisj.gui.MainWindow.show\lAutoBudget" alt="" coords="848,579,1067,626"/>
+<area shape="rect" id="node58" href="$classmicropolisj_1_1gui_1_1MainWindow.html#a7eda5b113b5bab5e25fb854d9570f061" title="micropolisj.gui.MainWindow.update\lDateLabel" alt="" coords="844,457,1071,503"/>
+<area shape="rect" id="node39" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a37814f5e1e88fe9cf5fcb792767018d1" title="micropolisj.engine.Micropolis.animate\lTiles" alt="" coords="1127,591,1364,638"/>
+<area shape="rect" id="node47" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a60dfa684c2108995b177e45d7456b9eb" title="micropolisj.engine.Micropolis.get\lNumberOfPlayers" alt="" coords="1140,661,1351,707"/>
+<area shape="rect" id="node49" href="$classmicropolisj_1_1engine_1_1Micropolis.html#af34d4d6999be46f63fc0ee14d02a955a" title="micropolisj.engine.Micropolis.move\lObjects" alt="" coords="1133,522,1357,569"/>
+<area shape="rect" id="node41" href="$classmicropolisj_1_1engine_1_1Tiles.html#a01cf537ad399a5cd4e8d120f2ffa8d0d" title="micropolisj.engine.Tiles.get" alt="" coords="1440,596,1619,625"/>
+<area shape="rect" id="node43" href="$classmicropolisj_1_1engine_1_1Micropolis.html#ab663032871d65caceda7067c3dd2bac4" title="micropolisj.engine.Micropolis.setTile" alt="" coords="1413,649,1645,679"/>
+<area shape="rect" id="node45" href="$classmicropolisj_1_1engine_1_1Micropolis.html#ab4ed99f75abb46de68fe157cb3cf2b64" title="micropolisj.engine.Micropolis.fire\lTileChanged" alt="" coords="1693,641,1904,687"/>
+<area shape="rect" id="node51" href="$classmicropolisj_1_1engine_1_1Micropolis.html#aa384a9e6b3aede067bc79e15c19fed0f" title="micropolisj.engine.Micropolis.all\lSprites" alt="" coords="1427,522,1632,569"/>
+<area shape="rect" id="node60" href="$classmicropolisj_1_1gui_1_1MainWindow.html#a8af375137c7826b23e69dcfef42a053d" title="micropolisj.gui.MainWindow.format\lGameDate" alt="" coords="1133,383,1357,430"/>
+<area shape="rect" id="node63" href="$classmicropolisj_1_1engine_1_1Micropolis.html#aa8738c432f8b233862dc99ce9a34fb11" title="micropolisj.engine.Micropolis.get\lPlayerID" alt="" coords="1140,453,1351,499"/>
+<area shape="rect" id="node67" href="$classmicropolisj_1_1gui_1_1MainWindow.html#a16582b6fde083441ab6506180082b87e" title="micropolisj.gui.MainWindow.city\lSound" alt="" coords="557,649,765,695"/>
+<area shape="rect" id="node73" href="$classmicropolisj_1_1gui_1_1MessagesPane.html#aaaee50fd7a7fa6dc81d9e37f57aee54b" title="micropolisj.gui.Messages\lPane.appendCityMessage" alt="" coords="575,718,748,765"/>
+<area shape="rect" id="node69" href="$enummicropolisj_1_1engine_1_1Sound.html#a8423ddc8d604f924dfc16b1f90ada23a" title="micropolisj.engine.Sound.get\lAudioFile" alt="" coords="863,718,1052,765"/>
+<area shape="rect" id="node71" href="$classmicropolisj_1_1gui_1_1MicropolisDrawingArea.html#a63845f42dd5c51397105b891020becef" title="micropolisj.gui.Micropolis\lDrawingArea.getTileBounds" alt="" coords="865,649,1049,695"/>
+</map>

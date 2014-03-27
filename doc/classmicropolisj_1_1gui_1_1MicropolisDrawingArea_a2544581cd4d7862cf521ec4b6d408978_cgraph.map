@@ -1,0 +1,6 @@
+<map id="micropolisj.gui.MicropolisDrawingArea.selectTileSize" name="micropolisj.gui.MicropolisDrawingArea.selectTileSize">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1gui_1_1TileImages.html#a99e15eec172c44e0bade594b61139727" title="micropolisj.gui.TileImages.get\lInstance" alt="" coords="237,39,432,86"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1gui_1_1TileImages.html#a3c1d1f50ba15f70fac2990e684281a4a" title="micropolisj.gui.TileImages.\lTileImages" alt="" coords="481,39,657,86"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1gui_1_1TileImages.html#a3a422fdd91fda2990f9c2530d70da8a3" title="micropolisj.gui.TileImages.load\lTileImages" alt="" coords="708,5,908,51"/>
+<area shape="rect" id="node9" href="$classmicropolisj_1_1gui_1_1TileImages.html#ae19d09b5cca0b4ccbb2c60e0d5d6b0da" title="micropolisj.gui.TileImages.load\lSpriteImages" alt="" coords="708,74,908,121"/>
+</map>

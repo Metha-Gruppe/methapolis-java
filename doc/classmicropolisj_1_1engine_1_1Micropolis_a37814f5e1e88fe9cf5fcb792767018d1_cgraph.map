@@ -1,0 +1,5 @@
+<map id="micropolisj.engine.Micropolis.animateTiles" name="micropolisj.engine.Micropolis.animateTiles">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1Tiles.html#a01cf537ad399a5cd4e8d120f2ffa8d0d" title="micropolisj.engine.Tiles.get" alt="" coords="320,5,499,35"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1Micropolis.html#ab663032871d65caceda7067c3dd2bac4" title="micropolisj.engine.Micropolis.setTile" alt="" coords="293,59,525,88"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1Micropolis.html#ab4ed99f75abb46de68fe157cb3cf2b64" title="micropolisj.engine.Micropolis.fire\lTileChanged" alt="" coords="573,50,784,97"/>
+</map>

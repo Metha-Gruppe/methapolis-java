@@ -1,0 +1,8 @@
+<map id="micropolisj.gui.NewCityDialog.onPlayClicked" name="micropolisj.gui.NewCityDialog.onPlayClicked">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1gui_1_1NewCityDialog.html#a3cee30562c60aa660a2715ec01cd22c4" title="micropolisj.gui.NewCityDialog.get\lSelectedGameLevel" alt="" coords="269,5,488,51"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1GameLevel.html#a52443386df0c945dcfd36ff72e7194b2" title="micropolisj.engine.GameLevel.get\lStartingFunds" alt="" coords="269,74,488,121"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a6fd46107b57cf9616a0a0f575a2384a2" title="micropolisj.engine.Micropolis.set\lFunds" alt="" coords="273,143,484,190"/>
+<area shape="rect" id="node11" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a607e470de3ea4f4b222539b2f6492d52" title="micropolisj.engine.Micropolis.set\lGameLevel" alt="" coords="273,213,484,259"/>
+<area shape="rect" id="node9" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a9b384f78413fa4f716a90a7095dd3043" title="micropolisj.engine.Micropolis.get\lPlayerInfo" alt="" coords="536,143,747,190"/>
+<area shape="rect" id="node13" href="$classmicropolisj_1_1engine_1_1GameLevel.html#ade164b066f5b90a9ae3c2dc39f345460" title="micropolisj.engine.GameLevel.is\lValid" alt="" coords="536,213,747,259"/>
+</map>

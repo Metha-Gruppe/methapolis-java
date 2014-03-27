@@ -1,0 +1,16 @@
+<map id="micropolisj.gui.BudgetDialog.BudgetDialog" name="micropolisj.gui.BudgetDialog.BudgetDialog">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1gui_1_1BudgetDialog.html#a7433c515a4cb0c66f0357481950f12d7" title="micropolisj.gui.BudgetDialog.apply\lChange" alt="" coords="247,74,468,121"/>
+<area shape="rect" id="node9" href="$classmicropolisj_1_1gui_1_1BudgetDialog.html#ab5b344494c422374856160f25170a6d9" title="micropolisj.gui.BudgetDialog.load\lBudgetNumbers" alt="" coords="525,134,739,181"/>
+<area shape="rect" id="node15" href="$classmicropolisj_1_1gui_1_1BudgetDialog.html#a65f76ffefdbf7f9ab77b7b45abca5832" title="micropolisj.gui.BudgetDialog.make\lBalancePane" alt="" coords="247,194,468,241"/>
+<area shape="rect" id="node17" href="$classmicropolisj_1_1gui_1_1BudgetDialog.html#aeec8714d579bc31a0e041dbf05e9d6e6" title="micropolisj.gui.BudgetDialog.make\lFundingRatesPane" alt="" coords="247,263,468,310"/>
+<area shape="rect" id="node19" href="$classmicropolisj_1_1gui_1_1BudgetDialog.html#ae5c674857857664bba369f553a09b722" title="micropolisj.gui.BudgetDialog.make\lOptionsPane" alt="" coords="247,333,468,379"/>
+<area shape="rect" id="node21" href="$classmicropolisj_1_1gui_1_1BudgetDialog.html#adb830c0ffe6fb9eef28db1c1d1d67c44" title="micropolisj.gui.BudgetDialog.make\lTaxPane" alt="" coords="247,402,468,449"/>
+<area shape="rect" id="node23" href="$classmicropolisj_1_1gui_1_1BudgetDialog.html#a97d5203436a40117f0d9d550e6d04a23" title="micropolisj.gui.BudgetDialog.on\lContinueClicked" alt="" coords="255,471,460,518"/>
+<area shape="rect" id="node29" href="$classmicropolisj_1_1gui_1_1BudgetDialog.html#acd5031b526a3e4e71378627ffef1e773" title="micropolisj.gui.BudgetDialog.on\lResetClicked" alt="" coords="255,5,460,51"/>
+<area shape="rect" id="node33" href="$classmicropolisj_1_1gui_1_1BudgetDialog.html#a2f1f3f752754918dc7d9559baa1ba780" title="micropolisj.gui.BudgetDialog.set\lAutoRequestFocus_compat" alt="" coords="253,541,461,587"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1Micropolis.html#aba12fb5eb37fa430f1b561d716af7365" title="micropolisj.engine.Micropolis.set\lBudgetNumbers" alt="" coords="527,65,737,111"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a9b384f78413fa4f716a90a7095dd3043" title="micropolisj.engine.Micropolis.get\lPlayerInfo" alt="" coords="811,65,1021,111"/>
+<area shape="rect" id="node11" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a888b1968fc13bab64a69a1b15d43ad8c" title="micropolisj.engine.Micropolis.generate\lBudget" alt="" coords="795,134,1037,181"/>
+<area shape="rect" id="node25" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a10f3c81fe942b56555c264e29fbade02" title="micropolisj.engine.Micropolis.toggle\lAutoBudget" alt="" coords="519,506,745,553"/>
+<area shape="rect" id="node27" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a9e55137cde1f1776cb0b79eeeb26aea4" title="micropolisj.engine.Micropolis.set\lSpeed" alt="" coords="527,437,737,483"/>
+</map>

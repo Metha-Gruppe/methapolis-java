@@ -1,0 +1,10 @@
+<map id="micropolisj.util.TranslationTool.TranslationTool" name="micropolisj.util.TranslationTool.TranslationTool">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1util_1_1TranslationTool.html#ac95e79335db7f01619d01ad7ee0382af" title="micropolisj.util.Translation\lTool.closeWindow" alt="" coords="239,5,412,51"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1util_1_1TranslationTool.html#ab78032ff519ca86af531076de91e23c0" title="micropolisj.util.Translation\lTool.onAddLocaleClicked" alt="" coords="239,143,412,190"/>
+<area shape="rect" id="node10" href="$classmicropolisj_1_1util_1_1TranslationTool.html#a54688909430fbb21025b023edba01dae" title="micropolisj.util.Translation\lTool.updateButtonsEnabled" alt="" coords="473,213,655,259"/>
+<area shape="rect" id="node12" href="$classmicropolisj_1_1util_1_1TranslationTool.html#a51704c5c075f24cd33023081ad6a470f" title="micropolisj.util.Translation\lTool.onRemoveLocaleClicked" alt="" coords="228,213,423,259"/>
+<area shape="rect" id="node16" href="$classmicropolisj_1_1util_1_1TranslationTool.html#ab474a6d973a165c022713471471add31" title="micropolisj.util.Translation\lTool.onSubmitClicked" alt="" coords="239,74,412,121"/>
+<area shape="rect" id="node19" href="$classmicropolisj_1_1util_1_1TranslationTool.html#a4cbfdbd855323c89010e0afa51a67a22" title="micropolisj.util.Translation\lTool.onTestClicked" alt="" coords="239,282,412,329"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1util_1_1TranslationTool.html#af3341f00d7c9fbca1e6faa244493eb65" title="micropolisj.util.Translation\lTool.maybeSave" alt="" coords="477,143,651,190"/>
+<area shape="rect" id="node22" href="$classmicropolisj_1_1util_1_1TranslationTool.html#a49863069438e15d31d25c3af1b23058c" title="micropolisj.util.Translation\lTool.getMicropolisJarFile" alt="" coords="477,282,651,329"/>
+</map>

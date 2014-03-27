@@ -1,0 +1,6 @@
+<map id="micropolisj.engine.TileConstants.getPollutionValue" name="micropolisj.engine.TileConstants.getPollutionValue">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1Tiles.html#a01cf537ad399a5cd4e8d120f2ffa8d0d" title="micropolisj.engine.Tiles.get" alt="" coords="300,5,479,35"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1TileSpec.html#a074a540173f9a8b6e44a708644b7e8ca" title="micropolisj.engine.TileSpec.get\lPollutionValue" alt="" coords="288,82,491,129"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1TileSpec.html#ae667088251f7964b19f55cd95266fc45" title="micropolisj.engine.TileSpec.get\lAttribute" alt="" coords="541,47,744,94"/>
+<area shape="rect" id="node9" href="$classmicropolisj_1_1engine_1_1TileSpec.html#a527c4ab19afbd7af2555683df7dd6933" title="micropolisj.engine.TileSpec.use\lPollutionResearch" alt="" coords="540,117,745,163"/>
+</map>

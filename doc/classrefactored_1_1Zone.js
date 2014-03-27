@@ -1,0 +1,28 @@
+var classrefactored_1_1Zone =
+[
+    [ "Zone", "classrefactored_1_1Zone.html#aa6b8d1eba2e81ce044b3f7df07323b8d", null ],
+    [ "Zone", "classrefactored_1_1Zone.html#a545333f6617b15d43fe760ed4144ee84", null ],
+    [ "getBuildings", "classrefactored_1_1Zone.html#aa76b914c610421deb837502bc993744b", null ],
+    [ "getHeight", "classrefactored_1_1Zone.html#af4fcdfa960078cd3defab43c8e911771", null ],
+    [ "getType", "classrefactored_1_1Zone.html#a4c56fa1262046a79bc37bc2ceabec8c5", null ],
+    [ "getWidth", "classrefactored_1_1Zone.html#a049c2b03b69469cab6ccb9affd04be6b", null ],
+    [ "getX", "classrefactored_1_1Zone.html#ade38826061e38cd476b4753f62884873", null ],
+    [ "getY", "classrefactored_1_1Zone.html#adc63cfa95a45f8408a923ad120f14e91", null ],
+    [ "setBuildings", "classrefactored_1_1Zone.html#a5e9d7bed224dc7b4e0b5b09dd14e6656", null ],
+    [ "setHeight", "classrefactored_1_1Zone.html#a76d8946a73cf8e7d048c49964794006d", null ],
+    [ "setType", "classrefactored_1_1Zone.html#a0fac492adbed7e0bf3f39922c330c969", null ],
+    [ "setWidth", "classrefactored_1_1Zone.html#aa6826fcee7f72249222f207a884ecd34", null ],
+    [ "setX", "classrefactored_1_1Zone.html#a0a62dd245d41528f937ca3ef6a9681dd", null ],
+    [ "setY", "classrefactored_1_1Zone.html#a8a44b2602b6591c8c9bf7ae2076be2a7", null ],
+    [ "buildings", "classrefactored_1_1Zone.html#ae5b221933cdf04f4f4f284f867f5889b", null ],
+    [ "COMMERCIAL", "classrefactored_1_1Zone.html#a3b04e1f68d8a940e6e9c042d788021b8", null ],
+    [ "FIRESTATION", "classrefactored_1_1Zone.html#a27305c51be6a2942fd0c4c98d195047b", null ],
+    [ "height", "classrefactored_1_1Zone.html#aa0e0c4545b18e040bc2fcc97d0841ff4", null ],
+    [ "INDUSTRIAL", "classrefactored_1_1Zone.html#a82b3cd616f329a1b9aa856a8912cb216", null ],
+    [ "POLICE", "classrefactored_1_1Zone.html#ad82715fe3d8981e8c4030997f0c43771", null ],
+    [ "RESIDENTIAL", "classrefactored_1_1Zone.html#addb7753559df7bcadaff291b993e3b5c", null ],
+    [ "type", "classrefactored_1_1Zone.html#a4d345f5bf289b236341c20d8e7b0afb1", null ],
+    [ "width", "classrefactored_1_1Zone.html#afdc025712bab0823a9387e36ba143f2b", null ],
+    [ "x", "classrefactored_1_1Zone.html#aed40d319ec777f145b258e1efdcfc1c0", null ],
+    [ "y", "classrefactored_1_1Zone.html#a835a201d20beb1fe34fea610222f80a8", null ]
+];

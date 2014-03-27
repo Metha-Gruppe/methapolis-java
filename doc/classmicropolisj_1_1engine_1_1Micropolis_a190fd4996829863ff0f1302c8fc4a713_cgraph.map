@@ -1,0 +1,9 @@
+<map id="micropolisj.engine.Micropolis.popDenScan" name="micropolisj.engine.Micropolis.popDenScan">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1Micropolis.html#ab419b543ef4d8c17c9558a6f71c95d49" title="micropolisj.engine.Micropolis.compute\lPopDen" alt="" coords="269,5,512,51"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1Micropolis.html#af1cf33c2ececcf227e993b5630e85239" title="micropolisj.engine.Micropolis.dist\lIntMarket" alt="" coords="284,74,497,121"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a911225a6cbfb60cecf4bbf4804cca91e" title="micropolisj.engine.Micropolis.do\lSmooth" alt="" coords="288,143,493,190"/>
+<area shape="rect" id="node9" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a66ccd5cba96bde07904f3ab07dbce182" title="micropolisj.engine.Micropolis.fire\lMapOverlayDataChanged" alt="" coords="285,213,496,259"/>
+<area shape="rect" id="node11" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a3f21dfacf630d11cd0f7aca77f358f13" title="micropolisj.engine.Micropolis.get\lHeight" alt="" coords="285,282,496,329"/>
+<area shape="rect" id="node13" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a5fd56b0292b7b30c5d6a8808b593692d" title="micropolisj.engine.Micropolis.getTile" alt="" coords="275,352,507,381"/>
+<area shape="rect" id="node15" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a7626a1780d1141bc8c99e4cf1f22abb9" title="micropolisj.engine.Micropolis.get\lWidth" alt="" coords="285,405,496,451"/>
+</map>

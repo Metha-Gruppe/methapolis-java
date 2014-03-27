@@ -1,0 +1,6 @@
+<map id="micropolisj.engine.AirplaneSprite.moveImpl" name="micropolisj.engine.AirplaneSprite.moveImpl">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1Micropolis.html#aa384a9e6b3aede067bc79e15c19fed0f" title="micropolisj.engine.Micropolis.all\lSprites" alt="" coords="236,5,441,51"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1Sprite.html#a1846de83b967ae7e79276f03186f9f85" title="micropolisj.engine.Sprite.explode\lSprite" alt="" coords="232,74,445,121"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a3f21dfacf630d11cd0f7aca77f358f13" title="micropolisj.engine.Micropolis.get\lHeight" alt="" coords="233,143,444,190"/>
+<area shape="rect" id="node9" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a7626a1780d1141bc8c99e4cf1f22abb9" title="micropolisj.engine.Micropolis.get\lWidth" alt="" coords="233,213,444,259"/>
+</map>

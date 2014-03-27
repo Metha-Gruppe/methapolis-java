@@ -1,0 +1,9 @@
+<map id="micropolisj.gui.MainWindow.onMouseWheelMoved" name="micropolisj.gui.MainWindow.onMouseWheelMoved">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1gui_1_1MainWindow.html#a5aa7ef3cb2100e73e9e5dc9845cc26c5" title="micropolisj.gui.MainWindow.doZoom" alt="" coords="256,48,491,77"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1gui_1_1MicropolisDrawingArea.html#a76e14548dcb9287816419024fc818041" title="micropolisj.gui.Micropolis\lDrawingArea.getTileSize" alt="" coords="547,5,715,51"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1gui_1_1MicropolisDrawingArea.html#a2544581cd4d7862cf521ec4b6d408978" title="micropolisj.gui.Micropolis\lDrawingArea.selectTileSize" alt="" coords="540,74,721,121"/>
+<area shape="rect" id="node9" href="$classmicropolisj_1_1gui_1_1TileImages.html#a99e15eec172c44e0bade594b61139727" title="micropolisj.gui.TileImages.get\lInstance" alt="" coords="771,74,965,121"/>
+<area shape="rect" id="node11" href="$classmicropolisj_1_1gui_1_1TileImages.html#a3c1d1f50ba15f70fac2990e684281a4a" title="micropolisj.gui.TileImages.\lTileImages" alt="" coords="1015,74,1191,121"/>
+<area shape="rect" id="node13" href="$classmicropolisj_1_1gui_1_1TileImages.html#a3a422fdd91fda2990f9c2530d70da8a3" title="micropolisj.gui.TileImages.load\lTileImages" alt="" coords="1241,39,1441,86"/>
+<area shape="rect" id="node15" href="$classmicropolisj_1_1gui_1_1TileImages.html#ae19d09b5cca0b4ccbb2c60e0d5d6b0da" title="micropolisj.gui.TileImages.load\lSpriteImages" alt="" coords="1241,109,1441,155"/>
+</map>

@@ -1,0 +1,31 @@
+<map id="micropolisj.gui.NewCityDialog.NewCityDialog" name="micropolisj.gui.NewCityDialog.NewCityDialog">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a9b384f78413fa4f716a90a7095dd3043" title="micropolisj.engine.Micropolis.get\lPlayerInfo" alt="" coords="1085,481,1296,527"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1gui_1_1NewCityDialog.html#ac0171c5df088bdc857bed3f14bb557c8" title="micropolisj.gui.NewCityDialog.on\lCancelClicked" alt="" coords="259,282,472,329"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1gui_1_1NewCityDialog.html#a6fb09bb1f6f423ee1e52a5620429c761" title="micropolisj.gui.NewCityDialog.on\lLoadCityClicked" alt="" coords="259,421,472,467"/>
+<area shape="rect" id="node11" href="$classmicropolisj_1_1gui_1_1NewCityDialog.html#a3d48aa6bf26ae17b58b31310aa37f309" title="micropolisj.gui.NewCityDialog.on\lNextMapClicked" alt="" coords="259,351,472,398"/>
+<area shape="rect" id="node42" href="$classmicropolisj_1_1gui_1_1NewCityDialog.html#aec616c5797aa3bb19d2ff1031b3c92ed" title="micropolisj.gui.NewCityDialog.on\lPlayClicked" alt="" coords="259,541,472,587"/>
+<area shape="rect" id="node55" href="$classmicropolisj_1_1gui_1_1NewCityDialog.html#a054577d39af871841d3b3c83873ee58f" title="micropolisj.gui.NewCityDialog.on\lPreviousMapClicked" alt="" coords="259,213,472,259"/>
+<area shape="rect" id="node58" href="$classmicropolisj_1_1gui_1_1NewCityDialog.html#a2367e6e8dea9e7cdab0b33be058eb5ca" title="micropolisj.gui.NewCityDialog.on\lQuitClicked" alt="" coords="259,610,472,657"/>
+<area shape="rect" id="node60" href="$classmicropolisj_1_1gui_1_1NewCityDialog.html#af4498888ee6ccda3742194df05a8dd8b" title="micropolisj.gui.NewCityDialog.set\lGameLevel" alt="" coords="256,679,475,726"/>
+<area shape="rect" id="node62" href="$classmicropolisj_1_1engine_1_1PlayerInfo.html#a4cbe2d02c6b18eaf010142e77ccf3a3a" title="micropolisj.engine.Player\lInfo.setResearchState" alt="" coords="283,749,448,795"/>
+<area shape="rect" id="node9" href="$classmicropolisj_1_1engine_1_1Micropolis.html#afed7671d55d2e35e7bd0f1e46e7d7db3" title="micropolisj.engine.Micropolis.load" alt="" coords="524,429,740,459"/>
+<area shape="rect" id="node13" href="$classmicropolisj_1_1gui_1_1OverlayMapView.html#abf6e6b4687723d0636b83a0da3b285c9" title="micropolisj.gui.OverlayMap\lView.setEngine" alt="" coords="543,317,721,363"/>
+<area shape="rect" id="node15" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a6e3ee643482220ce8300b0cd737d6ea9" title="micropolisj.engine.Micropolis.remove\lMapListener" alt="" coords="795,421,1029,467"/>
+<area shape="rect" id="node17" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a2cb21abe0e7037867a0bd924407bfb6a" title="micropolisj.engine.Micropolis.add\lMapListener" alt="" coords="805,282,1019,329"/>
+<area shape="rect" id="node19" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a5ac210720486eace21880580522675ba" title="micropolisj.engine.Micropolis.calculate\lCenterMass" alt="" coords="789,213,1035,259"/>
+<area shape="rect" id="node37" href="$classmicropolisj_1_1gui_1_1OverlayMapView.html#af86d23cd653aee7c2ccf47a69cca15e0" title="micropolisj.gui.OverlayMap\lView.dragViewToCityCenter" alt="" coords="819,351,1005,398"/>
+<area shape="rect" id="node21" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a190fd4996829863ff0f1302c8fc4a713" title="micropolisj.engine.Micropolis.pop\lDenScan" alt="" coords="1084,213,1297,259"/>
+<area shape="rect" id="node23" href="$classmicropolisj_1_1engine_1_1Micropolis.html#ab419b543ef4d8c17c9558a6f71c95d49" title="micropolisj.engine.Micropolis.compute\lPopDen" alt="" coords="1347,5,1589,51"/>
+<area shape="rect" id="node25" href="$classmicropolisj_1_1engine_1_1Micropolis.html#af1cf33c2ececcf227e993b5630e85239" title="micropolisj.engine.Micropolis.dist\lIntMarket" alt="" coords="1361,74,1575,121"/>
+<area shape="rect" id="node27" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a911225a6cbfb60cecf4bbf4804cca91e" title="micropolisj.engine.Micropolis.do\lSmooth" alt="" coords="1365,143,1571,190"/>
+<area shape="rect" id="node29" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a66ccd5cba96bde07904f3ab07dbce182" title="micropolisj.engine.Micropolis.fire\lMapOverlayDataChanged" alt="" coords="1363,213,1573,259"/>
+<area shape="rect" id="node31" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a3f21dfacf630d11cd0f7aca77f358f13" title="micropolisj.engine.Micropolis.get\lHeight" alt="" coords="1363,282,1573,329"/>
+<area shape="rect" id="node33" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a5fd56b0292b7b30c5d6a8808b593692d" title="micropolisj.engine.Micropolis.getTile" alt="" coords="1352,352,1584,381"/>
+<area shape="rect" id="node35" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a7626a1780d1141bc8c99e4cf1f22abb9" title="micropolisj.engine.Micropolis.get\lWidth" alt="" coords="1363,405,1573,451"/>
+<area shape="rect" id="node39" href="$classmicropolisj_1_1gui_1_1OverlayMapView.html#ad651889d0777fe5fa7cbce732e798334" title="micropolisj.gui.OverlayMap\lView.dragViewTo" alt="" coords="1101,351,1280,398"/>
+<area shape="rect" id="node44" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a607e470de3ea4f4b222539b2f6492d52" title="micropolisj.engine.Micropolis.set\lGameLevel" alt="" coords="527,730,737,777"/>
+<area shape="rect" id="node48" href="$classmicropolisj_1_1gui_1_1NewCityDialog.html#a3cee30562c60aa660a2715ec01cd22c4" title="micropolisj.gui.NewCityDialog.get\lSelectedGameLevel" alt="" coords="523,591,741,638"/>
+<area shape="rect" id="node50" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a6fd46107b57cf9616a0a0f575a2384a2" title="micropolisj.engine.Micropolis.set\lFunds" alt="" coords="807,541,1017,587"/>
+<area shape="rect" id="node53" href="$classmicropolisj_1_1engine_1_1GameLevel.html#a52443386df0c945dcfd36ff72e7194b2" title="micropolisj.engine.GameLevel.get\lStartingFunds" alt="" coords="523,661,741,707"/>
+<area shape="rect" id="node46" href="$classmicropolisj_1_1engine_1_1GameLevel.html#ade164b066f5b90a9ae3c2dc39f345460" title="micropolisj.engine.GameLevel.is\lValid" alt="" coords="807,730,1017,777"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="micropolisj.engine.TileConstants.wireConnectsEast" name="micropolisj.engine.TileConstants.wireConnectsEast">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1TileConstants.html#ae6484149421a925dd2722d701ff5069f" title="micropolisj.engine.TileConstants.is\lConductive" alt="" coords="333,5,557,51"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1TileConstants.html#acbecc3354620489270fa1cff301913b1" title="micropolisj.engine.TileConstants.neutralizeRoad" alt="" coords="295,75,596,104"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1Tiles.html#a01cf537ad399a5cd4e8d120f2ffa8d0d" title="micropolisj.engine.Tiles.get" alt="" coords="647,13,825,43"/>
+</map>

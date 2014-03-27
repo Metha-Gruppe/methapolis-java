@@ -1,0 +1,5 @@
+<map id="micropolisj.network.ClientMicropolis.setBudgetNumbers" name="micropolisj.network.ClientMicropolis.setBudgetNumbers">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1network_1_1RemoteClient.html#a4a1ef85c8cd931daf02a0e93f86a7705" title="micropolisj.network.Remote\lClient.sendInput" alt="" coords="251,5,435,51"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1network_1_1PlayerInput.html#a0a7eb97943080f4cfdd1a301d1f5ab78" title="micropolisj.network.Player\lInput.setBudgetNumbers" alt="" coords="256,74,429,121"/>
+<area shape="rect" id="node5" href="$interfacemicropolisj_1_1network_1_1IMicropolisServer.html#a1568679680fe447b9d9703bbaa41ecac" title="micropolisj.network.IMicropolis\lServer.storeInput" alt="" coords="484,5,684,51"/>
+</map>

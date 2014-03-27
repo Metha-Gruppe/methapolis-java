@@ -1,0 +1,7 @@
+<map id="micropolisj.engine.Micropolis.makeFire" name="micropolisj.engine.Micropolis.makeFire">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a3f21dfacf630d11cd0f7aca77f358f13" title="micropolisj.engine.Micropolis.get\lHeight" alt="" coords="312,5,523,51"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a5fd56b0292b7b30c5d6a8808b593692d" title="micropolisj.engine.Micropolis.getTile" alt="" coords="301,75,533,104"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1Micropolis.html#a7626a1780d1141bc8c99e4cf1f22abb9" title="micropolisj.engine.Micropolis.get\lWidth" alt="" coords="312,127,523,174"/>
+<area shape="rect" id="node9" href="$classmicropolisj_1_1engine_1_1Micropolis.html#ab663032871d65caceda7067c3dd2bac4" title="micropolisj.engine.Micropolis.setTile" alt="" coords="301,197,533,227"/>
+<area shape="rect" id="node11" href="$classmicropolisj_1_1engine_1_1Micropolis.html#ab4ed99f75abb46de68fe157cb3cf2b64" title="micropolisj.engine.Micropolis.fire\lTileChanged" alt="" coords="581,189,792,235"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="micropolisj.gui.MainWindow.citySound" name="micropolisj.gui.MainWindow.citySound">
+<area shape="rect" id="node3" href="$enummicropolisj_1_1engine_1_1Sound.html#a8423ddc8d604f924dfc16b1f90ada23a" title="micropolisj.engine.Sound.get\lAudioFile" alt="" coords="264,5,453,51"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1gui_1_1MicropolisDrawingArea.html#a63845f42dd5c51397105b891020becef" title="micropolisj.gui.Micropolis\lDrawingArea.getTileBounds" alt="" coords="267,74,451,121"/>
+</map>

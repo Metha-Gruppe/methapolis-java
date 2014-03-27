@@ -1,0 +1,5 @@
+<map id="micropolisj.engine.TileConstants.isBridge" name="micropolisj.engine.TileConstants.isBridge">
+<area shape="rect" id="node3" href="$classmicropolisj_1_1engine_1_1TileConstants.html#a125096fe5536ed929bc7c98b1e31a334" title="micropolisj.engine.TileConstants.is\lCombustible" alt="" coords="296,5,520,51"/>
+<area shape="rect" id="node7" href="$classmicropolisj_1_1engine_1_1TileConstants.html#a47dbd26b93a77417ded734806c738ec1" title="micropolisj.engine.TileConstants.isRoad" alt="" coords="280,75,536,104"/>
+<area shape="rect" id="node5" href="$classmicropolisj_1_1engine_1_1Tiles.html#a01cf537ad399a5cd4e8d120f2ffa8d0d" title="micropolisj.engine.Tiles.get" alt="" coords="585,13,764,43"/>
+</map>
