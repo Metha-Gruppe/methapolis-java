@@ -146,6 +146,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		engine.getPlayerInfo().researchState.setLocationRelativeTo(this);
 		
 		this.engine = engine;
+//		System.out.println(engine);
 		
 
 		JPanel mainArea = new JPanel(new BorderLayout());
@@ -1645,8 +1646,16 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		evaluationPane.setVisible(true);
 	}
 
+	// TODO fix
 	void onViewResearchClicked() {
+//		System.out.println(engine);
+//		System.out.println(engine.getPlayerInfo());
+		System.out.println(engine.getPlayerInfo().researchState);
+		
 		engine.getPlayerInfo().researchState.showResearchPanel();
+		
+		
+		
 		//dirty1 = true;
 		//showBudgetWindow(false);
 	}

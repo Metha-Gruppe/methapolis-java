@@ -2646,7 +2646,7 @@ public class Micropolis {
 	}
 
 	public PlayerInfo getPlayerInfo(int playerID) {
-		System.out.println(playerID + " :: " + getPlayerID());
+//		System.out.println(playerID + " :: " + getPlayerID());
 		if(playerID == getPlayerID()) {
 			return playerInfo;
 		} else return null;
