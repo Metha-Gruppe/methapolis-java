@@ -59,7 +59,9 @@ public class CheatWindow extends JFrame implements KeyEventDispatcher{
                     engine.fireFundsChanged();
                 }
                 if(textField.getText().equals(MORE_RESEARCH_CHEAT)) {
+                	System.out.println(engine.getPlayerInfo().researchData.researchPoints);
                     engine.getPlayerInfo().researchData.researchPoints += AMOUNT_RESEARCH;
+                    System.out.println(engine.getPlayerInfo().researchData.researchPoints);
                     engine.getPlayerInfo().researchState = ResearchState.createFromResearchData(engine, engine.getPlayerInfo().researchData, toolBtns);
                 }
                 lastInput = textField.getText();

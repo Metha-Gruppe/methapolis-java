@@ -86,6 +86,7 @@ import micropolisj.engine.ToolStroke;
 import micropolisj.engine.ZoneStatus;
 import micropolisj.network.ClientMicropolis;
 import micropolisj.network.ServerMicropolis;
+import micropolisj.research.ResearchState;
 import micropolisj.util.MP3;
 import micropolisj.util.TranslationTool;
 import micropolisj.util.Utilities;
@@ -1652,9 +1653,9 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 //		System.out.println(engine.getPlayerInfo());
 		System.out.println(engine.getPlayerInfo().researchState);
 		
-		engine.getPlayerInfo().researchState.showResearchPanel();
+//		engine.getPlayerInfo().researchState.showResearchPanel();
 		
-		
+		ResearchState.createFromResearchData(engine, engine.getPlayerInfo().researchData).showResearchPanel();
 		
 		//dirty1 = true;
 		//showBudgetWindow(false);
