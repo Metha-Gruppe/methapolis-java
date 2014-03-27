@@ -8,11 +8,45 @@
 
 package micropolisj.engine;
 
-import java.util.*;
-
+import static micropolisj.engine.TileConstants.AIRPORT;
+import static micropolisj.engine.TileConstants.CHURCH;
+import static micropolisj.engine.TileConstants.COMCLR;
+import static micropolisj.engine.TileConstants.CZB;
+import static micropolisj.engine.TileConstants.DIRT;
+import static micropolisj.engine.TileConstants.FIRESTATION;
+import static micropolisj.engine.TileConstants.FOOTBALLGAME1;
+import static micropolisj.engine.TileConstants.FOOTBALLGAME2;
+import static micropolisj.engine.TileConstants.FULLSTADIUM;
+import static micropolisj.engine.TileConstants.HHTHR;
+import static micropolisj.engine.TileConstants.HOSPITAL;
+import static micropolisj.engine.TileConstants.HOUSE;
+import static micropolisj.engine.TileConstants.INDCLR;
+import static micropolisj.engine.TileConstants.IZB;
+import static micropolisj.engine.TileConstants.LHTHR;
+import static micropolisj.engine.TileConstants.LOMASK;
+import static micropolisj.engine.TileConstants.NUCLEAR;
+import static micropolisj.engine.TileConstants.POLICESTATION;
+import static micropolisj.engine.TileConstants.PORT;
+import static micropolisj.engine.TileConstants.POWERPLANT;
+import static micropolisj.engine.TileConstants.PWRBIT;
+import static micropolisj.engine.TileConstants.RESCLR;
+import static micropolisj.engine.TileConstants.RZB;
+import static micropolisj.engine.TileConstants.STADIUM;
+import static micropolisj.engine.TileConstants.TEMPEL;
+import static micropolisj.engine.TileConstants.UNIVERSITY;
+import static micropolisj.engine.TileConstants.commercialZonePop;
+import static micropolisj.engine.TileConstants.getZoneSizeFor;
+import static micropolisj.engine.TileConstants.industrialZonePop;
+import static micropolisj.engine.TileConstants.isAnimated;
+import static micropolisj.engine.TileConstants.isIndestructible;
+import static micropolisj.engine.TileConstants.isIndestructible2;
+import static micropolisj.engine.TileConstants.isRail;
+import static micropolisj.engine.TileConstants.isResidentialClear;
+import static micropolisj.engine.TileConstants.isRoadAny;
+import static micropolisj.engine.TileConstants.isZoneCenter;
+import static micropolisj.engine.TileConstants.residentialZonePop;
+import micropolisj.engine.TrafficGen.ZoneType;
 import micropolisj.util.Utilities;
-import static micropolisj.engine.TileConstants.*;
-import static micropolisj.engine.TrafficGen.ZoneType;
 
 /**
  * Process individual tiles of the map for each cycle. In each sim cycle each
@@ -35,48 +69,55 @@ class MapScanner extends TileBehavior {
 
 	@Override
 	public void apply() {
+		// TODO custom: wait for the playerInfo to be generated
+		PlayerInfo playerInfo = city.getPlayerInfo( Utilities.getPlayerID(rawTile) );
+		
+		if(playerInfo == null)	{
+			return;
+		}
+		
 		switch(behavior) {
 			case RESIDENTIAL:
-				doResidential();
+				doResidential(playerInfo);
 				return;
 			case HOSPITAL_CHURCH:
-				doHospitalChurch();
+				doHospitalChurch(playerInfo);
 				return;
 			case COMMERCIAL:
-				doCommercial();
+				doCommercial(playerInfo);
 				return;
 			case INDUSTRIAL:
-				doIndustrial();
+				doIndustrial(playerInfo);
 				return;
 			case COAL:
-				doCoalPower();
+				doCoalPower(playerInfo);
 				return;
 			case NUCLEAR:
-				doNuclearPower();
+				doNuclearPower(playerInfo);
 				return;
 			case FIRESTATION:
-				doFireStation();
+				doFireStation(playerInfo);
 				return;
 			case POLICESTATION:
-				doPoliceStation();
+				doPoliceStation(playerInfo);
 				return;
 			case STADIUM_EMPTY:
-				doStadiumEmpty();
+				doStadiumEmpty(playerInfo);
 				return;
 			case STADIUM_FULL:
-				doStadiumFull();
+				doStadiumFull(playerInfo);
 				return;
 			case AIRPORT:
-				doAirport();
+				doAirport(playerInfo);
 				return;
 			case SEAPORT:
-				doSeaport();
+				doSeaport(playerInfo);
 				return;
 			case UNIVERSITY:
-				doUniversity();
+				doUniversity(playerInfo);
 				return;
 			case TEMPEL:
-				doTempel();
+				doTempel(playerInfo);
 				return;
 			default:
 				assert false;
@@ -85,12 +126,14 @@ class MapScanner extends TileBehavior {
 
 	boolean checkZonePower() {
 		boolean zonePwrFlag = setZonePower();
+		
+		PlayerInfo playerInfo = city.getPlayerInfo(Utilities.getPlayerID(rawTile));
 
 		if(zonePwrFlag) {
-			city.playerInfo.poweredZoneCount++;
+			playerInfo.poweredZoneCount++;
 		}
 		else {
-			city.playerInfo.unpoweredZoneCount++;
+			playerInfo.unpoweredZoneCount++;
 		}
 
 		return zonePwrFlag;
@@ -157,48 +200,49 @@ class MapScanner extends TileBehavior {
 		setZonePower();
 		return true;
 	}
+	
 
-	void doCoalPower() {
-		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(rawTile);
-		city.getPlayerInfo(tilePlayerID).coalCount++;
+	void doCoalPower(PlayerInfo playerInfo) {
+		checkZonePower();
+
+		playerInfo.coalCount++;
+		
 		if((city.cityTime % 8) == 0) {
 			repairZone(POWERPLANT, 4);
 		}
 
-		city.getPlayerInfo(tilePlayerID).powerPlants.add(new CityLocation(xpos, ypos));
+		playerInfo.powerPlants.add(new CityLocation(xpos, ypos));
 	}
 
-	void doNuclearPower() {
-		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(rawTile);
-		if(!city.noDisasters && PRNG.nextInt(city.MltdwnTab[city.gameLevel] + 1) == 0) {
+	void doNuclearPower(PlayerInfo playerInfo) {
+		checkZonePower();
+		
+		if(!city.noDisasters && PRNG.nextInt(Micropolis.MltdwnTab[city.gameLevel] + 1) == 0) {
 			city.doMeltdown(xpos, ypos);
 			return;
 		}
 
-		city.getPlayerInfo(tilePlayerID).nuclearCount++;
+		playerInfo.nuclearCount++;
 		if((city.cityTime % 8) == 0) {
 			repairZone(NUCLEAR, 4);
 		}
 
-		city.getPlayerInfo(tilePlayerID).powerPlants.add(new CityLocation(xpos, ypos));
+		playerInfo.powerPlants.add(new CityLocation(xpos, ypos));
 	}
-
-	void doFireStation() {
-		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(rawTile);
-		city.getPlayerInfo(tilePlayerID).fireStationCount++;
+	
+	void doFireStation(PlayerInfo playerInfo) {
+		playerInfo.fireStationCount++;
+		
 		if((city.cityTime % 8) == 0) {
 			repairZone(FIRESTATION, 3);
 		}
 
 		int z;
-		if(powerOn) {
-			z = city.getPlayerInfo(tilePlayerID).fireEffect; // if powered, get effect
+		if(checkZonePower()) {
+			z = playerInfo.fireEffect; // if powered, get effect
 		}
 		else {
-			z = city.getPlayerInfo(tilePlayerID).fireEffect / 2; // from the funding ratio
+			z = playerInfo.fireEffect / 2; // from the funding ratio
 		}
 
 		traffic.mapX = xpos;
@@ -210,20 +254,19 @@ class MapScanner extends TileBehavior {
 		city.fireStMap[ypos / 8][xpos / 8] += z;
 	}
 
-	void doPoliceStation() {
-		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(rawTile);
-		city.getPlayerInfo(tilePlayerID).policeCount++;
+	void doPoliceStation(PlayerInfo playerInfo) {		
+		playerInfo.policeCount++;
+		
 		if((city.cityTime % 8) == 0) {
 			repairZone(POLICESTATION, 3);
 		}
 
 		int z;
-		if(powerOn) {
-			z = city.getPlayerInfo(tilePlayerID).policeEffect;
+		if(checkZonePower()) {
+			z = playerInfo.policeEffect;
 		}
 		else {
-			z = city.getPlayerInfo(tilePlayerID).policeEffect / 2;
+			z = playerInfo.policeEffect / 2;
 		}
 
 		traffic.mapX = xpos;
@@ -235,9 +278,10 @@ class MapScanner extends TileBehavior {
 		city.policeMap[ypos / 8][xpos / 8] += z;
 	}
 
-	void doUniversity() {
+	void doUniversity(PlayerInfo playerInfo) {
 	    int tilePlayerID = Utilities.getPlayerID(rawTile);
 		city.getPlayerInfo(tilePlayerID).researchCount++;
+		
 		if((city.cityTime % 8) == 0) {
 			repairZone(UNIVERSITY, 3);
 		}
@@ -246,15 +290,16 @@ class MapScanner extends TileBehavior {
 		}
 	}
 
-	void doStadiumEmpty() {
-		boolean powerOn = checkZonePower();
+	void doStadiumEmpty(PlayerInfo playerInfo) {
 		int tilePlayerID = Utilities.getPlayerID(rawTile);
-		city.getPlayerInfo(tilePlayerID).stadiumCount++;
+		
+		playerInfo.stadiumCount++;
+		
 		if((city.cityTime % 16) == 0) {
 			repairZone(STADIUM, 4);
 		}
 
-		if(powerOn) {
+		if(checkZonePower()) {
 			if(((city.cityTime + xpos + ypos) % 32) == 0) {
 				drawStadium(FULLSTADIUM, tilePlayerID);
 				city.setTile(xpos + 1, ypos, (char) (FOOTBALLGAME1), tilePlayerID);
@@ -263,24 +308,25 @@ class MapScanner extends TileBehavior {
 		}
 	}
 
-	void doStadiumFull() {
-		boolean powerOn = checkZonePower();
+	void doStadiumFull(PlayerInfo playerInfo) {
+		checkZonePower();
+		
 		int tilePlayerID = Utilities.getPlayerID(rawTile);
-		city.getPlayerInfo(tilePlayerID).stadiumCount++;
+		playerInfo.stadiumCount++;
+		
 		if(((city.cityTime + xpos + ypos) % 8) == 0) {
 			drawStadium(STADIUM, tilePlayerID);
 		}
 	}
 
-	void doAirport() {
-		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(rawTile);
-		city.getPlayerInfo(tilePlayerID).airportCount++;
+	void doAirport(PlayerInfo playerInfo) {		
+		playerInfo.airportCount++;
+		
 		if((city.cityTime % 8) == 0) {
 			repairZone(AIRPORT, 6);
 		}
 
-		if(powerOn) {
+		if(checkZonePower()) {
 
 			if(PRNG.nextInt(6) == 0) {
 				city.generatePlane(xpos, ypos);
@@ -293,24 +339,24 @@ class MapScanner extends TileBehavior {
 	}
 	
 	//Tempel Methode 
-	void doTempel() {
-		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(rawTile);
-		city.getPlayerInfo(tilePlayerID).tempelCount++;
+	void doTempel(PlayerInfo playerInfo) {
+		checkZonePower();
+		
+		playerInfo.tempelCount++;
+		
 		if((city.cityTime % 8) == 0) {
 			repairZone(TEMPEL, 6);
 		}	
 	}
 
-	void doSeaport() {
-		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(rawTile);
-		city.getPlayerInfo(tilePlayerID).seaportCount++;
+	void doSeaport(PlayerInfo playerInfo) {
+		playerInfo.seaportCount++;
+		
 		if((city.cityTime % 16) == 0) {
 			repairZone(PORT, 4);
 		}
 
-		if(powerOn && !city.hasSprite(SpriteKind.SHI)) {
+		if(checkZonePower() && !city.hasSprite(SpriteKind.SHI)) {
 			city.generateShip();
 		}
 	}
@@ -318,32 +364,33 @@ class MapScanner extends TileBehavior {
 	/**
 	 * Place hospital or church if needed.
 	 */
-	void makeHospital() {
-		if(city.playerInfo.needHospital > 0) {
+	void makeHospital(PlayerInfo playerInfo) {
+		if(playerInfo.needHospital > 0) {
 			zonePlop(HOSPITAL);
-			city.playerInfo.needHospital = 0;
+			playerInfo.needHospital = 0;
 		}
 
 		// FIXME- should be 'else if'
-		if(city.playerInfo.needChurch > 0) {
+		if(playerInfo.needChurch > 0) {
 			zonePlop(CHURCH);
-			city.playerInfo.needChurch = 0;
+			playerInfo.needChurch = 0;
 		}
 	}
 
 	/**
 	 * Called when the current tile is the key tile of a hospital or church.
+	 * @param playerInfo 
 	 */
-	void doHospitalChurch() {
-		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(rawTile);
+	void doHospitalChurch(PlayerInfo playerInfo) {
+		checkZonePower();
+		
 		if(tile == HOSPITAL) {
-			city.getPlayerInfo(tilePlayerID).hospitalCount++;
+			playerInfo.hospitalCount++;
 
 			if(city.cityTime % 16 == 0) {
 				repairZone(HOSPITAL, 3);
 			}
-			if(city.getPlayerInfo(tilePlayerID).needHospital == -1) // too many hospitals
+			if(playerInfo.needHospital == -1) // too many hospitals
 			{
 				if(PRNG.nextInt(21) == 0) {
 					zonePlop(RESCLR);
@@ -351,12 +398,12 @@ class MapScanner extends TileBehavior {
 			}
 		}
 		else if(tile == CHURCH) {
-			city.getPlayerInfo(tilePlayerID).churchCount++;
+			playerInfo.churchCount++;
 
 			if(city.cityTime % 16 == 0) {
 				repairZone(CHURCH, 3);
 			}
-			if(city.getPlayerInfo(tilePlayerID).needChurch == -1) // too many churches
+			if(playerInfo.needChurch == -1) // too many churches
 			{
 				if(PRNG.nextInt(21) == 0) {
 					zonePlop(RESCLR);
@@ -409,13 +456,11 @@ class MapScanner extends TileBehavior {
 
 	/**
 	 * Called when the current tile is the key tile of a commercial zone.
+	 * @param playerInfo 
 	 */
-	void doCommercial() {
+	void doCommercial(PlayerInfo playerInfo) {
 		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(rawTile);
-		System.out.println(">> " + rawTile + " , " + tilePlayerID );
-		PlayerInfo playerInfo = city.getPlayerInfo(tilePlayerID);
-		System.out.println(playerInfo);
+		
 		playerInfo.comZoneCount++;
 
 		int tpop = commercialZonePop(tile);
@@ -457,14 +502,15 @@ class MapScanner extends TileBehavior {
 
 	/**
 	 * Called when the current tile is the key tile of an industrial zone.
+	 * @param playerInfo 
 	 */
-	void doIndustrial() {
+	void doIndustrial(PlayerInfo playerInfo) {
 		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(rawTile);
-		city.getPlayerInfo(tilePlayerID).indZoneCount++;
+
+		playerInfo.indZoneCount++;
 
 		int tpop = industrialZonePop(tile);
-		city.getPlayerInfo(tilePlayerID).indPop += tpop;
+		playerInfo.indPop += tpop;
 
 		int trafficGood;
 		if(tpop > PRNG.nextInt(6)) {
@@ -481,7 +527,7 @@ class MapScanner extends TileBehavior {
 
 		if(PRNG.nextInt(8) == 0) {
 			int locValve = evalIndustrial(trafficGood);
-			int zscore = city.getPlayerInfo(tilePlayerID).indValve + locValve;
+			int zscore = playerInfo.indValve + locValve;
 
 			if(!powerOn)
 				zscore = -500;
@@ -501,11 +547,12 @@ class MapScanner extends TileBehavior {
 
 	/**
 	 * Called when the current tile is the key tile of a residential zone.
-	 */
-	void doResidential() {
+	 * @param playerInfo 
+	 */	
+	void doResidential(PlayerInfo playerInfo) {
 		boolean powerOn = checkZonePower();
-		int tilePlayerID = Utilities.getPlayerID(rawTile);
-		city.getPlayerInfo(tilePlayerID).resZoneCount++;
+		
+		playerInfo.resZoneCount++;
 
 		int tpop; // population of this zone
 		if(tile == RESCLR) {
@@ -515,7 +562,7 @@ class MapScanner extends TileBehavior {
 			tpop = residentialZonePop(tile);
 		}
 
-		city.getPlayerInfo(tilePlayerID).resPop += tpop;
+		playerInfo.resPop += tpop;
 
 		int trafficGood;
 		if(tpop > PRNG.nextInt(36)) {
@@ -533,14 +580,14 @@ class MapScanner extends TileBehavior {
 
 		if(tile == RESCLR || PRNG.nextInt(8) == 0) {
 			int locValve = evalResidential(trafficGood);
-			int zscore = city.getPlayerInfo(tilePlayerID).resValve + locValve;
+			int zscore = playerInfo.resValve + locValve;
 
 			if(!powerOn)
 				zscore = -500;
 
 			if(zscore > -350 && zscore - 26380 > (PRNG.nextInt(0x10000) - 0x8000)) {
 				if(tpop == 0 && PRNG.nextInt(4) == 0) {
-					makeHospital();
+					makeHospital(playerInfo);
 					return;
 				}
 
