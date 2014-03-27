@@ -68,4 +68,8 @@ public class RemoteClient extends UnicastRemoteObject implements Serializable{
         return null;
     }
     
+    public String getIP() {
+    	return IP;
+    }
+    
 }

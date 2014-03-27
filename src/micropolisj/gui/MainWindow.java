@@ -885,6 +885,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		}
 
 		try {
+			// TODO game is saved here
 			getEngine().save(currentFile);
 			makeClean();
 			return true;
@@ -913,6 +914,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 				if(!currentFile.getName().endsWith("." + EXTENSION)) {
 					currentFile = new File(currentFile.getPath() + "." + EXTENSION);
 				}
+				// TODO game is saved here
 				getEngine().save(currentFile);
 				makeClean();
 				return true;
@@ -951,7 +953,19 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 			int rv = fc.showOpenDialog(this);
 			if(rv == JFileChooser.APPROVE_OPTION) {
 				File file = fc.getSelectedFile();
-				Micropolis newEngine = new Micropolis();
+				// TODO custom game is loaded here
+				Micropolis oldEngine = getEngine();
+				Micropolis newEngine;
+				if(oldEngine instanceof ServerMicropolis)	{
+					newEngine = new ServerMicropolis();
+				}
+				else if(oldEngine instanceof ClientMicropolis) {
+					newEngine = new ClientMicropolis( ( (ClientMicropolis) oldEngine ).getPlayerIP() );
+				}
+				else	{
+					newEngine = new Micropolis();
+					
+				}
 				newEngine.load(file);
 				setEngine(newEngine);
 				currentFile = file;

@@ -1834,6 +1834,7 @@ public class Micropolis {
 
 	// TODO Fix
 	void loadMisc(DataInputStream dis) throws IOException {
+		PlayerInfo playerInfo = getPlayerInfo();
 		dis.readShort(); // [0]... ignored?
 		dis.readShort(); // [1] externalMarket, ignored
 		playerInfo.resPop = dis.readShort(); // [2-4] populations
@@ -1860,8 +1861,7 @@ public class Micropolis {
 		autoBulldoze = dis.readShort() != 0; // 52
 		autoBudget = dis.readShort() != 0;
 		autoGo = dis.readShort() != 0; // 54
-		dis.readShort(); // userSoundOn (this setting not saved to game file
-		// in this edition of the game)
+		dis.readShort(); // userSoundOn (this setting not saved to game file in this edition of the game)
 		playerInfo.cityTax = dis.readShort(); // 56
 		playerInfo.taxEffect = playerInfo.cityTax;
 		int simSpeedAsInt = dis.readShort();
@@ -1906,8 +1906,11 @@ public class Micropolis {
 		playerInfo.indCap = false;
 	}
 
-	// TODO fix
+	// TODO Fix
+	// save everything but the history and the map
+	// THIS MUST BE LESS THAN 240 BYTES!
 	void writeMisc(DataOutputStream out) throws IOException {
+		PlayerInfo playerInfo = getPlayerInfo();
 		out.writeShort(0);
 		out.writeShort(0);
 		out.writeShort(playerInfo.resPop);
@@ -1916,23 +1919,26 @@ public class Micropolis {
 		out.writeShort(playerInfo.resValve);
 		out.writeShort(playerInfo.comValve);
 		out.writeShort(playerInfo.indValve);
-		// 8
+		// 8 => 16 bytes
 		out.writeInt(cityTime);
 		out.writeShort(playerInfo.crimeRamp);
 		out.writeShort(playerInfo.polluteRamp);
-		// 12
+		// 12 => 24 bytes
 		out.writeShort(playerInfo.landValueAverage);
 		out.writeShort(playerInfo.crimeAverage);
 		out.writeShort(playerInfo.pollutionAverage);
 		out.writeShort(gameLevel);
-		// 16
+		// 16 => 32 bytes
 		out.writeShort(playerInfo.evaluation.cityClass);
 		out.writeShort(playerInfo.evaluation.cityScore);
 		// 18
 		for(int i = 18; i < 49; i++) {
 			out.writeShort(0);
 		}
-		// 50
+		
+		// 48 => 96 bytes
+		
+		// 50 => 100 bytes
 		out.writeInt(playerInfo.budget.totalFunds);
 		out.writeShort(autoBulldoze ? 1 : 0);
 		out.writeShort(autoBudget ? 1 : 0);
@@ -1942,18 +1948,18 @@ public class Micropolis {
 		out.writeShort(playerInfo.cityTax);
 		out.writeShort(simSpeed.ordinal());
 
-		// 58 AND 49
+		// 58 AND 59
 		out.writeInt((int) (playerInfo.policePercent * 65536));
 		out.writeInt((int) (playerInfo.firePercent * 65536));
 		out.writeInt((int) (playerInfo.roadPercent * 65536));
 		out.writeInt((int) (playerInfo.researchPercent * 65536));// custom: ACHTUNG HEAVY
 
-		// -1 in Schleife veraendert
-
-		// 64
+		// 64 => 128 bytes
 		for(int i = 64; i < 120; i++) {
 			out.writeShort(0);
 		}
+		
+		// 119 => 238 bytes
 	}
 
 	void loadMap(DataInputStream dis) throws IOException {
@@ -2048,6 +2054,7 @@ public class Micropolis {
 		fireFundsChanged();
 	}
 
+	// TODO save game
 	public void save(File filename) throws IOException {
 		save(new FileOutputStream(filename));
 	}
@@ -2631,17 +2638,17 @@ public class Micropolis {
 		getPlayerInfo().researchPercent = newResearchPct;
 	}
 	
-	   public int getNumberOfPlayers() {
-	        return 1;
-	    }
+	public int getNumberOfPlayers() {
+		return 1;
+	}
 
-	    public PlayerInfo getPlayerInfo() {
-	        return playerInfo;
-	    }
+	public PlayerInfo getPlayerInfo() {
+		return playerInfo;
+	}
 
-	    public PlayerInfo getPlayerInfo(int playerID) {
-	        if(playerID == getPlayerID()) {
-	            return playerInfo;
-	        } else return null;
-	    }
+	public PlayerInfo getPlayerInfo(int playerID) {
+		if(playerID == getPlayerID()) {
+			return playerInfo;
+		} else return null;
+	}
 }

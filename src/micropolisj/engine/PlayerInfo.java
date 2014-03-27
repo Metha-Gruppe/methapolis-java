@@ -11,7 +11,7 @@ import micropolisj.research.ResearchState;
  *
  */
 
-public class PlayerInfo implements Serializable{
+public class PlayerInfo implements Serializable {
     //TODO: decide which variables are playerrelated and which ones are maprelated!!!
     // playerrelated --> PlayerInfo
     // maprelated --> Micropolis

@@ -1,10 +1,17 @@
 Save files have the following format:
 
-Offset 0x0000 : History of residential levels (240 16-bit integers)
-       0x01E0 : History of commericial levels
-       0x03C0 : History of industrial levels
-       0x05A0 : History of crime levels
-       0x0780 : History of pollution levels
-       0x0960 : History of cash flow
-       0x0B40 : Miscellaneous values
-       0x0C30 : Map data (by columns, west to east)
+Offset 0x0000 : History of residential levels (240 16-bit integers)		480   bytes, start at 0
+       0x01E0 : History of commericial levels							480   bytes, start at 480
+       0x03C0 : History of industrial levels							480   bytes, start at 960
+       0x05A0 : History of crime levels									480   bytes, start at 1440
+       0x0780 : History of pollution levels								480   bytes, start at 1920
+       0x0960 : History of cash flow									480   bytes, start at 2400
+       0x0B40 : Miscellaneous values									240   bytes, start at 2880
+       0x0C30 : Map data (by columns, west to east)						24128 bytes, start at 3120
+
+
+SUM = 3120 + x
+FILE SIZE = 27248 bytes
+=> MAP DATA	= 27248 - 3120
+			= 24128 bytes
+			= 23,5625 kBytes

@@ -71,6 +71,10 @@ public class ClientMicropolis extends Micropolis{
         return remote.getID();
     }
     
+    public String getPlayerIP() {
+    	return remote.getIP();
+    }
+    
     @Override
     public PlayerInfo getPlayerInfo(int playerID) {
         return playerInfo;
