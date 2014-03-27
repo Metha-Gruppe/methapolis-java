@@ -248,13 +248,13 @@ public class Micropolis {
 		return sprites;
 	}
 
-	void fireCensusChanged() {
+	protected void fireCensusChanged() {
 		for(Listener l : listeners) {
 			l.censusChanged();
 		}
 	}
 
-	void fireCityMessage(MicropolisMessage message, CityLocation loc) {
+	protected void fireCityMessage(MicropolisMessage message, CityLocation loc) {
 		for(Listener l : listeners) {
 			l.cityMessage(message, loc);
 		}
@@ -266,7 +266,7 @@ public class Micropolis {
 		}
 	}
 
-	void fireDemandChanged() {
+	protected void fireDemandChanged() {
 		for(Listener l : listeners) {
 			l.demandChanged();
 		}
@@ -1484,7 +1484,7 @@ public class Micropolis {
 	// called every several cycles; this takes the census data collected in this
 	// cycle and records it to the history
 	//
-	void takeCensus() {
+	protected void takeCensus() {
 		int resMax = 0; // residential
 		int comMax = 0; // commercial
 		int indMax = 0; // industrial
@@ -1559,7 +1559,7 @@ public class Micropolis {
 	}
 
 	// record data for the whole year
-	void takeCensus2() {
+	protected void takeCensus2() {
 		// update long term graphs
 		int resMax = 0;
 		int comMax = 0;

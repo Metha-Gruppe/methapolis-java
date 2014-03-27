@@ -2,6 +2,7 @@ package micropolisj.network;
 
 import java.rmi.RemoteException;
 
+import micropolisj.engine.MapState;
 import micropolisj.engine.Micropolis;
 import micropolisj.engine.PlayerInfo;
 import micropolisj.engine.Sprite;
@@ -22,9 +23,13 @@ public class ClientMicropolis extends Micropolis{
         PlayerInfo playerInfo = remote.getPlayerInfo();
         applyPlayerInfo(playerInfo);
         applyMapInfo(info);
-//        super.animate();
+        super.animate();
         animateTiles();
         moveObjects();
+//        TODO: take census every so many steps
+//        takeCensus();
+//        takeCensus2();
+        fireEvents();
     }
     
     private void applyMapInfo(MapInfo info) {
@@ -45,9 +50,19 @@ public class ClientMicropolis extends Micropolis{
             }
             this.cityTime = info.cityTime;
 //            playerInfo.budget.setValues(info.cityBudget);
-            fireFundsChanged();
+//            fireFundsChanged();
         }
     }
+    
+    private void fireEvents() {
+        fireCensusChanged();
+        fireEvaluationChanged();
+        fireFundsChanged();
+//        fireMapOverlayDataChanged(MapState.ALL);
+        
+    }
+    
+    
     private void applyPlayerInfo(PlayerInfo playerInfo) {
         this.playerInfo = playerInfo;
         this.playerInfo.evaluation.setEngine(this);
