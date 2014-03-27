@@ -2396,23 +2396,15 @@ public class Micropolis {
 			int nradius = radius - Math.abs(dx);
 			for(int dy = -nradius; dy <= nradius; dy++) {
 				// if not 1st explosion then make no sound for those
-				if(dx > -radius || dy > -nradius)	{
-					sprites.add(new ExplosionSprite(this, x + dx * off, y + dy * off, false, false));					
+				if(dx == 0 || dy == 0)	{
+					sprites.add(new ExplosionSprite(this, x + dx * off, y + dy * off, false, true));					
 				}
 				// 1st explosion => play sound
 				else {
-					sprites.add(new ExplosionSprite(this, x + dx * off, y + dy * off, false, true));
+					sprites.add(new ExplosionSprite(this, x + dx * off, y + dy * off, false, false));
 				}
 			}
 		}
-		/*
-		 * sprites.add(new ExplosionSprite(this, x, y, false)); sprites.add(new
-		 * ExplosionSprite(this, x - off, y, false)); sprites.add(new
-		 * ExplosionSprite(this, x + off, y, false)); sprites.add(new
-		 * ExplosionSprite(this, x, y + off, false)); sprites.add(new
-		 * ExplosionSprite(this, x, y - off, false));
-		 */
-		// TODO: only 1 message report!!
 	}
 
 	/**

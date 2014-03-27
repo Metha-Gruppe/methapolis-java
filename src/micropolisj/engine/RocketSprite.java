@@ -143,7 +143,9 @@ public class RocketSprite extends Sprite {
 		}
 
 		if(getDis(x, y, destX, destY) <= 6 * speedFactor) {
+			System.out.println("explode");
 			this.explodeSprite();
+			remove();
 		}
 
 		int d = getDir(x, y, destX, destY);
