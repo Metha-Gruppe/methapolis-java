@@ -297,9 +297,14 @@ class MapScanner extends TileBehavior {
 		boolean powerOn = checkZonePower();
 		int tilePlayerID = Utilities.getPlayerID(rawTile);
 		city.getPlayerInfo(tilePlayerID).tempelCount++;
+		city.getPlayerInfo(tilePlayerID).countdown--;
+		if(city.getPlayerInfo(tilePlayerID).countdown<=0){
+			System.out.println("end");
+			System.exit(0);
+		}
 		if((city.cityTime % 8) == 0) {
 			repairZone(TEMPEL, 6);
-		}	
+		}
 	}
 
 	void doSeaport() {
