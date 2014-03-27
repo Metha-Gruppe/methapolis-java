@@ -55,11 +55,13 @@ public class ServerMicropolis extends Micropolis{
     }
     
     private void doBudgetInput(BudgetInput bud, PlayerInfo pI) {
-        pI.cityTax = bud.cityTax;
-        pI.roadPercent = bud.roadPercent;
-        pI.policePercent = bud.policePercent;
-        pI.firePercent = bud.policePercent;
-        pI.researchPercent = bud.researchPercent;
+        if(bud != null) {
+            pI.cityTax = bud.cityTax;
+            pI.roadPercent = bud.roadPercent;
+            pI.policePercent = bud.policePercent;
+            pI.firePercent = bud.policePercent;
+            pI.researchPercent = bud.researchPercent;
+        }
     }
     
     @Override

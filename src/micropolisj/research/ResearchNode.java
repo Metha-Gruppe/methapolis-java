@@ -1,6 +1,8 @@
 package micropolisj.research;
 
 public interface ResearchNode {
+	
+	public String getName(); //changeswp
 
 	public String getDesc();
 

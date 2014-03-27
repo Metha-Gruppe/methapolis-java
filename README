@@ -5,9 +5,11 @@ Methapolis (An Unofficial MicropolisJ Extension)
 ========================================================================
 
 Methapolis was created in the context of a project which was part of
-a computer science class at the Freie Universität Berlin in 2014.
+a computer science class at the Freie Universitï¿½t Berlin in 2014.
 The related GitHub Team conists of the Accounts jacotar, ran83, mo2go,
 superaffengeiltyp, egal27, Hanagnagana, jneuendorf and giterer.
+Copyright (C) 2014 Metha Group
+Methapolis is GNU GPL version 3. For details read COPYING file.
 
 MicropolisJ is Micropolis for the Java platform.
 Copyright (C) 2013 Jason Long (jason@long.name).
