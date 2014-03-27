@@ -116,7 +116,7 @@ public class ToolStroke implements Serializable {
             //TODO: fireMessage insufficient funds
             if (city.getPlayerInfo(playerID).researchData.isRocketPossible()) {
                 // shoot rocket (aka monster) to location
-                if(city.getPlayerInfo(playerID).budget.totalFunds <= MicropolisTool.ROCKET.getToolCost()) {
+                if(city.getPlayerInfo(playerID).budget.totalFunds < MicropolisTool.ROCKET.getToolCost()) {
                     eff.toolResult(ToolResult.INSUFFICIENT_FUNDS);
                     city.sendMessage(MicropolisMessage.INSUFFICIENT_FUNDS);
                 } else {

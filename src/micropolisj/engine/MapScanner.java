@@ -85,12 +85,13 @@ class MapScanner extends TileBehavior {
 
 	boolean checkZonePower() {
 		boolean zonePwrFlag = setZonePower();
+		int tilePlayerID = Utilities.getPlayerID(rawTile);
 
 		if(zonePwrFlag) {
-			city.playerInfo.poweredZoneCount++;
+			city.getPlayerInfo(tilePlayerID).poweredZoneCount++;
 		}
 		else {
-			city.playerInfo.unpoweredZoneCount++;
+			city.getPlayerInfo(tilePlayerID).unpoweredZoneCount++;
 		}
 
 		return zonePwrFlag;

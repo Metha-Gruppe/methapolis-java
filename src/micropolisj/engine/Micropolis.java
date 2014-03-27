@@ -406,7 +406,7 @@ public class Micropolis {
 
 	boolean isTileDozeable(ToolEffectIfc eff) {
 		int myTile = eff.getTile(0, 0);
-		TileSpec ts = Tiles.get(myTile);
+		TileSpec ts = Tiles.get(myTile & TileConstants.LOMASK);
 		if(ts.canBulldoze) {
 			return true;
 		}

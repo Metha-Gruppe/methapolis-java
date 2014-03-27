@@ -87,6 +87,8 @@ public class DemandIndicator extends JComponent
 	{
 		Graphics2D gr = (Graphics2D) gr1;
 		gr.drawImage(backgroundImage, 0, 0, null);
+		
+//		System.out.println("drawing");
 
 		if (engine == null)
 			return;

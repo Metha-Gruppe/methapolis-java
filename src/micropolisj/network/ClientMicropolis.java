@@ -58,6 +58,7 @@ public class ClientMicropolis extends Micropolis{
         fireCensusChanged();
         fireEvaluationChanged();
         fireFundsChanged();
+        fireDemandChanged();
 //        fireMapOverlayDataChanged(MapState.ALL);
         
     }
