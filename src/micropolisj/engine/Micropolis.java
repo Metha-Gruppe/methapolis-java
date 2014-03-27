@@ -347,6 +347,26 @@ public class Micropolis {
 	public void removeMapListener(MapListener l) {
 		this.mapListeners.remove(l);
 	}
+	
+
+
+	int tempelListenerId = 0;
+	TempelListener [] tempelListeners = new TempelListener[50];
+	public void addTempelListener(TempelListener listener){
+		tempelListeners[tempelListenerId] = listener;
+		tempelListenerId++;
+	}
+	public void notifyCountdown(int countdown){
+		for(int id=0;id<tempelListenerId;id++){
+			tempelListeners[id].onCountdown(countdown);
+		}
+	}
+	public void notifyEnd(){
+		for(int id=0;id<tempelListenerId;id++){
+			tempelListeners[id].onEnd();
+		}
+	}
+
 
 	/**
 	 * The listener interface for receiving miscellaneous events that occur in
@@ -1353,7 +1373,11 @@ public class Micropolis {
 		bb.put("AIRPORT", new MapScanner(this, MapScanner.B.AIRPORT));
 		bb.put("SEAPORT", new MapScanner(this, MapScanner.B.SEAPORT));
 		bb.put("UNIVERSITY", new MapScanner(this, MapScanner.B.UNIVERSITY));
+
+		MapScanner tempelScanner = new MapScanner(this, MapScanner.B.TEMPEL);
+		//tempelScanner.addTempelListener(listener);
 		bb.put("TEMPEL", new MapScanner(this, MapScanner.B.TEMPEL));
+
 
 		this.tileBehaviors = bb;
 	}
