@@ -323,6 +323,7 @@ notification.value_lbl = Valeur:
 notification.crime_lbl = Criminalité:
 notification.pollution_lbl = Pollution:
 notification.growth_lbl = Croissance:
+notification.alien_countdown = Arrivée des aliens : %d semaines
 
 !
 ! Research tree

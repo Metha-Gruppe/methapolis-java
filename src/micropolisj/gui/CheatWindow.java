@@ -21,10 +21,10 @@ import micropolisj.research.ResearchState;
 public class CheatWindow extends JFrame implements KeyEventDispatcher{
     
     private static final String MORE_MONEY_CHEAT = "gimme";
-    private static final int AMOUNT_GIVEN = 5000;
+    private static final int AMOUNT_GIVEN = 100000;
     
     private static final String MORE_RESEARCH_CHEAT = "research";
-    private static final int AMOUNT_RESEARCH = 1000;
+    private static final int AMOUNT_RESEARCH = 100000;
     
     
     private static String lastInput;
