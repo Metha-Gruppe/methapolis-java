@@ -212,7 +212,7 @@ class MapScanner extends TileBehavior {
 			repairZone(POWERPLANT, 4);
 		}
 
-		playerInfo.powerPlants.add(new CityLocation(xpos, ypos));
+		city.powerPlants.add(new CityLocation(xpos, ypos));
 	}
 
 	void doNuclearPower(PlayerInfo playerInfo) {
@@ -228,7 +228,7 @@ class MapScanner extends TileBehavior {
 			repairZone(NUCLEAR, 4);
 		}
 
-		playerInfo.powerPlants.add(new CityLocation(xpos, ypos));
+		city.powerPlants.add(new CityLocation(xpos, ypos));
 	}
 	
 	void doFireStation(PlayerInfo playerInfo) {

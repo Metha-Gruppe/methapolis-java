@@ -109,7 +109,7 @@ public class PlayerInfo implements Serializable {
 
     public boolean newPower;
     
-    public Stack<CityLocation> powerPlants = new Stack<CityLocation>();
+//    public Stack<CityLocation> powerPlants = new Stack<CityLocation>();
     
     public transient ResearchState researchState;
     
