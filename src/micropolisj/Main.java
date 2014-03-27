@@ -8,28 +8,16 @@
 
 package micropolisj;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 import micropolisj.gui.SplashScreen;
 
-public class Main
-{
-	public static SplashScreen splash = new SplashScreen();
-//	public static MainWindow win = new MainWindow();
-	
-	static void createAndShowGUI()
-	{
-		splash.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		splash.setSize(1024,600);
-		splash.setResizable(false);
-		splash.setVisible(true);
-	}
+public class Main {
 
-	public static void main(String [] args)
-	{
+	public static void main(String [] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 		public void run() {
-			createAndShowGUI();
+			new SplashScreen();
 		}});
 	}
 }

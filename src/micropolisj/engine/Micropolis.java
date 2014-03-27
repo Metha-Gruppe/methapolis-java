@@ -1878,16 +1878,18 @@ public class Micropolis {
 
 		// read playerInfo.budget numbers, convert them to percentages
 		//
-		long n = dis.readInt(); // 58,59... police percent
-		playerInfo.policePercent = (double) n / 65536.0;
-		n = dis.readInt(); // custom 49... research percent
-		playerInfo.researchPercent = (double) n / 65536.0;
+		int n = dis.readInt(); // 58,59... police percent
+		playerInfo.policePercent = n / 65536.0;
 		n = dis.readInt(); // 60,61... fire percent
-		playerInfo.firePercent = (double) n / 65536.0;
+		playerInfo.firePercent = n / 65536.0;
 		n = dis.readInt(); // 62,63... road percent
-		playerInfo.roadPercent = (double) n / 65536.0;
+		playerInfo.roadPercent = n / 65536.0;
+		
+		n = dis.readInt(); // custom 49... research percent
+		playerInfo.researchPercent = n / 65536.0;
 
-		for(int i = 64; i < 120; i++) {
+		// was 64 but 1 int was added so we skip that
+		for(int i = 66; i < 120; i++) {
 			dis.readShort();
 		}
 
@@ -1937,8 +1939,9 @@ public class Micropolis {
 		// 16 => 32 bytes
 		out.writeShort(playerInfo.evaluation.cityClass);
 		out.writeShort(playerInfo.evaluation.cityScore);
+		
 		// 18
-		for(int i = 18; i < 49; i++) {
+		for(int i = 18; i < 50; i++) {
 			out.writeShort(0);
 		}
 		
@@ -1954,14 +1957,14 @@ public class Micropolis {
 		out.writeShort(playerInfo.cityTax);
 		out.writeShort(simSpeed.ordinal());
 
-		// 58 AND 59
+		// 58/59, 60/62, 63/64, 65/66
 		out.writeInt((int) (playerInfo.policePercent * 65536));
 		out.writeInt((int) (playerInfo.firePercent * 65536));
 		out.writeInt((int) (playerInfo.roadPercent * 65536));
-		out.writeInt((int) (playerInfo.researchPercent * 65536));// custom: ACHTUNG HEAVY
+		out.writeInt((int) (playerInfo.researchPercent * 65536)); // custom: ACHTUNG HEAVY
 
-		// 64 => 128 bytes
-		for(int i = 64; i < 120; i++) {
+		// 66 => 132 bytes
+		for(int i = 66; i < 120; i++) {
 			out.writeShort(0);
 		}
 		
