@@ -100,8 +100,9 @@ public class ResearchState extends JFrame implements ActionListener, Serializabl
 //    }
     
     // when loading a *.cty file this method will be called
-    public static ResearchState createFromResearchData(Micropolis engine, ResearchData data)	{
+    public static ResearchState createFromResearchData(Micropolis engine, ResearchData data, Map<MicropolisTool, JToggleButton> toolBtns)	{
     	ResearchState state = new ResearchState(engine);
+    	state.setToolBtns(toolBtns);
     	state.environmentResearch = data.environmentResearch;
     	state.firemanResearch = data.fireResearch;
     	state.policeResearch = data.policeResearch;

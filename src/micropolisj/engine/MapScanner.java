@@ -413,10 +413,13 @@ class MapScanner extends TileBehavior {
 	void doCommercial() {
 		boolean powerOn = checkZonePower();
 		int tilePlayerID = Utilities.getPlayerID(rawTile);
-		city.getPlayerInfo(tilePlayerID).comZoneCount++;
+		System.out.println(">> " + rawTile + " , " + tilePlayerID );
+		PlayerInfo playerInfo = city.getPlayerInfo(tilePlayerID);
+		System.out.println(playerInfo);
+		playerInfo.comZoneCount++;
 
 		int tpop = commercialZonePop(tile);
-		city.getPlayerInfo(tilePlayerID).comPop += tpop;
+		playerInfo.comPop += tpop;
 
 		int trafficGood;
 		if(tpop > PRNG.nextInt(6)) {
@@ -434,7 +437,7 @@ class MapScanner extends TileBehavior {
 
 		if(PRNG.nextInt(8) == 0) {
 			int locValve = evalCommercial(trafficGood);
-			int zscore = city.getPlayerInfo(tilePlayerID).comValve + locValve;
+			int zscore = playerInfo.comValve + locValve;
 
 			if(!powerOn)
 				zscore = -500;

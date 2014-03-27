@@ -4,12 +4,16 @@ import java.awt.FlowLayout;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.WindowConstants;
 
 import micropolisj.engine.Micropolis;
+import micropolisj.engine.MicropolisTool;
+import micropolisj.research.ResearchState;
 
 public class CheatWindow extends JFrame implements KeyEventDispatcher{
     
@@ -28,9 +32,12 @@ public class CheatWindow extends JFrame implements KeyEventDispatcher{
     
     private JTextField textField;
     
-    public CheatWindow(Micropolis engine) {
+    private Map<MicropolisTool, JToggleButton> toolBtns;
+    
+    public CheatWindow(Micropolis engine, Map<MicropolisTool, JToggleButton> toolBtns) {
         super("Let's cheat!");
         this.engine = engine;
+        this.toolBtns = toolBtns;
         textField = new JTextField(10);
         textField.setText(lastInput);
         add(textField);
@@ -53,6 +60,7 @@ public class CheatWindow extends JFrame implements KeyEventDispatcher{
                 }
                 if(textField.getText().equals(MORE_RESEARCH_CHEAT)) {
                     engine.getPlayerInfo().researchData.researchPoints += AMOUNT_RESEARCH;
+                    engine.getPlayerInfo().researchState = ResearchState.createFromResearchData(engine, engine.getPlayerInfo().researchData, toolBtns);
                 }
                 lastInput = textField.getText();
                 manager.removeKeyEventDispatcher(this);

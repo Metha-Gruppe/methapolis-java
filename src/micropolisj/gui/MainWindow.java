@@ -1742,7 +1742,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 			// ENTER --> cheatWindow
 			if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 				if(this.isFocused()) {
-					new CheatWindow(engine);
+					new CheatWindow(engine, toolBtns);
 					return true;
 				}
 				// USE SCROLLING_SPEED pixels in the given direction

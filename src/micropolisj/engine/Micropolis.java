@@ -1985,21 +1985,21 @@ public class Micropolis {
 		for(int x = 0; x < DEFAULT_WIDTH; x++) {
 			for(int y = 0; y < DEFAULT_HEIGHT; y++) {
 				int z = map[y][x];
-				if(isConductive(z & LOMASK)) {
-					z |= 16384; // synthesize CONDBIT on export
-				}
-				if(isCombustible(z & LOMASK)) {
-					z |= 8192; // synthesize BURNBIT on export
-				}
-				if(isTileDozeable(x, y)) {
-					z |= 4096; // synthesize BULLBIT on export
-				}
-				if(isAnimated(z & LOMASK)) {
-					z |= 2048; // synthesize ANIMBIT on export
-				}
-				if(isZoneCenter(z & LOMASK)) {
-					z |= 1024; // synthesize ZONEBIT
-				}
+//				if(isConductive(z & LOMASK)) {
+//					z |= 16384; // synthesize CONDBIT on export
+//				}
+//				if(isCombustible(z & LOMASK)) {
+//					z |= 8192; // synthesize BURNBIT on export
+//				}
+//				if(isTileDozeable(x, y)) {
+//					z |= 4096; // synthesize BULLBIT on export
+//				}
+//				if(isAnimated(z & LOMASK)) {
+//					z |= 2048; // synthesize ANIMBIT on export
+//				}
+//				if(isZoneCenter(z & LOMASK)) {
+//					z |= 1024; // synthesize ZONEBIT
+//				}
 				out.writeShort(z);
 			}
 		}
@@ -2396,23 +2396,15 @@ public class Micropolis {
 			int nradius = radius - Math.abs(dx);
 			for(int dy = -nradius; dy <= nradius; dy++) {
 				// if not 1st explosion then make no sound for those
-				if(dx > -radius || dy > -nradius)	{
-					sprites.add(new ExplosionSprite(this, x + dx * off, y + dy * off, false, false));					
+				if(dx == 0 || dy == 0)	{
+					sprites.add(new ExplosionSprite(this, x + dx * off, y + dy * off, false, true));					
 				}
 				// 1st explosion => play sound
 				else {
-					sprites.add(new ExplosionSprite(this, x + dx * off, y + dy * off, false, true));
+					sprites.add(new ExplosionSprite(this, x + dx * off, y + dy * off, false, false));
 				}
 			}
 		}
-		/*
-		 * sprites.add(new ExplosionSprite(this, x, y, false)); sprites.add(new
-		 * ExplosionSprite(this, x - off, y, false)); sprites.add(new
-		 * ExplosionSprite(this, x + off, y, false)); sprites.add(new
-		 * ExplosionSprite(this, x, y + off, false)); sprites.add(new
-		 * ExplosionSprite(this, x, y - off, false));
-		 */
-		// TODO: only 1 message report!!
 	}
 
 	/**
@@ -2654,6 +2646,7 @@ public class Micropolis {
 	}
 
 	public PlayerInfo getPlayerInfo(int playerID) {
+		System.out.println(playerID + " :: " + getPlayerID());
 		if(playerID == getPlayerID()) {
 			return playerInfo;
 		} else return null;
