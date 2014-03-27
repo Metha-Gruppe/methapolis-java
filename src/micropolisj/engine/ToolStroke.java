@@ -118,6 +118,7 @@ public class ToolStroke implements Serializable {
                 // shoot rocket (aka monster) to location
                 if(city.getPlayerInfo(playerID).budget.totalFunds <= MicropolisTool.ROCKET.getToolCost()) {
                     eff.toolResult(ToolResult.INSUFFICIENT_FUNDS);
+                    city.sendMessage(MicropolisMessage.INSUFFICIENT_FUNDS);
                 } else {
                     city.generateRocket(0, 0, xpos, ypos, playerID);
                     city.spend(MicropolisTool.ROCKET.getToolCost(), city.getPlayerInfo(playerID));
