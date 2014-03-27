@@ -61,7 +61,6 @@ import java.util.Random;
 import java.util.Stack;
 
 import micropolisj.gui.MainWindow;
-import micropolisj.research.ResearchState;
 
 /**
  * The main simulation engine for Micropolis. The front-end should call
@@ -145,7 +144,7 @@ public class Micropolis {
 							// research points
 
 	int factorIncome = 4;	//factor - higher numbers increase income
-    int factorRoadFund = 5;	//divisor - higher numbers decrease funding costs
+	int factorRoadFund = 5;	//divisor - higher numbers decrease funding costs
 
 	/**
 	 * For each 8x8 section of city, this is an integer between 0 and 64, with
@@ -181,16 +180,20 @@ public class Micropolis {
 	int acycle; // animation cycle (mod 960)
 
 	public MainWindow mainWindow;
-	
+
 	protected List<Sprite> sprites = new ArrayList<Sprite>();
 
 	static final int VALVERATE = 2;
 	public static final int CENSUSRATE = 4;
 	static final int TAXFREQ = 48;
 
-	public void spend(int amount) {
+	public void spend(int amount, PlayerInfo playerInfo) {
 		playerInfo.budget.totalFunds -= amount;
 		fireFundsChanged();
+	}
+
+	public void spend(int amount) {
+		spend(amount, playerInfo);
 	}
 
 	public Micropolis() {
@@ -203,10 +206,8 @@ public class Micropolis {
 	public Micropolis(int width, int height) {
 		PRNG = DEFAULT_PRNG;
 		playerInfo = new PlayerInfo(this);
-		playerInfo.evaluation = new CityEval(this);
 		init(width, height);
 		initTileBehaviors();
-		playerInfo.researchState = new ResearchState();
 	}
 
 	protected void init(int width, int height) {
@@ -237,10 +238,11 @@ public class Micropolis {
 		fireRate = new int[smY][smX];
 		comRate = new int[smY][smX];
 
+		//TODO check for errors
 		playerInfo.centerMassX = hX;
 		playerInfo.centerMassY = hY;
 	}
-	
+
 	public List<Sprite> getSprites()	{
 		return sprites;
 	}
@@ -934,9 +936,7 @@ public class Micropolis {
 		}
 
 		//
-		// Note: brownouts are based on total number of power plants, not the
-		// number
-		// of powerplants connected to your city.
+		// Note: brownouts are based on total number of power plants, not the number of powerplants connected to your city.
 		//
 
 		int maxPower = playerInfo.coalCount * 700 + playerInfo.nuclearCount * 2000;
@@ -1133,7 +1133,7 @@ public class Micropolis {
 		fireMapOverlayDataChanged(MapState.POLLUTE_OVERLAY); // PLMAP
 		fireMapOverlayDataChanged(MapState.LANDVALUE_OVERLAY); // LVMAP
 	}
-
+	//TODO remove pollution from PlayerInfo !?
 	public CityLocation getLocationOfMaxPollution() {
 		return new CityLocation(playerInfo.pollutionMaxLocationX, playerInfo.pollutionMaxLocationY);
 	}
@@ -1468,9 +1468,9 @@ public class Micropolis {
 	}
 
 	// TODO: This duplicate of all the above methods is definitely necessary!!
-	void generateRocket(int xpos, int ypos, int xDest, int yDest) {
+	void generateRocket(int xpos, int ypos, int xDest, int yDest, int ownerID) {
 		// if(!hasSprite(SpriteKind.ROC)) {
-		RocketSprite rocket = new RocketSprite(this, xpos, ypos, xDest, yDest);
+		RocketSprite rocket = new RocketSprite(this, xpos, ypos, xDest, yDest, ownerID);
 		sprites.add(rocket);
 		// }
 	}
@@ -1598,24 +1598,20 @@ public class Micropolis {
 	};
 
 	public void addResearchPoints() {
+		addResearchPoints(0);
+	}
+
+	public void addResearchPoints(int playerID) {
 		// used in collectTaxPartial()
 		// Charger accumulates to Delay.
 		// playerInfo.researchEffect needs a divison as it is 1000 base.
 		// div 100 => you need at least 1 research station at 10% fund to get a
 		// point
-
-		// System.out.print("number of university : ");
-		// System.out.println(playerInfo.researchCount);
-		// System.out.println(researchDelayCharger);
-
-		if(researchDelayCharger >= researchDelay) {
-			playerInfo.researchState.researchPoints += (playerInfo.researchEffect * Math.min(this.getCityPopulation()
-					/ playerInfo.researchCount, 4000))
-					/ (100 * 3000);
-			playerInfo.researchState.refreshPanel();
+		if (researchDelayCharger >= researchDelay) {
+			getPlayerInfo(playerID).researchState.researchPoints += (getPlayerInfo(playerID).researchEffect * this.getCityPopulation(playerID)) / (100 * 3000);
+			getPlayerInfo(playerID).researchState.refreshPanel();
 			researchDelayCharger = 0;
-		}
-		else {
+		} else {
 			researchDelayCharger++;
 		}
 	}
@@ -1689,10 +1685,14 @@ public class Micropolis {
 	/** Annual maintenance cost of each academy. */
 	static final int RESEARCH_STATION_MAINTENANCE = 500;
 
+	public BudgetNumbers generateBudget() {
+		return generateBudget(playerInfo);
+	}
+
 	/**
 	 * Calculate the current playerInfo.budget numbers.
 	 */
-	public BudgetNumbers generateBudget() {
+	public BudgetNumbers generateBudget(PlayerInfo playerInfo) {
 		BudgetNumbers b = new BudgetNumbers();
 		b.taxRate = Math.max(0, playerInfo.cityTax);
 		b.roadPercent = Math.max(0.0, playerInfo.roadPercent);
@@ -1832,6 +1832,7 @@ public class Micropolis {
 		}
 	}
 
+	// TODO Fix
 	void loadMisc(DataInputStream dis) throws IOException {
 		dis.readShort(); // [0]... ignored?
 		dis.readShort(); // [1] externalMarket, ignored
@@ -1905,6 +1906,7 @@ public class Micropolis {
 		playerInfo.indCap = false;
 	}
 
+	// TODO fix
 	void writeMisc(DataOutputStream out) throws IOException {
 		out.writeShort(0);
 		out.writeShort(0);
@@ -2088,8 +2090,24 @@ public class Micropolis {
 		if(this.acycle % 2 == 0) {
 			step();
 		}
-		moveObjects();
-		animateTiles();
+		if(this.acycle % getNumberOfPlayers() == 0) {
+			moveObjects();
+			animateTiles();
+		}
+	}
+
+	public int getNumberOfPlayers() {
+		return 1;
+	}
+
+	public PlayerInfo getPlayerInfo() {
+		return playerInfo;
+	}
+
+	public PlayerInfo getPlayerInfo(int playerID) {
+		if(playerID == getPlayerID()) {
+			return playerInfo;
+		} else return null;
 	}
 
 	public Sprite[] allSprites() {
@@ -2119,13 +2137,18 @@ public class Micropolis {
 	}
 
 	public int getCityPopulation() {
-		return playerInfo.lastCityPop;
+		return getCityPopulation(getPlayerID());
+	}
+
+	public int getCityPopulation(int playerID) {
+		return getPlayerInfo(playerID).lastCityPop;
 	}
 
 	void makeSound(int x, int y, Sound sound) {
 		fireCitySound(sound, new CityLocation(x, y));
 	}
 
+	// TODO check if depends on playerInfo
 	public void makeEarthquake() {
 		makeSound(playerInfo.centerMassX, playerInfo.centerMassY, Sound.EXPLOSION_LOW);
 		fireEarthquakeStarted();
@@ -2586,15 +2609,15 @@ public class Micropolis {
 	}
 
 	public int getResValve() {
-		return playerInfo.resValve;
+		return getPlayerInfo().resValve;
 	}
 
 	public int getComValve() {
-		return playerInfo.comValve;
+		return getPlayerInfo().comValve;
 	}
 
 	public int getIndValve() {
-		return playerInfo.indValve;
+		return getPlayerInfo().indValve;
 	}
 
 	public void setGameLevel(int newLevel) {
@@ -2605,19 +2628,18 @@ public class Micropolis {
 	}
 
 	public void setFunds(int totalFunds) {
-		playerInfo.budget.totalFunds = totalFunds;
+		getPlayerInfo().budget.totalFunds = totalFunds;
 	}
 
 	public int getPlayerID() {
 		return 0;
 	}
 
-	public void setBudgetNumbers(int newTaxRate, double roadPct, double newRoadPct, double newPolicePct, double newFirePct,
-			double newResearchPct) {
-		playerInfo.cityTax = newTaxRate;
-		playerInfo.roadPercent = newRoadPct;
-		playerInfo.policePercent = newPolicePct;
-		playerInfo.firePercent = newFirePct;
-		playerInfo.researchPercent = newResearchPct;
+	public void setBudgetNumbers(int newTaxRate, double roadPct, double newRoadPct, double newPolicePct, double newFirePct, double newResearchPct) {
+		getPlayerInfo().cityTax = newTaxRate;
+		getPlayerInfo().roadPercent = newRoadPct;
+		getPlayerInfo().policePercent = newPolicePct;
+		getPlayerInfo().firePercent = newFirePct;
+		getPlayerInfo().researchPercent = newResearchPct;
 	}
 }

@@ -8,10 +8,12 @@
 
 package micropolisj.engine;
 
+import java.io.Serializable;
+
 /**
  * Enumeration of various city problems that the citizens complain about.
  */
-public enum CityProblem
+public enum CityProblem implements Serializable
 {
 	CRIME,
 	POLLUTION,

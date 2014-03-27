@@ -143,15 +143,15 @@ public abstract class Sprite implements Serializable {
 	/**
 	 * Replaces this sprite with an exploding sprite.
 	 */
-	final void explodeSprite() {
+	protected void explodeSprite() {
 		this.frame = 0;
-
-		if(kind == SpriteKind.ROC) {
-			city.makeGiantExplosionAt(x, y, city.playerInfo.researchState.getRocketRadius());
-		}
-		else {
+//
+//		if(kind == SpriteKind.ROC) {
+//			city.makeGiantExplosionAt(x, y, city.getPlayerInfo(ownerID).researchState.getRocketRadius());
+//		}
+//		else {
 			city.makeExplosionAt(x, y);
-		}
+//		}
 
 		int xpos = x / 16;
 		int ypos = y / 16;
@@ -175,10 +175,10 @@ public abstract class Sprite implements Serializable {
 				city.sendMessageAt(MicropolisMessage.COPTER_CRASH_REPORT, xpos, ypos);
 				break;
 			// TODO: message
-			case ROC:
-				city.crashLocation = new CityLocation(xpos, ypos);
-				city.sendMessageAt(MicropolisMessage.ROCKETCRASH_REPORT, xpos, ypos);
-				break;
+//			case ROC:
+//				city.crashLocation = new CityLocation(xpos, ypos);
+//				city.sendMessageAt(MicropolisMessage.ROCKETCRASH_REPORT, xpos, ypos);
+//				break;
 			default:
 				break;
 		}

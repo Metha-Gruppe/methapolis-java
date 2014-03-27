@@ -1,13 +1,13 @@
 package micropolisj.research;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 
 import micropolisj.engine.MapState;
 import micropolisj.engine.MicropolisTool;
 
-public class ResearchTree {
-	
+public class ResearchTree implements Serializable {
 
 	int rocketNameDecider = 0;
 	int policeNameDecider = 0;
@@ -42,12 +42,13 @@ public class ResearchTree {
 		  , 25, 130, 235
 	};
 
+	//Set costs here
 	public ResearchTree() {
 		possible_nodes = new ResearchNode[] {
-				new RocketNode(1, 150), new RocketNode(2, 200), new RocketNode(3, 250)
-			  , new PoliceNode(1, 150), new PoliceNode(2, 200), new PoliceNode(3, 250)
-			  , new FiremanNode(1, 150), new FiremanNode(2, 200), new FiremanNode(3, 250)
-			  , new EnvironmentNode(1, 150), new EnvironmentNode(2, 200), new EnvironmentNode(3, 250)
+				new RocketNode(1, 200), new RocketNode(2, 350), new RocketNode(3, 500)
+			  , new PoliceNode(1, 50), new PoliceNode(2, 100), new PoliceNode(3, 150)
+			  , new FiremanNode(1, 50), new FiremanNode(2, 100), new FiremanNode(3, 150)
+			  , new EnvironmentNode(1, 50), new EnvironmentNode(2, 100), new EnvironmentNode(3, 150)
 		};
 	}
 

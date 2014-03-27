@@ -3,6 +3,7 @@ package micropolisj.network;
 import java.rmi.RemoteException;
 
 import micropolisj.engine.Micropolis;
+import micropolisj.engine.PlayerInfo;
 import micropolisj.engine.Sprite;
 import micropolisj.engine.ToolStroke;
 
@@ -18,21 +19,38 @@ public class ClientMicropolis extends Micropolis{
     @Override
     public void animate() {
         MapInfo info = remote.getMap();
+        PlayerInfo playerInfo = remote.getPlayerInfo();
+        applyPlayerInfo(playerInfo);
         applyMapInfo(info);
+        super.animate();
         animateTiles();
         moveObjects();
     }
     
     private void applyMapInfo(MapInfo info) {
         if(info != null)    {
-            map = info.map;
+//            map = info.map;
+            for(int x = 0; x < info.map.length; x++) {
+                for(int y = 0; y < info.map[0].length; y++) {
+                    if(map[x][y] != info.map[x][y]) {
+                        map[x][y] = info.map[x][y];
+//                        System.out.println(x + ", " + y);
+                        fireTileChanged(y, x);
+                    }
+                }
+            }
             sprites = info.sprites;
             for(Sprite sprite : sprites) {
                 sprite.setMicropolis(this);
             }
-            playerInfo.budget.setValues(info.cityBudget);
+            this.cityTime = info.cityTime;
+//            playerInfo.budget.setValues(info.cityBudget);
             fireFundsChanged();
         }
+    }
+    private void applyPlayerInfo(PlayerInfo playerInfo) {
+        this.playerInfo = playerInfo;
+        this.playerInfo.evaluation.setEngine(this);
     }
     
     public void toolUsed(ToolStroke tool) {
@@ -51,5 +69,10 @@ public class ClientMicropolis extends Micropolis{
     @Override
     public int getPlayerID() {
         return remote.getID();
+    }
+    
+    @Override
+    public PlayerInfo getPlayerInfo(int playerID) {
+        return playerInfo;
     }
 }

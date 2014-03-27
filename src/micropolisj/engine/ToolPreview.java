@@ -135,7 +135,6 @@ public class ToolPreview implements ToolEffectIfc {
 	public void setTile(int dx, int dy, int tileValue) {
 		expandTo(dx, dy);
 		tiles[offsetY + dy][offsetX + dx] = Utilities.codePlayerID(tileValue, playerID);
-//		System.out.println(playerID);
 	}
 
 	// implements ToolEffectIfc
@@ -146,5 +145,9 @@ public class ToolPreview implements ToolEffectIfc {
 	// implements ToolEffectIfc
 	public void toolResult(ToolResult tr) {
 		this.toolResult = tr;
+	}
+	
+	public int getPlayerID() {
+	    return playerID;
 	}
 }

@@ -49,8 +49,8 @@ public class NewCityDialog extends JDialog
 		getContentPane().add(p1, BorderLayout.CENTER);
 
 		this.engine = engine;
-		this.engine.playerInfo.researchState = new ResearchState();
-		this.engine.playerInfo.researchState.toolBtns = owner.toolBtns;
+		this.engine.getPlayerInfo().setResearchState(new ResearchState(engine));
+		this.engine.getPlayerInfo().researchState.toolBtns = owner.toolBtns; // TODO? getter for state
 		
 		new MapGenerator(engine).generateNewCity();
 

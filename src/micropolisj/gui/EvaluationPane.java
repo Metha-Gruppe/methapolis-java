@@ -257,12 +257,13 @@ public class EvaluationPane extends JPanel implements Micropolis.Listener {
 
 	private void loadEvaluation() {
 		NumberFormat pctFmt = NumberFormat.getPercentInstance();
-		yesLbl.setText(pctFmt.format(0.01 * engine.playerInfo.evaluation.cityYes));
-		noLbl.setText(pctFmt.format(0.01 * engine.playerInfo.evaluation.cityNo));
+		PlayerInfo info = engine.getPlayerInfo();
+		yesLbl.setText(pctFmt.format(0.01 * info.evaluation.cityYes));
+		noLbl.setText(pctFmt.format(0.01 * info.evaluation.cityNo));
 
 		for (int i = 0; i < voterProblemLbl.length; i++) {
-			CityProblem p = i < engine.playerInfo.evaluation.problemOrder.length ? engine.playerInfo.evaluation.problemOrder[i] : null;
-			int numVotes = p != null ? engine.playerInfo.evaluation.problemVotes.get(p) : 0;
+			CityProblem p = i < info.evaluation.problemOrder.length ? info.evaluation.problemOrder[i] : null;
+			int numVotes = p != null ? info.evaluation.problemVotes.get(p) : 0;
 
 			if(numVotes != 0) {
 				voterProblemLbl[i].setText(cstrings.getString("problem." + p.name()));
@@ -277,13 +278,13 @@ public class EvaluationPane extends JPanel implements Micropolis.Listener {
 		}
 
 		NumberFormat nf = NumberFormat.getInstance();
-		popLbl.setText(nf.format(engine.playerInfo.evaluation.cityPop));
-		deltaLbl.setText(nf.format(engine.playerInfo.evaluation.deltaCityPop));
-		assessLbl.setText(formatFunds(engine.playerInfo.evaluation.cityAssValue));
-		cityClassLbl.setText(getCityClassName(engine.playerInfo.evaluation.cityClass));
+		popLbl.setText(nf.format(info.evaluation.cityPop));
+		deltaLbl.setText(nf.format(info.evaluation.deltaCityPop));
+		assessLbl.setText(formatFunds(info.evaluation.cityAssValue));
+		cityClassLbl.setText(getCityClassName(info.evaluation.cityClass));
 		gameLevelLbl.setText(getGameLevelName(engine.gameLevel));
-		scoreLbl.setText(nf.format(engine.playerInfo.evaluation.cityScore));
-		scoreDeltaLbl.setText(nf.format(engine.playerInfo.evaluation.deltaCityScore));
+		scoreLbl.setText(nf.format(info.evaluation.cityScore));
+		scoreDeltaLbl.setText(nf.format(info.evaluation.deltaCityScore));
 	}
 
 	static String getCityClassName(int cityClass) {

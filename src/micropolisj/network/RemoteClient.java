@@ -7,6 +7,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+import micropolisj.engine.PlayerInfo;
+
 public class RemoteClient extends UnicastRemoteObject implements Serializable{
     
     private transient IMicropolisServer server;
@@ -31,6 +33,16 @@ public class RemoteClient extends UnicastRemoteObject implements Serializable{
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+    
+    public PlayerInfo getPlayerInfo() {
+        try {
+            return server.getPlayerInfo(playerID);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
     }
     
     public int getID() {
