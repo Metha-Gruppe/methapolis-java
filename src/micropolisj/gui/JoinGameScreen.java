@@ -3,6 +3,8 @@ package micropolisj.gui;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.rmi.RemoteException;
 
 import javax.swing.JButton;
@@ -26,6 +28,25 @@ public class JoinGameScreen extends JFrame implements ActionListener {
 
 		setLayout(new FlowLayout());
 
+		textfield.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					joinGame();
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					joinGame();
+				}
+			}
+		});
 		loginBtn.addActionListener(this);
 		pack();
 

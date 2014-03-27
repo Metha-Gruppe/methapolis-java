@@ -80,13 +80,13 @@ import micropolisj.engine.Micropolis;
 import micropolisj.engine.MicropolisMessage;
 import micropolisj.engine.MicropolisTool;
 import micropolisj.engine.Sound;
-import micropolisj.engine.SpaceshipSprite;
 import micropolisj.engine.Speed;
 import micropolisj.engine.ToolResult;
 import micropolisj.engine.ToolStroke;
 import micropolisj.engine.ZoneStatus;
-import micropolisj.util.MP3;
 import micropolisj.network.ClientMicropolis;
+import micropolisj.network.ServerMicropolis;
+import micropolisj.util.MP3;
 import micropolisj.util.TranslationTool;
 import micropolisj.util.Utilities;
 
@@ -134,7 +134,7 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		this(new Micropolis());
 	}
 
-	public MainWindow(Micropolis engine) {
+	public MainWindow(Micropolis engine) {		
 		setIconImage(appIcon.getImage());
 
 		backgroundMusic = new MP3(MainWindow.class.getResource("/sounds/" + Sound.BG_MUSIC.getWavName() + ".mp3"), true);
@@ -143,9 +143,10 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 		// TODO custom: necessary so sprites can access window size
 		engine.mainWindow = this;
 
+		engine.getPlayerInfo().researchState.setLocationRelativeTo(this);
+		
 		this.engine = engine;
 		
-		engine.getPlayerInfo().researchState.setLocationRelativeTo(this);
 
 		JPanel mainArea = new JPanel(new BorderLayout());
 		add(mainArea, BorderLayout.CENTER);
@@ -873,7 +874,8 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 			setTitle(MessageFormat.format(strings.getString("main.caption_named_city"), fileName));
 		}
 		else {
-			setTitle(strings.getString("main.caption_unnamed_city"));
+//			setTitle(strings.getString("main.caption_unnamed_city"));
+			setTitle(engine instanceof ServerMicropolis ? "Methapolis - Server" : "Methapolis - Client");
 		}
 	}
 

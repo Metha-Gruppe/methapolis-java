@@ -38,8 +38,7 @@ public class NewCityDialog extends JDialog
 	
 	public NewCityDialog(MainWindow owner, boolean showCancelOption, Micropolis engine)
 	{
-		super(owner);
-		setTitle(strings.getString("welcome.caption"));
+		super(owner, strings.getString("welcome.caption"));
 		setModal(true);
 
 		assert owner != null;
