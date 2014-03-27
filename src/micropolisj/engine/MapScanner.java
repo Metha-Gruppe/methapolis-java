@@ -206,7 +206,7 @@ class MapScanner extends TileBehavior {
 	void doCoalPower(PlayerInfo playerInfo) {
 		checkZonePower();
 
-		playerInfo.coalCount++;
+		city.coalCount++;
 		
 		if((city.cityTime % 8) == 0) {
 			repairZone(POWERPLANT, 4);
@@ -223,7 +223,7 @@ class MapScanner extends TileBehavior {
 			return;
 		}
 
-		playerInfo.nuclearCount++;
+		city.nuclearCount++;
 		if((city.cityTime % 8) == 0) {
 			repairZone(NUCLEAR, 4);
 		}

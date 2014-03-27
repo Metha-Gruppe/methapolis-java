@@ -109,8 +109,8 @@ public class CityEval implements Serializable {
         z += engine.playerInfo.stadiumCount * 3000;
         z += engine.playerInfo.seaportCount * 5000;
         z += engine.playerInfo.airportCount * 10000;
-        z += engine.playerInfo.coalCount * 3000;
-        z += engine.playerInfo.nuclearCount * 6000;
+        z += engine.coalCount * 3000;
+        z += engine.nuclearCount * 6000;
         cityAssValue = z * 1000;
     }
 

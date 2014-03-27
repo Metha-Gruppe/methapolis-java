@@ -159,6 +159,9 @@ public class Micropolis {
 	// TODO: make it a List/array to hold every players information individually
 	public PlayerInfo playerInfo;
 	
+	public int coalCount;
+	public int nuclearCount;
+	
 	public Stack<CityLocation> powerPlants = new Stack<CityLocation>();
 
 
@@ -486,8 +489,8 @@ public class Micropolis {
 		playerInfo.researchCount = 0;
 		playerInfo.fireStationCount = 0;
 		playerInfo.stadiumCount = 0;
-		playerInfo.coalCount = 0;
-		playerInfo.nuclearCount = 0;
+		coalCount = 0;
+		nuclearCount = 0;
 		playerInfo.seaportCount = 0;
 		playerInfo.airportCount = 0;
 		powerPlants.clear();
@@ -957,7 +960,7 @@ public class Micropolis {
 		// Note: brownouts are based on total number of power plants, not the number of powerplants connected to your city.
 		//
 
-		int maxPower = playerInfo.coalCount * 700 + playerInfo.nuclearCount * 2000;
+		int maxPower = coalCount * 700 + nuclearCount * 2000;
 		int numPower = 0;
 
 		// This is kind of odd algorithm, but I haven't the heart to rewrite it
@@ -2030,19 +2033,19 @@ public class Micropolis {
 	}
 
 	void checkPowerMap() {
-		playerInfo.coalCount = 0;
-		playerInfo.nuclearCount = 0;
+		coalCount = 0;
+		nuclearCount = 0;
 
 		powerPlants.clear();
 		for(int y = 0; y < map.length; y++) {
 			for(int x = 0; x < map[y].length; x++) {
 				int tile = getTile(x, y);
 				if(tile == NUCLEAR) {
-					playerInfo.nuclearCount++;
+					nuclearCount++;
 					powerPlants.add(new CityLocation(x, y));
 				}
 				else if(tile == POWERPLANT) {
-					playerInfo.coalCount++;
+					coalCount++;
 					powerPlants.add(new CityLocation(x, y));
 				}
 			}
@@ -2455,7 +2458,7 @@ public class Micropolis {
 		checkGrowth();
 
 		int totalZoneCount = playerInfo.resZoneCount + playerInfo.comZoneCount + playerInfo.indZoneCount;
-		int powerCount = playerInfo.nuclearCount + playerInfo.coalCount;
+		int powerCount = nuclearCount + coalCount;
 
 		int z = cityTime % 64;
 		switch(z) {

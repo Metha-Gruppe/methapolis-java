@@ -42,8 +42,8 @@ public class PlayerInfo implements Serializable {
     public int policeCount;
     public int fireStationCount;
     public int stadiumCount;
-    public int coalCount;
-    public int nuclearCount;
+//    public int coalCount;
+//    public int nuclearCount;
     public int seaportCount;
     public int airportCount;
     
