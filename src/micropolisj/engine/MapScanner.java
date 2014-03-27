@@ -341,9 +341,12 @@ class MapScanner extends TileBehavior {
 	
 	//Tempel Methode 
 	void doTempel(PlayerInfo playerInfo) {
-		checkZonePower();
-		
+		boolean zonePower = checkZonePower();
 		playerInfo.tempelCount++;
+		
+		if(!zonePower) {
+		    return;
+		}
 		if(playerInfo.countdown == 0){
 			city.notifyEnd();
 			playerInfo.countdown = -1;
