@@ -8,10 +8,12 @@
 
 package micropolisj.engine;
 
+import java.io.Serializable;
+
 /**
  * Coordinates of a location (x,y) in the city.
  */
-public class CityLocation
+public class CityLocation implements Serializable
 {
 	/** The X coordinate of this location.
 	 * Increasing X coordinates correspond to East,

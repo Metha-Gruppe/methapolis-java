@@ -9,6 +9,7 @@
 package micropolisj.engine;
 
 import static micropolisj.engine.TileConstants.*;
+import micropolisj.util.Utilities;
 
 class TerrainBehavior extends TileBehavior {
 	final B behavior;
@@ -144,7 +145,8 @@ class TerrainBehavior extends TileBehavior {
 	 * Called when the current tile is a road tile.
 	 */
 	void doRoad() {
-		city.playerInfo.roadTotal++;
+	    int tilePlayerID = Utilities.getPlayerID(rawTile);
+		city.getPlayerInfo(tilePlayerID).roadTotal++;
 
 		if(city.playerInfo.roadEffect < 30) {
 			// deteriorating roads
@@ -195,7 +197,8 @@ class TerrainBehavior extends TileBehavior {
 	 * Called when the current tile is railroad.
 	 */
 	void doRail() {
-		city.playerInfo.railTotal++;
+	    int tilePlayerID = Utilities.getPlayerID(rawTile);
+		city.getPlayerInfo(tilePlayerID).railTotal++;
 		city.generateTrain(xpos, ypos);
 
 		if(city.playerInfo.roadEffect < 30) { // deteriorating rail
@@ -318,7 +321,7 @@ class TerrainBehavior extends TileBehavior {
 			int y = ypos + Dy[z];
 			if(city.testBounds(x, y)) {
 				if((city.getTile(x, y) == fromTab[z]) || (city.getTile(x, y) == CHANNEL)) {
-					city.setTile(x, y, toTab[z]);
+					city.setTile(x, y, toTab[z]); // TODO: needs player id
 				}
 			}
 		}

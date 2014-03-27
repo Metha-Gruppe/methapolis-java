@@ -49,9 +49,17 @@ public class ServerMicropolis extends Micropolis{
                 stroke.apply();
             }
             BudgetInput budgetNum = entry.getKey().getBudgetNumbers();
-            //TODO: Apply budgetNumbers to the right playerInfo
+            doBudgetInput(budgetNum, getPlayerInfo(entry.getValue()));
         }
         server.clearInput();
+    }
+    
+    private void doBudgetInput(BudgetInput bud, PlayerInfo pI) {
+        pI.cityTax = bud.cityTax;
+        pI.roadPercent = bud.roadPercent;
+        pI.policePercent = bud.policePercent;
+        pI.firePercent = bud.policePercent;
+        pI.researchPercent = bud.researchPercent;
     }
     
     @Override
