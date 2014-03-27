@@ -10,6 +10,7 @@ import micropolisj.engine.Micropolis;
 import micropolisj.engine.PlayerInfo;
 import micropolisj.engine.ToolStroke;
 import micropolisj.network.PlayerInput.BudgetInput;
+import micropolisj.research.ResearchData;
 
 public class ServerMicropolis extends Micropolis {
 
@@ -54,19 +55,27 @@ public class ServerMicropolis extends Micropolis {
 			playerInfo = playerInf.getValue();
 			super.animate();
 		}
+		
 		// gives remoteDistributor MapInfo
 		server.setMapInfo(generateMapInfo());
 		Map<PlayerInput, Integer> inputs = server.getInput();
 		// reacts to ClientInput
 		for(Entry<PlayerInput, Integer> entry : inputs.entrySet()) {
 			// TODO: react to playerID
-			ToolStroke stroke = entry.getKey().getToolStroke();
+			PlayerInput input = entry.getKey();
+			PlayerInfo info = getPlayerInfo(entry.getValue());
+			
+			ToolStroke stroke = input.getToolStroke();
 			if(stroke != null) {
 				stroke.setCity(this);
 				stroke.apply();
 			}
-			BudgetInput budgetNum = entry.getKey().getBudgetNumbers();
-			doBudgetInput(budgetNum, getPlayerInfo(entry.getValue()));
+			
+			BudgetInput budgetNum = input.getBudgetNumbers();
+			doBudgetInput(budgetNum, info);
+			
+			ResearchData researchData = input.getResearchData();
+			doResearchInput(researchData, info);
 		}
 		server.clearInput();
 	}
@@ -78,6 +87,16 @@ public class ServerMicropolis extends Micropolis {
 			pI.policePercent = bud.policePercent;
 			pI.firePercent = bud.policePercent;
 			pI.researchPercent = bud.researchPercent;
+		}
+	}
+	
+	private void doResearchInput(ResearchData data, PlayerInfo pI) {
+		if(data != null) {
+			pI.researchData.environmentResearch = data.environmentResearch;
+			pI.researchData.fireResearch = data.fireResearch;
+			pI.researchData.policeResearch = data.policeResearch;
+			pI.researchData.rocketResearch = data.rocketResearch;
+			pI.researchData.researchPoints = data.researchPoints;
 		}
 	}
 

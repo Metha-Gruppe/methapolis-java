@@ -1233,6 +1233,13 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 	private void onToolUp(MouseEvent ev) {
 		if(toolStroke != null) {
 
+			// Custom: for client-send
+			if(engine instanceof ClientMicropolis) {
+				((ClientMicropolis) engine).toolUsed(toolStroke);
+				toolStroke = null;
+				return;
+			}
+			
 			// prevent toolStroke.apply() being done 2x (same with onToolDrag())
 			if(currentTool == MicropolisTool.ROCKET) {
 				return;
@@ -1241,12 +1248,6 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 			drawingArea.setToolPreview(null);
 
 			CityLocation loc = toolStroke.getLocation();
-			// Custom: for client-send
-			if(engine instanceof ClientMicropolis) {
-				((ClientMicropolis) engine).toolUsed(toolStroke);
-				toolStroke = null;
-				return;
-			}
 			ToolResult tr = toolStroke.apply();
 			showToolResult(loc, tr);
 			toolStroke = null;

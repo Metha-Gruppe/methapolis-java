@@ -17,4 +17,14 @@ public class ResearchData implements Serializable{
     public int getRocketRadius() {
         return rocketResearch * rocketResearch;
     }
+    
+    public void print() {
+    	System.out.println("ResearchData = {");
+    	System.out.println("\trocketResearch = " + rocketResearch);
+    	System.out.println("\tpoliceResearch = " + policeResearch);
+    	System.out.println("\tfireResearch = " + fireResearch);
+    	System.out.println("\tenvironmentResearch = " + environmentResearch);
+    	System.out.println("\tresearchPoints = " + researchPoints);
+    	System.out.println("}");
+    }
 }

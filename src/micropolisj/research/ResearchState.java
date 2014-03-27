@@ -23,6 +23,8 @@ import javax.swing.JToggleButton;
 import micropolisj.engine.Micropolis;
 import micropolisj.engine.MicropolisTool;
 import micropolisj.gui.MainWindow;
+import micropolisj.network.ClientMicropolis;
+import micropolisj.network.PlayerInput;
 
 public class ResearchState extends JFrame implements ActionListener, Serializable {
     private static final long serialVersionUID = 1L;
@@ -39,14 +41,14 @@ public class ResearchState extends JFrame implements ActionListener, Serializabl
         return 1000.0 + policeResearch * 500.0;
     }
 
-    public int firemanResearch = 0;
+    public int fireResearch = 0;
 
     public int getFiremanResearchState() {
-        return firemanResearch;
+        return fireResearch;
     }
 
     public double getFireStationRange() {
-        return 1000.0 + firemanResearch * 500.0;
+        return 1000.0 + fireResearch * 500.0;
     }
 
     public int environmentResearch = 0;
@@ -104,7 +106,7 @@ public class ResearchState extends JFrame implements ActionListener, Serializabl
     	ResearchState state = new ResearchState(engine);
     	state.setToolBtns(toolBtns);
     	state.environmentResearch = data.environmentResearch;
-    	state.firemanResearch = data.fireResearch;
+    	state.fireResearch = data.fireResearch;
     	state.policeResearch = data.policeResearch;
     	state.rocketResearch = data.rocketResearch;
     	state.researchPoints = data.researchPoints;
@@ -114,7 +116,7 @@ public class ResearchState extends JFrame implements ActionListener, Serializabl
     public static ResearchState createFromResearchData(Micropolis engine, ResearchData data)	{
     	ResearchState state = new ResearchState(engine);
     	state.environmentResearch = data.environmentResearch;
-    	state.firemanResearch = data.fireResearch;
+    	state.fireResearch = data.fireResearch;
     	state.policeResearch = data.policeResearch;
     	state.rocketResearch = data.rocketResearch;
     	state.researchPoints = data.researchPoints;
@@ -125,7 +127,7 @@ public class ResearchState extends JFrame implements ActionListener, Serializabl
 	public ResearchData getResearchData() {
         ResearchData data = new ResearchData();
         data.environmentResearch = environmentResearch;
-        data.fireResearch = firemanResearch;
+        data.fireResearch = fireResearch;
         data.policeResearch = policeResearch;
         data.rocketResearch = rocketResearch;
         data.researchPoints = researchPoints;
@@ -201,6 +203,10 @@ public class ResearchState extends JFrame implements ActionListener, Serializabl
 		setVisible(false);
 	}
 	
+	public Micropolis getCity() {
+		return city;
+	}
+	
 /*
     // CONSTRUCTOR
     public ResearchState(Micropolis engine, ResearchTree tree) {
@@ -270,25 +276,56 @@ public class ResearchState extends JFrame implements ActionListener, Serializabl
 
         setVisible(true);
     }
+    
+    private void refreshNodesFromResearchData() {
+    	ResearchData researchData = getResearchData();
 
-    public void refreshPanel() {
+    	// the order has to match the order in ResearchTree.nodesByType
+    	int[] progress = { researchData.rocketResearch, researchData.policeResearch, researchData.fireResearch, researchData.environmentResearch };
+    	
+    	// reset progress
+    	reached_nodes.clear();
+    	
+    	// go through research types
+    	for(int type = 0; type < progress.length; type++) {
+    		// add progress to reached_nodes
+    		for(int prog = 0; prog < progress[type]; prog++) {
+    			reached_nodes.add(ResearchTree.indicesByType[type][prog]);
+    		}
+    	}
+    }
+    
+    public void printReached() {
+    	for(Integer i : reached_nodes) {
+    		System.out.println(i);
+    	}
+    }
+
+    public void refreshPanel() {    	
+    	refreshNodesFromResearchData();
+    	
+    	printReached();
+    	
+    	getResearchData().print();
 
 		researchPointsLabel.setText(Integer.toString(researchPoints) + " " + strings.getString("research.POINTS_NAME") + " ");
 
 		for(int node_id = 0; node_id < ResearchTree.possible_nodes.length; node_id++) {
 			ResearchNode node = ResearchTree.possible_nodes[node_id];
 
+			// reached
 			if(reached_nodes.contains(node_id)) {
 				buttons[node_id].setEnabled(false);
 				buttons[node_id].setText("<html>" + node.getName() + node.getDesc() +"</html>");
 				buttons[node_id].setBackground(Color.blue);
 			}
+			// not reachable
 			else if(!tree.isReachable(reached_nodes, node_id)) {
 				buttons[node_id].setEnabled(false);
 				buttons[node_id].setText("<html>"+node.getName() + node.getDesc() + "</html>");
 			}
+			// reachable
 			else {
-
 				buttons[node_id].setEnabled(true);
 				buttons[node_id].setText("<html>" + node.getName() + " (" + Integer.toString(node.getCost()) + "pts)" + node.getDesc() +"</html>");
 			}
@@ -310,9 +347,23 @@ public class ResearchState extends JFrame implements ActionListener, Serializabl
 
             researchPoints -= cost;
 
+            ResearchData researchData = getResearchData();
+
             refreshPanel();
             
-            city.getPlayerInfo().researchData = getResearchData();
+            // update player info
+            city.getPlayerInfo().researchData = researchData;
+            
+//            ResearchData researchData = engine.getPlayerInfo().researchData;
+//        	researchData.researchPoints += AMOUNT_RESEARCH;
+        	
+            if(city instanceof ClientMicropolis) {
+            	PlayerInput input = new PlayerInput(null);
+            	input.setResearchData(researchData);
+            	((ClientMicropolis) city).getRemote().sendInput(input);
+            }
+            
+            
         } else {
 			JOptionPane.showMessageDialog(this, strings.getString("research.POINTS_MISSING"));
         }

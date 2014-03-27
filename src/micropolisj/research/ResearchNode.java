@@ -10,7 +10,7 @@ public interface ResearchNode {
 
 	public int getCost();
 
-	// public int getId();
+	 public int getId();
 
 	// public boolean isReachable(ResearchState state);
 	

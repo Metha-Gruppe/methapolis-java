@@ -13,6 +13,9 @@ import javax.swing.WindowConstants;
 
 import micropolisj.engine.Micropolis;
 import micropolisj.engine.MicropolisTool;
+import micropolisj.network.ClientMicropolis;
+import micropolisj.network.PlayerInput;
+import micropolisj.research.ResearchData;
 import micropolisj.research.ResearchState;
 
 public class CheatWindow extends JFrame implements KeyEventDispatcher{
@@ -59,10 +62,15 @@ public class CheatWindow extends JFrame implements KeyEventDispatcher{
                     engine.fireFundsChanged();
                 }
                 if(textField.getText().equals(MORE_RESEARCH_CHEAT)) {
-                	System.out.println(engine.getPlayerInfo().researchData.researchPoints);
-                    engine.getPlayerInfo().researchData.researchPoints += AMOUNT_RESEARCH;
-                    System.out.println(engine.getPlayerInfo().researchData.researchPoints);
-                    engine.getPlayerInfo().researchState = ResearchState.createFromResearchData(engine, engine.getPlayerInfo().researchData, toolBtns);
+                	ResearchData researchData = engine.getPlayerInfo().researchData;
+                	researchData.researchPoints += AMOUNT_RESEARCH;
+                	
+                    if(engine instanceof ClientMicropolis) {
+                    	PlayerInput input = new PlayerInput(null);
+                    	input.setResearchData(researchData);
+                    	((ClientMicropolis) engine).getRemote().sendInput(input);
+                    }
+                    engine.getPlayerInfo().researchState = ResearchState.createFromResearchData(engine, researchData, toolBtns);
                 }
                 lastInput = textField.getText();
                 manager.removeKeyEventDispatcher(this);

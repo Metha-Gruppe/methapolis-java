@@ -3,6 +3,7 @@ package micropolisj.network;
 import java.io.Serializable;
 
 import micropolisj.engine.ToolStroke;
+import micropolisj.research.ResearchData;
 
 /**
  * object encapsulating the actions of a player in order to send them to the server
@@ -15,7 +16,7 @@ public class PlayerInput implements Serializable{
     
     private ToolStroke toolStroke;
     private BudgetInput budgetNumbers;
-
+    private ResearchData researchData;
     
 
     public PlayerInput(ToolStroke tool) {
@@ -35,6 +36,10 @@ public class PlayerInput implements Serializable{
         budgetNumbers.researchPercent = researchPct;
     }
     
+    public void setResearchData(ResearchData data) {
+    	researchData = data;
+    }
+    
     public class BudgetInput implements Serializable{
         public int cityTax;
         public double roadPercent;
@@ -45,5 +50,9 @@ public class PlayerInput implements Serializable{
 
     public BudgetInput getBudgetNumbers() {
         return budgetNumbers;
+    }
+    
+    public ResearchData getResearchData() {
+    	return researchData;
     }
 }
