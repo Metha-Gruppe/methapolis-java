@@ -61,6 +61,7 @@ import java.util.Random;
 import java.util.Stack;
 
 import micropolisj.gui.MainWindow;
+import micropolisj.util.Utilities;
 
 /**
  * The main simulation engine for Micropolis. The front-end should call
@@ -247,13 +248,13 @@ public class Micropolis {
 		return sprites;
 	}
 
-	void fireCensusChanged() {
+	protected void fireCensusChanged() {
 		for(Listener l : listeners) {
 			l.censusChanged();
 		}
 	}
 
-	void fireCityMessage(MicropolisMessage message, CityLocation loc) {
+	protected void fireCityMessage(MicropolisMessage message, CityLocation loc) {
 		for(Listener l : listeners) {
 			l.cityMessage(message, loc);
 		}
@@ -265,7 +266,7 @@ public class Micropolis {
 		}
 	}
 
-	void fireDemandChanged() {
+	protected void fireDemandChanged() {
 		for(Listener l : listeners) {
 			l.demandChanged();
 		}
@@ -431,9 +432,16 @@ public class Micropolis {
 
 	public void setTile(int xpos, int ypos, char newTile) {
 		if(map[ypos][xpos] != newTile) {
+//		    System.out.println("setting tile");
+//		    System.out.println((int)newTile);
+//		    System.out.println(Utilities.getPlayerID(newTile));
 			map[ypos][xpos] = newTile;
 			fireTileChanged(xpos, ypos);
 		}
+	}
+	
+	public void setTile(int xpos, int ypos, char newTile, int playerID) {
+	    setTile(xpos, ypos, (char)Utilities.codePlayerID(newTile, playerID));
 	}
 
 	final public boolean testBounds(int xpos, int ypos) {
@@ -479,7 +487,7 @@ public class Micropolis {
 		playerInfo.nuclearCount = 0;
 		playerInfo.seaportCount = 0;
 		playerInfo.airportCount = 0;
-		powerPlants.clear();
+		playerInfo.powerPlants.clear();
 
 		for(int y = 0; y < fireStMap.length; y++) {
 			for(int x = 0; x < fireStMap[y].length; x++) {
@@ -946,8 +954,8 @@ public class Micropolis {
 		// at
 		// this time.
 
-		while(!powerPlants.isEmpty()) {
-			CityLocation loc = powerPlants.pop();
+		while(!playerInfo.powerPlants.isEmpty()) {
+			CityLocation loc = playerInfo.powerPlants.pop();
 
 			int aDir = 4;
 			int conNum;
@@ -972,7 +980,7 @@ public class Micropolis {
 					dir++;
 				}
 				if(conNum > 1) {
-					powerPlants.add(new CityLocation(loc.x, loc.y));
+					playerInfo.powerPlants.add(new CityLocation(loc.x, loc.y));
 				}
 			}
 			while(conNum != 0);
@@ -1448,8 +1456,6 @@ public class Micropolis {
 		}
 	}
 
-	Stack<CityLocation> powerPlants = new Stack<CityLocation>();
-
 	// counts the population in a certain type of residential zone
 	int doFreePop(int xpos, int ypos) {
 		int count = 0;
@@ -1478,7 +1484,7 @@ public class Micropolis {
 	// called every several cycles; this takes the census data collected in this
 	// cycle and records it to the history
 	//
-	void takeCensus() {
+	protected void takeCensus() {
 		int resMax = 0; // residential
 		int comMax = 0; // commercial
 		int indMax = 0; // industrial
@@ -1553,7 +1559,7 @@ public class Micropolis {
 	}
 
 	// record data for the whole year
-	void takeCensus2() {
+	protected void takeCensus2() {
 		// update long term graphs
 		int resMax = 0;
 		int comMax = 0;
@@ -2016,17 +2022,17 @@ public class Micropolis {
 		playerInfo.coalCount = 0;
 		playerInfo.nuclearCount = 0;
 
-		powerPlants.clear();
+		playerInfo.powerPlants.clear();
 		for(int y = 0; y < map.length; y++) {
 			for(int x = 0; x < map[y].length; x++) {
 				int tile = getTile(x, y);
 				if(tile == NUCLEAR) {
 					playerInfo.nuclearCount++;
-					powerPlants.add(new CityLocation(x, y));
+					playerInfo.powerPlants.add(new CityLocation(x, y));
 				}
 				else if(tile == POWERPLANT) {
 					playerInfo.coalCount++;
-					powerPlants.add(new CityLocation(x, y));
+					playerInfo.powerPlants.add(new CityLocation(x, y));
 				}
 			}
 		}

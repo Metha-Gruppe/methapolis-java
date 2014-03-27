@@ -1,6 +1,7 @@
 package micropolisj.engine;
 
 import java.io.Serializable;
+import java.util.Stack;
 
 import micropolisj.research.ResearchData;
 import micropolisj.research.ResearchState;
@@ -105,6 +106,8 @@ public class PlayerInfo implements Serializable {
     public int cashFlow; // net change in totalFunds in previous year
 
     public boolean newPower;
+    
+    public Stack<CityLocation> powerPlants = new Stack<CityLocation>();
     
     public transient ResearchState researchState;
     

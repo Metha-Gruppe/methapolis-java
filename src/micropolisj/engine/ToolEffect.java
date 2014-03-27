@@ -14,8 +14,8 @@ import micropolisj.util.Utilities;
 class ToolEffect implements ToolEffectIfc {
 	final Micropolis city;
 	final ToolPreview preview;
-	final int originX;
-	final int originY;
+	public final int originX;
+	public final int originY;
 	int playerID;
 
 	public ToolEffect(Micropolis city) {
