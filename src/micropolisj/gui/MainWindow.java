@@ -871,7 +871,8 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 			if(fileName.endsWith("." + EXTENSION)) {
 				fileName = fileName.substring(0, fileName.length() - 1 - EXTENSION.length());
 			}
-			setTitle(MessageFormat.format(strings.getString("main.caption_named_city"), fileName));
+//			setTitle(MessageFormat.format(strings.getString("main.caption_named_city"), fileName));
+			setTitle(engine instanceof ServerMicropolis ? "Methapolis - Server - " + fileName : "Methapolis - Client - " + fileName);
 		}
 		else {
 //			setTitle(strings.getString("main.caption_unnamed_city"));
@@ -957,7 +958,9 @@ public class MainWindow extends JFrame implements Micropolis.Listener, Earthquak
 				Micropolis oldEngine = getEngine();
 				Micropolis newEngine;
 				if(oldEngine instanceof ServerMicropolis)	{
-					newEngine = new ServerMicropolis();
+					System.out.println("Creating new server");
+					ServerMicropolis oldServer = (ServerMicropolis) oldEngine;
+					newEngine = new ServerMicropolis(oldServer.getServer(), oldServer.getPlayerInfos());
 				}
 				else if(oldEngine instanceof ClientMicropolis) {
 					newEngine = new ClientMicropolis( ( (ClientMicropolis) oldEngine ).getPlayerIP() );

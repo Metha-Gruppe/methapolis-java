@@ -144,7 +144,7 @@ public class Micropolis {
 	int researchDelay = 5; // amount of skipped ticks - higher number = fewer
 							// research points
 
-	int factorIncome = 4;	//factor - higher numbers increase income
+	int factorIncome = 10;	//factor - higher numbers increase income
 	int factorRoadFund = 5;	//divisor - higher numbers decrease funding costs
 
 	/**
@@ -1985,21 +1985,21 @@ public class Micropolis {
 		for(int x = 0; x < DEFAULT_WIDTH; x++) {
 			for(int y = 0; y < DEFAULT_HEIGHT; y++) {
 				int z = map[y][x];
-				if(isConductive(z & LOMASK)) {
-					z |= 16384; // synthesize CONDBIT on export
-				}
-				if(isCombustible(z & LOMASK)) {
-					z |= 8192; // synthesize BURNBIT on export
-				}
-				if(isTileDozeable(x, y)) {
-					z |= 4096; // synthesize BULLBIT on export
-				}
-				if(isAnimated(z & LOMASK)) {
-					z |= 2048; // synthesize ANIMBIT on export
-				}
-				if(isZoneCenter(z & LOMASK)) {
-					z |= 1024; // synthesize ZONEBIT
-				}
+//				if(isConductive(z & LOMASK)) {
+//					z |= 16384; // synthesize CONDBIT on export
+//				}
+//				if(isCombustible(z & LOMASK)) {
+//					z |= 8192; // synthesize BURNBIT on export
+//				}
+//				if(isTileDozeable(x, y)) {
+//					z |= 4096; // synthesize BULLBIT on export
+//				}
+//				if(isAnimated(z & LOMASK)) {
+//					z |= 2048; // synthesize ANIMBIT on export
+//				}
+//				if(isZoneCenter(z & LOMASK)) {
+//					z |= 1024; // synthesize ZONEBIT
+//				}
 				out.writeShort(z);
 			}
 		}
@@ -2646,6 +2646,7 @@ public class Micropolis {
 	}
 
 	public PlayerInfo getPlayerInfo(int playerID) {
+		System.out.println(playerID + " :: " + getPlayerID());
 		if(playerID == getPlayerID()) {
 			return playerInfo;
 		} else return null;

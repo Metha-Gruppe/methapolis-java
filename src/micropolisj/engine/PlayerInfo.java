@@ -16,6 +16,8 @@ public class PlayerInfo implements Serializable {
     //TODO: decide which variables are playerrelated and which ones are maprelated!!!
     // playerrelated --> PlayerInfo
     // maprelated --> Micropolis
+	
+	public int countdown;
     
     public boolean [][]powermap;
     public CityBudget budget;
@@ -120,6 +122,7 @@ public class PlayerInfo implements Serializable {
     }
     
     public PlayerInfo(ResearchState researchState, CityEval cityEval, CityBudget budget) {
+    	this.countdown = 200;
         this.researchState = researchState;
         this.researchData = researchState.getResearchData();
         this.evaluation = cityEval;
