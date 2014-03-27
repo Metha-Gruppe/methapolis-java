@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,10 +22,13 @@ import javax.swing.JToggleButton;
 
 import micropolisj.engine.Micropolis;
 import micropolisj.engine.MicropolisTool;
+import micropolisj.gui.MainWindow;
 
 public class ResearchState extends JFrame implements ActionListener, Serializable {
     private static final long serialVersionUID = 1L;
-
+    
+	static ResourceBundle strings = ResourceBundle.getBundle("micropolisj.GuiStrings"); //changeswp
+	
     public int policeResearch = 0;
 
     public int getPoliceResearchState() {
@@ -57,18 +61,18 @@ public class ResearchState extends JFrame implements ActionListener, Serializabl
         return rocketResearch;
     }
 
+	int buttonWidth = 250;
+	int buttonHeight = 100;
+	int maxWidth = 0;
+	int maxHeight = 0;
+
     public ResearchTree tree;// = new ResearchTree();
 
     HashSet<Integer> reached_nodes;// = new HashSet<Integer>();
 
-    public int researchPoints = 30000;
+    public int researchPoints = 0;
     
     private Micropolis city;
-
-    int buttonWidth = 150;
-    int buttonHeight = 75;
-    int maxWidth = 0;
-    int maxHeight = 0;
     
     public Map<MicropolisTool, JToggleButton> toolBtns;
 	public void setToolBtns(Map<MicropolisTool, JToggleButton> toolBtns){
@@ -76,8 +80,8 @@ public class ResearchState extends JFrame implements ActionListener, Serializabl
 			System.out.println("no but");
 		this.toolBtns = toolBtns;
 	}
-
-    JScrollPane scrollPane;
+	
+	JScrollPane scrollPane;
     JPanel insidePane;
     JPanel subMenu;
     JLabel researchPointsLabel;
@@ -95,7 +99,8 @@ public class ResearchState extends JFrame implements ActionListener, Serializabl
 //        }
 //    }
 
-    public ResearchData getResearchData() {
+
+	public ResearchData getResearchData() {
         ResearchData data = new ResearchData();
         data.environmentResearch = environmentResearch;
         data.fireResearch = firemanResearch;
@@ -109,7 +114,72 @@ public class ResearchState extends JFrame implements ActionListener, Serializabl
     public ResearchState(Micropolis city) {
         this(city, new ResearchTree());
     }
+	
+	// CONSTRUCTOR
+	public ResearchState(Micropolis engine, ResearchTree tree) {
+		city = engine;
+        this.tree = tree;
+		
+		reached_nodes = new HashSet<Integer>();
+		
+		setName("Research Tree");
+		setLayout(new BorderLayout());
 
+		insidePane = new JPanel();
+		insidePane.setLayout(null);
+
+		scrollPane = new JScrollPane(insidePane);
+		// scrollPane.setLayout(null);
+		add(scrollPane, BorderLayout.CENTER);
+
+		subMenu = new JPanel();
+		subMenu.setLayout(new BorderLayout());
+		add(subMenu, BorderLayout.SOUTH);
+
+		researchPointsLabel = new JLabel(Integer.toString(researchPoints) + " " + strings.getString("research.POINTS_NAME") + " ");
+		subMenu.add(researchPointsLabel, BorderLayout.EAST);
+		
+		JPanel ppanel = new JPanel();
+		ppanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		subMenu.add(ppanel, BorderLayout.CENTER);
+
+		closeButton = new JButton(strings.getString("research.CLOSE_BUTTON"));
+		closeButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				setVisible(false);
+			}
+		});
+		ppanel.add(closeButton);
+		
+		int n = ResearchTree.possible_nodes.length;
+		buttons = new JButton[n];
+
+		for(int node_id = 0; node_id < n; node_id++) {
+			ResearchNode node = ResearchTree.possible_nodes[node_id];
+
+			buttons[node_id] = new JButton();
+			buttons[node_id].setBounds(new Rectangle(ResearchTree.positionsX[node_id], ResearchTree.positionsY[node_id],
+					buttonWidth, buttonHeight));
+			
+			buttons[node_id].setActionCommand(Integer.toString(node_id));
+			buttons[node_id].addActionListener(this);
+			
+
+			maxWidth = Math.max(maxWidth, ResearchTree.positionsX[node_id] + buttonWidth);
+			maxHeight = Math.max(maxHeight, ResearchTree.positionsY[node_id] + buttonHeight);
+
+			insidePane.add(buttons[node_id]);
+		}
+
+		insidePane.setPreferredSize(new Dimension(maxWidth, maxHeight));
+
+		refreshPanel();
+
+		setVisible(false);
+	}
+	
+/*
     // CONSTRUCTOR
     public ResearchState(Micropolis engine, ResearchTree tree) {
         city = engine;
@@ -170,9 +240,9 @@ public class ResearchState extends JFrame implements ActionListener, Serializabl
 
         setVisible(false);
     }
-
+*/
     public void showResearchPanel() {
-        setBounds(200, 200, maxWidth + 10, maxHeight + 100);
+		setBounds(200, 200, maxWidth + 40, maxHeight + 100); //changeswp
 
         refreshPanel();
 
@@ -181,24 +251,27 @@ public class ResearchState extends JFrame implements ActionListener, Serializabl
 
     public void refreshPanel() {
 
-        researchPointsLabel.setText(Integer.toString(researchPoints) + " research points");
+		researchPointsLabel.setText(Integer.toString(researchPoints) + " " + strings.getString("research.POINTS_NAME") + " ");
 
-        for (int node_id = 0; node_id < ResearchTree.possible_nodes.length; node_id++) {
-            ResearchNode node = ResearchTree.possible_nodes[node_id];
+		for(int node_id = 0; node_id < ResearchTree.possible_nodes.length; node_id++) {
+			ResearchNode node = ResearchTree.possible_nodes[node_id];
 
-            if (reached_nodes.contains(node_id)) {
-                buttons[node_id].setEnabled(false);
-                buttons[node_id].setText("<html>" + node.getDesc() + "</html>");
-                buttons[node_id].setBackground(Color.red);
-            } else if (!tree.isReachable(reached_nodes, node_id)) {
-                buttons[node_id].setEnabled(false);
-                buttons[node_id].setText("<html>" + node.getDesc() + "</html>");
-            } else {
-                buttons[node_id].setEnabled(true);
-                buttons[node_id].setText("<html>" + node.getDesc() + " (" + Integer.toString(node.getCost()) + "pts)</html>");
-            }
-        }
+			if(reached_nodes.contains(node_id)) {
+				buttons[node_id].setEnabled(false);
+				buttons[node_id].setText("<html>" + node.getName() + node.getDesc() +"</html>");
+				buttons[node_id].setBackground(Color.blue);
+			}
+			else if(!tree.isReachable(reached_nodes, node_id)) {
+				buttons[node_id].setEnabled(false);
+				buttons[node_id].setText("<html>"+node.getName() + node.getDesc() + "</html>");
+			}
+			else {
 
+				buttons[node_id].setEnabled(true);
+				buttons[node_id].setText("<html>" + node.getName() + " (" + Integer.toString(node.getCost()) + "pts)" + node.getDesc() +"</html>");
+			}
+		}
+		
         revalidate();
     }
 
@@ -219,7 +292,7 @@ public class ResearchState extends JFrame implements ActionListener, Serializabl
             
             city.getPlayerInfo().researchData = getResearchData();
         } else {
-            JOptionPane.showMessageDialog(this, "You don't have enough research points for this upgrade.");
+			JOptionPane.showMessageDialog(this, strings.getString("research.POINTS_MISSING"));
         }
 	}
 }
