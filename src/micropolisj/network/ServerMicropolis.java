@@ -51,11 +51,19 @@ public class ServerMicropolis extends Micropolis {
 
 	@Override
 	public void animate() {
-		for(Entry<Integer, PlayerInfo> playerInf : playerInfos.entrySet()) {
-			playerInfo = playerInf.getValue();
+		if(this.acycle % 2 == 0) {
 			super.animate();
 		}
-		
+		else {
+			for(Entry<Integer, PlayerInfo> playerInf : playerInfos.entrySet()) {
+				playerInfo = playerInf.getValue();
+				super.animate();
+				fcycle--;
+				acycle--;
+			}
+			fcycle++;
+		}
+
 		// gives remoteDistributor MapInfo
 		server.setMapInfo(generateMapInfo());
 		Map<PlayerInput, Integer> inputs = server.getInput();
@@ -64,16 +72,16 @@ public class ServerMicropolis extends Micropolis {
 			// TODO: react to playerID
 			PlayerInput input = entry.getKey();
 			PlayerInfo info = getPlayerInfo(entry.getValue());
-			
+
 			ToolStroke stroke = input.getToolStroke();
 			if(stroke != null) {
 				stroke.setCity(this);
 				stroke.apply();
 			}
-			
+
 			BudgetInput budgetNum = input.getBudgetNumbers();
 			doBudgetInput(budgetNum, info);
-			
+
 			ResearchData researchData = input.getResearchData();
 			doResearchInput(researchData, info);
 		}
@@ -89,7 +97,7 @@ public class ServerMicropolis extends Micropolis {
 			pI.researchPercent = bud.researchPercent;
 		}
 	}
-	
+
 	private void doResearchInput(ResearchData data, PlayerInfo pI) {
 		if(data != null) {
 			pI.researchData.environmentResearch = data.environmentResearch;
@@ -150,5 +158,5 @@ public class ServerMicropolis extends Micropolis {
 	public void setPlayerInfos(Map<Integer, PlayerInfo> playerInfos) {
 		this.playerInfos = playerInfos;
 	}
-	
+
 }

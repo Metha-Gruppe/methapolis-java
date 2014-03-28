@@ -167,7 +167,7 @@ public class Micropolis {
 
 
 	public boolean autoBulldoze = true;
-	public boolean autoBudget = false;
+	public boolean autoBudget = true; // custom
 	public Speed simSpeed = Speed.NORMAL;
 	public boolean noDisasters = true; // custom
 
@@ -183,9 +183,9 @@ public class Micropolis {
 	int floodY;
 
 	public int cityTime; // counts "weeks" (actually, 1/48'ths years)
-	int scycle; // same as cityTime, except mod 1024
-	int fcycle; // counts simulation steps (mod 1024)
-	int acycle; // animation cycle (mod 960)
+	protected int scycle; // same as cityTime, except mod 1024
+	protected int fcycle; // counts simulation steps (mod 1024)
+	protected int acycle; // animation cycle (mod 960)
 
 	public MainWindow mainWindow;
 
