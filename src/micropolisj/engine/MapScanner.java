@@ -281,6 +281,7 @@ class MapScanner extends TileBehavior {
 
 	void doUniversity(PlayerInfo playerInfo) {
 	    int tilePlayerID = Utilities.getPlayerID(rawTile);
+	    System.out.println(tilePlayerID);
 		playerInfo.researchCount++;
 		
 		if((city.cityTime % 8) == 0) {

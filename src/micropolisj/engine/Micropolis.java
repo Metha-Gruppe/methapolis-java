@@ -33,7 +33,6 @@ import static micropolisj.engine.TileConstants.getPollutionValue;
 import static micropolisj.engine.TileConstants.getTileBehavior;
 import static micropolisj.engine.TileConstants.getZoneSizeFor;
 import static micropolisj.engine.TileConstants.industrialZonePop;
-import static micropolisj.engine.TileConstants.isAnimated;
 import static micropolisj.engine.TileConstants.isArsonable;
 import static micropolisj.engine.TileConstants.isCombustible;
 import static micropolisj.engine.TileConstants.isConductive;
@@ -61,8 +60,6 @@ import java.util.Random;
 import java.util.Stack;
 
 import micropolisj.gui.MainWindow;
-import micropolisj.network.ClientMicropolis;
-import micropolisj.network.PlayerInput;
 import micropolisj.util.Utilities;
 
 /**
@@ -507,6 +504,7 @@ public class Micropolis {
 	}
 
 	void clearCensus() {
+		System.out.println("clearing census (id = " + getPlayerID() + ")");
 		playerInfo.poweredZoneCount = 0;
 		playerInfo.poweredZoneCount = 0;
 		playerInfo.firePop = 0;
@@ -1666,10 +1664,8 @@ public class Micropolis {
 		// div 100 => you need at least 1 research station at 10% fund to get a
 		// point
 		if (researchDelayCharger >= researchDelay) {
-			System.out.println(playerID);
 			PlayerInfo info = getPlayerInfo(playerID);
-			System.out.println(">>>>>> " + info);
-			System.out.println(">>>>>> " + info.researchState);
+			
 			info.researchData.researchPoints += (info.researchEffect * this.getCityPopulation(playerID)) / (100 * 3000);
 			
 			if(info.researchState != null) {
