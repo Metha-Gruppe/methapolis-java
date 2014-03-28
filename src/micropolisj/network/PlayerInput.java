@@ -34,7 +34,7 @@ public class PlayerInput implements Serializable{
         budgetNumbers.policePercent = policePct;
         budgetNumbers.firePercent = firePct;
         budgetNumbers.researchPercent = researchPct;
-        budgetNumbers.totalFunds = -1;
+        budgetNumbers.totalFunds = -1; // -1 (or any other negative value) means ignore budget!
     }
     
     public void setTotalBudget(int n) {
