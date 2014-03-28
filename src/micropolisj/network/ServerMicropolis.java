@@ -51,10 +51,18 @@ public class ServerMicropolis extends Micropolis {
 
 	@Override
 	public void animate() {
-		for(Entry<Integer, PlayerInfo> playerInf : playerInfos.entrySet()) {
-			playerInfo = playerInf.getValue();
-			super.animate();
-		}
+	    boolean stepSkipped = (this.acycle % 2 == 0);
+	    if(stepSkipped) {
+	        super.animate();
+	    } else {
+    		for(Entry<Integer, PlayerInfo> playerInf : playerInfos.entrySet()) {
+    			playerInfo = playerInf.getValue();
+    			super.animate();
+    			fcycle--;
+    			acycle--;
+    		}
+    		fcycle++;
+	    }
 		
 		// gives remoteDistributor MapInfo
 		server.setMapInfo(generateMapInfo());

@@ -187,8 +187,8 @@ public class Micropolis {
 
 	public int cityTime; // counts "weeks" (actually, 1/48'ths years)
 	int scycle; // same as cityTime, except mod 1024
-	int fcycle; // counts simulation steps (mod 1024)
-	int acycle; // animation cycle (mod 960)
+	public int fcycle; // counts simulation steps (mod 1024)
+	public int acycle; // animation cycle (mod 960)
 
 	public MainWindow mainWindow;
 
@@ -1670,7 +1670,7 @@ public class Micropolis {
 			PlayerInfo info = getPlayerInfo(playerID);
 			System.out.println(">>>>>> " + info);
 			System.out.println(">>>>>> " + info.researchState);
-			info.researchData.researchPoints += (info.researchEffect * this.getCityPopulation(playerID)) / (100 * 3000);
+			info.researchData.researchPoints += (info.researchEffect * 10000) / (100 * 3000);
 			
 			if(info.researchState != null) {
 				info.researchState.refreshPanel();				
