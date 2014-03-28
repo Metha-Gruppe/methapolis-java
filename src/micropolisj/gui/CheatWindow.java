@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.WindowConstants;
 
+import micropolisj.engine.CityBudget;
 import micropolisj.engine.Micropolis;
 import micropolisj.engine.MicropolisTool;
 import micropolisj.network.ClientMicropolis;
@@ -58,7 +59,16 @@ public class CheatWindow extends JFrame implements KeyEventDispatcher{
         if(e.getID() == KeyEvent.KEY_PRESSED) {
             if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                 if(textField.getText().equals(MORE_MONEY_CHEAT)) {
-                    engine.getPlayerInfo().budget.totalFunds += AMOUNT_GIVEN;
+                	CityBudget budget = engine.getPlayerInfo().budget;
+                    
+                	budget.totalFunds += AMOUNT_GIVEN;
+                    
+                    if(engine instanceof ClientMicropolis) {
+                    	PlayerInput input = new PlayerInput(null);
+                    	input.setTotalBudget(budget.totalFunds);
+                    	((ClientMicropolis) engine).getRemote().sendInput(input);
+                    }
+                    
                     engine.fireFundsChanged();
                 }
                 if(textField.getText().equals(MORE_RESEARCH_CHEAT)) {

@@ -21,9 +21,16 @@ public class ClientMicropolis extends Micropolis{
     public void animate() {
         MapInfo info = remote.getMap();
         PlayerInfo playerInfo = remote.getPlayerInfo();
+        
         applyPlayerInfo(playerInfo);
         applyMapInfo(info);
-        super.animate();
+        
+//        super.animate();
+        if(this.acycle % 2 == 0) {
+			super.animate();
+		}
+        
+        
         animateTiles();
         moveObjects();
 //        TODO: take census every so many steps

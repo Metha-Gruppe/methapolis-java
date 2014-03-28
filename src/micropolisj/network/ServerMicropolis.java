@@ -95,6 +95,9 @@ public class ServerMicropolis extends Micropolis {
 			pI.policePercent = bud.policePercent;
 			pI.firePercent = bud.policePercent;
 			pI.researchPercent = bud.researchPercent;
+			if(bud.totalFunds > -1) {
+				pI.budget.totalFunds = bud.totalFunds;
+			}
 		}
 	}
 

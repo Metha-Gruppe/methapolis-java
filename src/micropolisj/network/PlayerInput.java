@@ -34,6 +34,14 @@ public class PlayerInput implements Serializable{
         budgetNumbers.policePercent = policePct;
         budgetNumbers.firePercent = firePct;
         budgetNumbers.researchPercent = researchPct;
+        budgetNumbers.totalFunds = -1;
+    }
+    
+    public void setTotalBudget(int n) {
+    	if(budgetNumbers == null) {
+    		budgetNumbers = new BudgetInput();
+    	}
+    	budgetNumbers.totalFunds = n;
     }
     
     public void setResearchData(ResearchData data) {
@@ -46,6 +54,7 @@ public class PlayerInput implements Serializable{
         public double policePercent;
         public double firePercent;
         public double researchPercent;
+        public int totalFunds;
     }
 
     public BudgetInput getBudgetNumbers() {
